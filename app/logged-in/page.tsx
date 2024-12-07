@@ -3,8 +3,9 @@
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { redirect } from "next/navigation";
 
-export default async function LoggedIn() {
-  const session = await useUser();
+export default function LoggedIn() {
+  const session = useUser();
+  // const router = 
 
   if (!session.user) {
     redirect("/unauthorized");
