@@ -1,7 +1,3 @@
-Here's a more polished and professional version of your `README.md` file:  
-
----
-
 # Authentication with Auth0  
 
 This project demonstrates a seamless authentication flow using **Auth0**, including role-based access control for users such as **Admin** and **Lender**. Follow the steps below to configure and run the application successfully.  
