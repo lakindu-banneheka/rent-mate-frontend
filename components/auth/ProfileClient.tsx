@@ -11,10 +11,12 @@ export default function ProfileClient() {
 
   return (
     user && (
-      <div>
+      <div className="text-slate-500" >
         {user.picture && (
           <Image
-            src={user.picture}
+            src={user.picture??""}
+            width={50}
+            height={50}
             alt={user.name || "User Profile Photo"}
           />
         )}
