@@ -1,3 +1,4 @@
+'use client'
 import Link from "next/link";
 
 export default function UnauthorizedPage() {
@@ -21,7 +22,7 @@ export default function UnauthorizedPage() {
         </div>
         <h1 className="text-3xl font-bold text-gray-900">Access Denied</h1>
         <p className="text-gray-600 text-lg">
-          You don't have permission to access this page.
+          {`You don't have permission to access this page.`}
         </p>
         <Link
           href="/"

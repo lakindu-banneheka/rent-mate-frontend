@@ -1,10 +1,13 @@
-import { getSession } from "@auth0/nextjs-auth0";
+'use client'
+
+import { useUser } from "@auth0/nextjs-auth0/client";
 import { redirect } from "next/navigation";
 
-export default async function LoggedIn() {
-  const session = await getSession();
+export default function LoggedIn() {
+  const session = useUser();
+  // const router = 
 
-  if (!session) {
+  if (!session.user) {
     redirect("/unauthorized");
   }
 
@@ -20,7 +23,7 @@ export default async function LoggedIn() {
           </span>
         </h1>
         <p className="text-gray-600">
-          You're now logged into your secure dashboard.
+          {`You're now logged into your secure dashboard.`}
         </p>
       </div>
     </div>

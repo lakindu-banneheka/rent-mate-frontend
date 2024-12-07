@@ -1,6 +1,7 @@
 "use client";
 
 import { useUser } from "@auth0/nextjs-auth0/client";
+import Image from "next/image";
 
 export default function ProfileClient() {
   const { user, isLoading, error } = useUser();
@@ -10,9 +11,14 @@ export default function ProfileClient() {
 
   return (
     user && (
-      <div>
+      <div className="text-slate-500" >
         {user.picture && (
-          <img src={user.picture} alt={user.name || "User Profile Photo"} />
+          <Image
+            src={user.picture??""}
+            width={50}
+            height={50}
+            alt={user.name || "User Profile Photo"}
+          />
         )}
 
         <h2>{user.name}</h2>
