@@ -36,21 +36,18 @@ shadcn/ui Documentation
 Lucide React Documentation
 🛠️ Getting Started
 Clone the Repository
-
-bash
-Copy code
+```
 git clone <repository-url>  
-cd <project-folder>  
+cd <project-folder> 
+```
 Install Dependencies
-
-bash
-Copy code
+```
 npm install  
+```
 Run the Development Server
-
-bash
-Copy code
-npm run dev  
+```
+npm run dev
+```
 Access the Application
 Open http://localhost:3000 in your browser.
 
