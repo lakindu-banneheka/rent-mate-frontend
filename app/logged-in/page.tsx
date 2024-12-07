@@ -23,7 +23,7 @@ export default function LoggedIn() {
           </span>
         </h1>
         <p className="text-gray-600">
-          You're now logged into your secure dashboard.
+          {`You're now logged into your secure dashboard.`}
         </p>
       </div>
     </div>
