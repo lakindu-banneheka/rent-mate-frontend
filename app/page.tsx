@@ -1,10 +1,11 @@
-import { login, logout } from "@/actions/auth";
-// import ProfileServer from "@/components/";
-import { getSession } from "@auth0/nextjs-auth0";
+'use client'
+import ProfileClient from "@/components/auth/ProfileClient";
+import { authLinks } from "@/utils/auth";
+import { useUser } from "@auth0/nextjs-auth0/client";
 import Link from "next/link";
 
-export default async function Home() {
-  const session = await getSession();
+export default function Home() {
+  const session = useUser();
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -14,18 +15,20 @@ export default async function Home() {
             Auth0 Role Based User Management Demo App
           </h1>
           <nav className="flex flex-wrap gap-4 mb-8">
-            {!session ? (
-              <form>
-                <button onClick={login} className="px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
-                  Login
-                </button>
-              </form>
+            {!session.user ? (
+              <Link 
+                href={authLinks.login}
+                className="px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+              >
+                Login
+              </Link>
             ) : (
-              <form>
-                <button onClick={logout} className="px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
-                  Logout
-                </button>
-              </form>
+              <Link 
+                href={authLinks.logout}
+                className="px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+              >
+                Logout
+              </Link>
             )}
             <Link
               href="/admin"
@@ -34,22 +37,16 @@ export default async function Home() {
               Admin Page (Only admins can access this)
             </Link>
             <Link
+              href="/lender"
+              className="px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+            >
+              Lender Page (Only lenders can access this)
+            </Link>
+            <Link
               href="/logged-in"
               className="px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
             >
               Logged In Page
-            </Link>
-            <Link
-              href="/api/public"
-              className="px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
-            >
-              Public API endpoint (All users)
-            </Link>
-            <Link
-              href="/api/protected"
-              className="px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
-            >
-              Protected Admin API endpoint
             </Link>
           </nav>
 
@@ -58,7 +55,7 @@ export default async function Home() {
               <h2 className="text-xl font-semibold text-gray-800 mb-4">
                 Profile Information
               </h2>
-              {/* <ProfileServer /> */}
+              <ProfileClient />
             </div>
           ) : (
             <div className="border-t border-gray-200 pt-6">
