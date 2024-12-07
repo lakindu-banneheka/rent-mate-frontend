@@ -1,36 +1,26 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
-
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+First, make the .env.local and add
+``` 
+AUTH0_SECRET='use [openssl rand -hex 32] to generate a 32 bytes value'
+AUTH0_BASE_URL=
+AUTH0_ISSUER_BASE_URL=
+AUTH0_CLIENT_ID=
+AUTH0_CLIENT_SECRET=
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then, you can get a view like this,
+![image](https://github.com/user-attachments/assets/54993303-d32b-4cbb-8250-b333458779f9)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+After clicking the login button you can get the auth0 login page and after logging in,
+![image](https://github.com/user-attachments/assets/687b8e8e-732e-43ad-badb-a1901039d56f)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+If you try to access an unauthorized page it will redirect to,
+![image](https://github.com/user-attachments/assets/e7d7fe3f-ceea-4100-a7ce-09c0c90dd16f)
 
-## Learn More
+Logged in page
+![image](https://github.com/user-attachments/assets/106acb07-176c-4eec-b391-40ad5abd389c)
 
-To learn more about Next.js, take a look at the following resources:
+If user has admin access,
+![image](https://github.com/user-attachments/assets/f5c9b16b-546c-42ac-8f9c-c524376b660f)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+If user has Lender access,
+![image](https://github.com/user-attachments/assets/31d7971b-c950-44f7-8a1b-d642f2868e61)
