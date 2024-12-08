@@ -2,10 +2,8 @@ import { isUserAdmin } from "@/actions/isUserAdmin";
 import { AppSidebar } from "@/components/app-sidebar";
 import DynamicBreadcrumb from "@/components/dynamic-breadcrumb";
 import Footer from "@/components/footer";
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@radix-ui/react-separator";
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import React, { ReactNode } from "react";
 
@@ -15,14 +13,7 @@ interface Props {
 }
 
 export default async function AdminLayout ({ children }: Props) {
-  // const headersList = headers();
-  // const referer = headersList.get("referer")
-  // const currentRoute = referer ? new URL(referer).pathname : "/"; 
-  // const breadcrumbSegments = currentRoute.split("/").filter(Boolean);
-
   const isAdmin = await isUserAdmin();
-
-  console.log()
 
   if (!isAdmin) {
     return redirect("/api/auth/login");

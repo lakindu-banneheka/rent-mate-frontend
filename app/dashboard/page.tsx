@@ -1,5 +1,4 @@
 import { AppSidebar } from "@/components/app-sidebar"
-import Header from "@/components/Header"
 import {
   Breadcrumb,
   BreadcrumbItem,
