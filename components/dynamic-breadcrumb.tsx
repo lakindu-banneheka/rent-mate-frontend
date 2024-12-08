@@ -1,3 +1,5 @@
+'use server'
+
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { headers } from "next/headers"; // Import headers to get the referer and route
 import React from "react";
