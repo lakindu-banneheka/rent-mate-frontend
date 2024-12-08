@@ -4,6 +4,7 @@ import "./globals.css";
 import { UserProvider } from "@auth0/nextjs-auth0/client";
 import StoreProvider from "./StoreProvider";
 import { ThemeProvider } from "@/components/theme/theme-provider";
+import Header from "@/components/Header";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -27,7 +28,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <UserProvider>
         <StoreProvider>
           <ThemeProvider
