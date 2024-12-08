@@ -1,5 +1,4 @@
 import { isUserAdmin } from "@/actions/isUserAdmin";
-import { getSession } from "@auth0/nextjs-auth0";
 import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 
@@ -9,7 +8,6 @@ interface Props {
 }
 
 export default async function GestLayout ({ children }: Props) {
-    const session = getSession();
     const isAdmin = await isUserAdmin();
 
     if (!isAdmin) {
