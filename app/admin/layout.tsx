@@ -1,7 +1,9 @@
+import { isUserAdmin } from "@/actions/isUserAdmin";
 import { AppSidebar } from "@/components/app-sidebar";
 import Footer from "@/components/footer";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@radix-ui/react-separator";
+import { redirect } from "next/navigation";
 import React, { ReactNode } from "react";
 
 
@@ -10,7 +12,12 @@ interface Props {
 }
 
 export default async function AdminLayout ({ children }: Props) {
-    
+  const isAdmin = await isUserAdmin();
+
+  if (!isAdmin) {
+    return redirect("/unauthorized");
+  }
+
   return (
     <>
       <SidebarProvider>
