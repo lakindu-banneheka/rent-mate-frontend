@@ -7,6 +7,8 @@ import { redirect } from "next/navigation";
 import React, { ReactNode, useEffect, useState } from "react";
 import Loading from "../loading";
 import { isUserLender } from "@/actions/isUserLender";
+import DynamicBreadcrumb from "@/components/dynamic-breadcrumb";
+import { UserRoles } from "@/types/userTypes";
 
 
 interface Props {
@@ -38,13 +40,15 @@ export default function LenderLayout ({ children }: Props) {
   return (
     <>
       <SidebarProvider>
-        <AppSidebar />
+        <AppSidebar 
+          userRole={UserRoles.Lender}
+        />
         <SidebarInset>
           <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
             <div className="flex items-center gap-2 px-4 fixed bg-sidebar w-full py-5">
               <SidebarTrigger className="-ml-1" />
               <Separator orientation="vertical" className="mr-2 h-4 bg-sidebar" />
-              {/* <DynamicBreadcrumb /> */}
+              <DynamicBreadcrumb />
             </div>
           </header>
           <div className="flex flex-1 flex-col gap-4 p-0 pt-0">

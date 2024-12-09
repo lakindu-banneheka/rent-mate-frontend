@@ -1,15 +1,14 @@
-'use server'
+'use client'
 
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
-import { headers } from "next/headers"; // Import headers to get the referer and route
+import { usePathname } from "next/navigation";
 import React from "react";
 
 export default function DynamicBreadcrumb() {
-  // Extract current route from the referer header
-  const headersList = headers();
-  const referer = headersList.get("referer");
-  const currentRoute = referer ? new URL(referer).pathname : "/";
-  const breadcrumbSegments = currentRoute.split("/").filter(Boolean); // Remove empty strings
+  const currentRoute = usePathname();
+  const breadcrumbSegments = currentRoute.split("/")
+  .filter(Boolean) // Remove empty strings
+  // .filter(segment => segment !== 'admin' && segment !== 'lender'); // remove the admin or lender components
 
   return (
     <Breadcrumb>
