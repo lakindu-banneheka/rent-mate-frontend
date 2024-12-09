@@ -51,7 +51,7 @@ export default function LenderLayout ({ children }: Props) {
               <DynamicBreadcrumb />
             </div>
           </header>
-          <div className="flex flex-1 flex-col gap-4 p-0 pt-0">
+          <div className="flex flex-1 flex-col gap-0 p-0 pt-0">
             {children}
             <>
               <Footer />
