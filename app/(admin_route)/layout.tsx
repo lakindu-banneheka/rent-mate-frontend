@@ -1,5 +1,3 @@
-import { isUserAdmin } from "@/actions/isUserAdmin";
-import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 
 
@@ -8,12 +6,6 @@ interface Props {
 }
 
 export default async function GestLayout ({ children }: Props) {
-    const isAdmin = await isUserAdmin();
-
-    if (!isAdmin) {
-        return redirect("/api/auth/login");
-      }
-
 
     return (
       <>
