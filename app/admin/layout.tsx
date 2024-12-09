@@ -1,4 +1,3 @@
-'use server'
 import { isUserAdmin } from "@/actions/isUserAdmin";
 import { AppSidebar } from "@/components/app-sidebar";
 import Footer from "@/components/footer";

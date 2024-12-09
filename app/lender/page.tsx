@@ -1,12 +1,12 @@
-import { isUserLender } from "@/actions/isUserLender";
+// import { isUserLender } from "@/actions/isUserLender";
 import { redirect } from "next/navigation";
 
-async function AdminPage() {
-  const isLender = await isUserLender();
+async function LenderPage() {
+  // const isLender = await isUserLender();
 
-  if (!isLender) {
-    return redirect("/unauthorized");
-  }
+  // if (!isLender) {
+  //   return redirect("/unauthorized");
+  // }
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -33,4 +33,4 @@ async function AdminPage() {
   );
 }
 
-export default AdminPage;
+export default LenderPage;
