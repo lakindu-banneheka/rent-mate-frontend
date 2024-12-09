@@ -1,57 +1,27 @@
-# **Next.js Project with Redux Toolkit and Other Libraries**
+This is the main updated done in this init branch
 
-This project is built using **Next.js** with the App Router and integrates **Redux Toolkit**, **shadcn/ui**, and several other modern libraries for efficient state management and user interface components.
+created the base for the project like auth -- role based auth had some issures fixed it 
+then added the sidebar for the /admin and /lender routes 
+![image](https://github.com/user-attachments/assets/f0c9c079-25a8-4138-9a0e-5acdd0548a9a)
+![image](https://github.com/user-attachments/assets/4939bb58-d677-4b77-b360-d96dc6c27986)
 
----
+/lender
+![image](https://github.com/user-attachments/assets/0da1a547-67c5-4695-a9e5-18271f70fc4c)
 
-## 🔧 **Setup and Tools**
+when doing this i added navigation and sub navigation names and links are given by a external variables so it is a dynamic component based on the user role it deside what side bar data to show 
+![image](https://github.com/user-attachments/assets/de7747f5-40d9-45cc-980a-ed41c46989d3)
 
-### 1. **Redux Toolkit Integration**
-Redux Toolkit was configured for state management. The following references were used during implementation:
-- [Redux Toolkit Official Documentation](https://redux-toolkit.js.org/)
-- [Medium Article: Redux with Next.js 14, TypeScript, and App Router for Beginners](https://medium.com/@elhamrani.omar23/redux-with-next-js-14-typescript-app-router-for-beginners-c925de295295)
+i also added them in several components so it can be easy to read and update if needed
+![image](https://github.com/user-attachments/assets/656d3d9a-0052-4796-b446-5280017d96b3)
 
-### 2. **UI Frameworks**
-- **[shadcn/ui](https://ui.shadcn.dev/):** Added for accessible and customizable UI components.
-- **[Lucide React](https://lucide.dev/docs/lucide-react):** Integrated for beautiful and lightweight SVG icons.
+Then the Footer of the page 
 
-### 3. **Form Management**
-- **[React Hook Form](https://react-hook-form.com/):** Used for building flexible and performant forms.
-- **[@hookform/resolvers](https://react-hook-form.com/get-started#schema-validation):** Integrated for schema-based form validation.
+I also make it more readable by making components and passed data so the data can be passed easily 
+![image](https://github.com/user-attachments/assets/7a03c688-71c3-47c8-92ab-b712e0bf5213)
+![image](https://github.com/user-attachments/assets/60ca8cb1-d2f7-491a-b54e-d523cd753814)
 
-### 4. **Schema Validation**
-- **[Zod](https://zod.dev/):** Implemented for robust runtime validation of form data and API payloads.
+This is how footer looks after i updated several times
+![image](https://github.com/user-attachments/assets/9d9e39b3-2a9c-40aa-93c3-d3f274aec3d3)
 
----
-
-## 🚀 **Project Features**
-
-### 1. **State Management**
-- **Redux Toolkit** is used for managing the application state. It simplifies the store configuration, reducers, and actions.
-
-### 2. **UI Enhancements**
-- **shadcn/ui** ensures consistent design while maintaining customization flexibility.
-- **Lucide React** provides a rich library of icons for better user interface design.
-
-### 3. **Form Handling**
-- **React Hook Form** provides a seamless way to manage form inputs and validations.
-- **Zod** and **@hookform/resolvers** are used to enforce strong validation rules at runtime.
-
----
-
-## 📚 **Tech Stack**
-- **Framework:** Next.js with App Router
-- **State Management:** Redux Toolkit
-- **UI Libraries:** shadcn/ui, Lucide React
-- **Form Management:** React Hook Form, @hookform/resolvers
-- **Validation:** Zod
-- **Language:** TypeScript
-
----
-
-## 📄 **References**
-- [Redux Toolkit Official Docs](https://redux-toolkit.js.org/)
-- [Medium Guide on Redux with Next.js 14](https://medium.com/@elhamrani.omar23/redux-with-next-js-14-typescript-app-router-for-beginners-c925de295295)
-- [React Hook Form Documentation](https://react-hook-form.com/)
-- [shadcn/ui Documentation](https://ui.shadcn.dev/)
-- [Lucide React Documentation](https://lucide.dev/docs/lucide-react)
+Then the Header for Users (clients)
+Still on the ear
