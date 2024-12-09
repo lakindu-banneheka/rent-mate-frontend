@@ -1,7 +1,48 @@
 import Link from "next/link"
 import Image from "next/image"
-import { Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
+import { Facebook, Twitter, Instagram, Linkedin } from 'lucide-react'
 
+// Define the type for our link items
+type LinkItem = {
+  name: string;
+  link: string;
+}
+
+// Define the type for our footer data
+type FooterData = {
+  main: LinkItem[];
+  quick_links: LinkItem[];
+  categories: LinkItem[];
+  resources: LinkItem[];
+}
+
+// Sample footer data
+const footerData: FooterData = {
+  main: [
+    { name: 'Overview', link: '/overview' },
+    { name: 'Features', link: '/features' },
+    { name: 'Solutions', link: '/solutions' },
+    { name: 'Tutorials', link: '/tutorials' },
+  ],
+  quick_links: [
+    { name: 'About us', link: '/about' },
+    { name: 'Contact us', link: '/contact' },
+    { name: 'Privacy Policy', link: '/privacy' },
+    { name: 'Terms of Service', link: '/terms' },
+  ],
+  categories: [
+    { name: 'Apartments', link: '/apartments' },
+    { name: 'Houses', link: '/houses' },
+    { name: 'Rooms', link: '/rooms' },
+    { name: 'Studios', link: '/studios' },
+  ],
+  resources: [
+    { name: 'Setup Guide', link: '/setup' },
+    { name: 'Documentation', link: '/docs' },
+    { name: 'Help Center', link: '/help' },
+    { name: 'FAQ', link: '/faq' },
+  ],
+}
 
 export default function Footer() {
   return (
@@ -20,22 +61,15 @@ export default function Footer() {
               Making renting simple and accessible for everyone.
             </p>
             <div className="flex space-x-6">
-              <Link href="#" className="text-gray-400 hover:text-gray-500">
-                <span className="sr-only">Facebook</span>
-                <Facebook className="h-6 w-6" />
-              </Link>
-              <Link href="#" className="text-gray-400 hover:text-gray-500">
-                <span className="sr-only">Twitter</span>
-                <Twitter className="h-6 w-6" />
-              </Link>
-              <Link href="#" className="text-gray-400 hover:text-gray-500">
-                <span className="sr-only">Instagram</span>
-                <Instagram className="h-6 w-6" />
-              </Link>
-              <Link href="#" className="text-gray-400 hover:text-gray-500">
-                <span className="sr-only">LinkedIn</span>
-                <Linkedin className="h-6 w-6" />
-              </Link>
+              {['Facebook', 'Twitter', 'Instagram', 'Linkedin'].map((social) => (
+                <Link key={social} href="#" className="text-gray-400 hover:text-gray-500">
+                  <span className="sr-only">{social}</span>
+                  {social === 'Facebook' && <Facebook className="h-6 w-6" />}
+                  {social === 'Twitter' && <Twitter className="h-6 w-6" />}
+                  {social === 'Instagram' && <Instagram className="h-6 w-6" />}
+                  {social === 'Linkedin' && <Linkedin className="h-6 w-6" />}
+                </Link>
+              ))}
             </div>
           </div>
           <div className="mt-12 grid grid-cols-2 gap-8 xl:mt-0 xl:col-span-2">
@@ -43,51 +77,25 @@ export default function Footer() {
               <div>
                 <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">Rent Mate</h3>
                 <ul className="mt-4 space-y-4">
-                  <li>
-                    <Link href="#" className="text-base text-gray-600 hover:text-gray-900">
-                      Overview
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="#" className="text-base text-gray-600 hover:text-gray-900">
-                      Features
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="#" className="text-base text-gray-600 hover:text-gray-900">
-                      Solutions
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="#" className="text-base text-gray-600 hover:text-gray-900">
-                      Tutorials
-                    </Link>
-                  </li>
+                  {footerData.main.map((item) => (
+                    <li key={item.name}>
+                      <Link href={item.link} className="text-base text-gray-600 hover:text-gray-900">
+                        {item.name}
+                      </Link>
+                    </li>
+                  ))}
                 </ul>
               </div>
               <div className="mt-12 md:mt-0">
                 <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">Quick Links</h3>
                 <ul className="mt-4 space-y-4">
-                  <li>
-                    <Link href="#" className="text-base text-gray-600 hover:text-gray-900">
-                      About us
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="#" className="text-base text-gray-600 hover:text-gray-900">
-                      Contact us
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="#" className="text-base text-gray-600 hover:text-gray-900">
-                      Privacy Policy
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="#" className="text-base text-gray-600 hover:text-gray-900">
-                      Terms of Service
-                    </Link>
-                  </li>
+                  {footerData.quick_links.map((item) => (
+                    <li key={item.name}>
+                      <Link href={item.link} className="text-base text-gray-600 hover:text-gray-900">
+                        {item.name}
+                      </Link>
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>
@@ -95,51 +103,25 @@ export default function Footer() {
               <div>
                 <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">Categories</h3>
                 <ul className="mt-4 space-y-4">
-                  <li>
-                    <Link href="#" className="text-base text-gray-600 hover:text-gray-900">
-                      Apartments
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="#" className="text-base text-gray-600 hover:text-gray-900">
-                      Houses
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="#" className="text-base text-gray-600 hover:text-gray-900">
-                      Rooms
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="#" className="text-base text-gray-600 hover:text-gray-900">
-                      Studios
-                    </Link>
-                  </li>
+                  {footerData.categories.map((item) => (
+                    <li key={item.name}>
+                      <Link href={item.link} className="text-base text-gray-600 hover:text-gray-900">
+                        {item.name}
+                      </Link>
+                    </li>
+                  ))}
                 </ul>
               </div>
               <div className="mt-12 md:mt-0">
                 <h3 className="text-sm font-semibold text-gray-400 tracking-wider uppercase">Resources</h3>
                 <ul className="mt-4 space-y-4">
-                  <li>
-                    <Link href="#" className="text-base text-gray-600 hover:text-gray-900">
-                      Setup Guide
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="#" className="text-base text-gray-600 hover:text-gray-900">
-                      Documentation
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="#" className="text-base text-gray-600 hover:text-gray-900">
-                      Help Center
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="#" className="text-base text-gray-600 hover:text-gray-900">
-                      FAQ
-                    </Link>
-                  </li>
+                  {footerData.resources.map((item) => (
+                    <li key={item.name}>
+                      <Link href={item.link} className="text-base text-gray-600 hover:text-gray-900">
+                        {item.name}
+                      </Link>
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>
