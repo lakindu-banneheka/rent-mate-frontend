@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 
 export default function LoggedIn() {
   const session = useUser();
-  // const router = 
+  console.log(session)
 
   if (!session.user) {
     redirect("/unauthorized");

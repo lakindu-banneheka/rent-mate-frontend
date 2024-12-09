@@ -1,5 +1,4 @@
 'use client'
-import { isUserAdmin } from "@/actions/isUserAdmin";
 import { AppSidebar } from "@/components/app-sidebar";
 import Footer from "@/components/footer";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
@@ -7,32 +6,32 @@ import { Separator } from "@radix-ui/react-separator";
 import { redirect } from "next/navigation";
 import React, { ReactNode, useEffect, useState } from "react";
 import Loading from "../loading";
+import { isUserLender } from "@/actions/isUserLender";
 
 
 interface Props {
     children: ReactNode;
 }
 
-export default function AdminLayout ({ children }: Props) {
-  const [isAdmin, setIsAdmin] = useState<boolean | null>(null); // Track admin status
+export default function LenderLayout ({ children }: Props) {
+  const [isLender, setIsLender] = useState<boolean | null>(null); 
 
   useEffect(() => {
-    const checkAdminStatus = async () => {
-      const adminStatus = await isUserAdmin(); // Check if user is admin
-      setIsAdmin(adminStatus); // Update the state with the result
+    const checkLenderStatus = async () => {
+      const lenderStatus = await isUserLender(); 
+      setIsLender(lenderStatus); 
     };
 
-    checkAdminStatus();
+    checkLenderStatus();
   }, []);
 
   useEffect(() => {
-    if (isAdmin === false) {
-      // Redirect only after the admin status has been determined
+    if (isLender === false) {
       redirect("/unauthorized");
     }
-  }, [isAdmin]); // Run the effect when isAdmin state changes
+  }, [isLender]); 
 
-  if (isAdmin === null) {
+  if (isLender === null) {
     return <Loading />
   }
 
