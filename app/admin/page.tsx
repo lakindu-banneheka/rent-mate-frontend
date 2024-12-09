@@ -1,12 +1,6 @@
-import { isUserAdmin } from "@/actions/isUserAdmin";
-import { redirect } from "next/navigation";
+'use client'
 
-async function AdminPage() {
-  const isAdmin = await isUserAdmin();
-
-  if (!isAdmin) {
-    return redirect("/unauthorized");
-  }
+function AdminPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
