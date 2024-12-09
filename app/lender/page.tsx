@@ -1,5 +1,5 @@
 // import { isUserLender } from "@/actions/isUserLender";
-import { redirect } from "next/navigation";
+// import { redirect } from "next/navigation";
 
 async function LenderPage() {
   // const isLender = await isUserLender();
