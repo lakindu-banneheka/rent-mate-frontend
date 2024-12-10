@@ -10,7 +10,7 @@ interface Props {
 }
 
 
-const protectedLayout = ({ children }: Props) => {
+const ProtectedLayout = ({ children }: Props) => {
     const session = useUser();
   
     if (!session.user) {
@@ -28,4 +28,4 @@ const protectedLayout = ({ children }: Props) => {
     )
 }
 
-export default protectedLayout;
+export default ProtectedLayout;

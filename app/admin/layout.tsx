@@ -20,8 +20,8 @@ export default function AdminLayout ({ children }: Props) {
 
   useEffect(() => {
     const checkAdminStatus = async () => {
-      const adminStatus = await isUserAdmin(); // Check if user is admin
-      setIsAdmin(adminStatus); // Update the state with the result
+      const adminStatus = await isUserAdmin(); 
+      setIsAdmin(adminStatus); 
     };
 
     checkAdminStatus();
@@ -29,10 +29,9 @@ export default function AdminLayout ({ children }: Props) {
 
   useEffect(() => {
     if (isAdmin === false) {
-      // Redirect only after the admin status has been determined
       redirect("/unauthorized");
     }
-  }, [isAdmin]); // Run the effect when isAdmin state changes
+  }, [isAdmin]);
 
   if (isAdmin === null) {
     return <Loading />
