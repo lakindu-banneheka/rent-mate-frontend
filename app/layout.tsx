@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { UserProvider } from "@auth0/nextjs-auth0/client";
-import StoreProvider from "./StoreProvider";
 import { ThemeProvider } from "@/components/theme/theme-provider";
+import { ReduxProvider } from "./providers";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -29,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <UserProvider>
-        <StoreProvider>
+        <ReduxProvider>
           <ThemeProvider
             attribute="class"
             defaultTheme="light"
@@ -42,7 +42,7 @@ export default function RootLayout({
               {children}
             </body>
           </ThemeProvider>
-        </StoreProvider>
+        </ReduxProvider>
       </UserProvider>
     </html>
   );
