@@ -159,6 +159,12 @@ const dataSlice = createSlice({
   },
 });
 
+How Backend look like
+![image](https://github.com/user-attachments/assets/1fbc99d3-7dec-4159-a5ec-bcc3b3e45d34)
+
+Front-end look like
+![image](https://github.com/user-attachments/assets/a7af2c9e-e900-423a-a8c2-31a09488cba7)
+
 export default dataSlice.reducer;
 ```
 
