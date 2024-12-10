@@ -42,7 +42,7 @@ export const fetchItems = createAsyncThunk(
 export const getAllItems = createAsyncThunk(
   'items/getAll',
   async (
-    {}: {} = {},
+    _,
     { rejectWithValue }
   ) => {
     try {

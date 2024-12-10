@@ -36,7 +36,6 @@ export const itemService = {
           search: searchTerm
         }
       });
-      console.log(response.data, 'get all');
       return response.data;
     } catch (error) {
       throw handleError(error);
