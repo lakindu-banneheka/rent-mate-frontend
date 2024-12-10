@@ -17,8 +17,6 @@ const ItemsPage: React.FC = () => {
     pagination 
   } = useSelector((state: RootState) => state.items);
 
-  console.log(items, 'items in the page.tsx')
-
   const [newItem, setNewItem] = useState<Partial<Item>>({
     name: '',
     description: ''
@@ -26,7 +24,7 @@ const ItemsPage: React.FC = () => {
 
   // Fetch items when component mounts
   useEffect(() => {
-    dispatch(getAllItems({}));
+    dispatch(getAllItems());
   }, [dispatch]);
 
   // Handle form submission for creating/updating item
