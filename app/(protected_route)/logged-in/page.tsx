@@ -1,22 +1,14 @@
 'use client'
 
-import Header from "@/components/Header/header";
 import { useUser } from "@auth0/nextjs-auth0/client";
-import { redirect } from "next/navigation";
 
 export default function LoggedIn() {
   const session = useUser();
-  console.log(session)
-
-  if (!session.user) {
-    redirect("/unauthorized");
-  }
 
   const user = session?.user;
 
   return (
     <>
-      <Header />
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center p-6">
         <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full">
           <h1 className="text-3xl font-bold text-gray-800 mb-6">
