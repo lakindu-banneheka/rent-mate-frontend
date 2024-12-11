@@ -1,8 +1,8 @@
 "use client"
-import logo from '../images/logo.jpg';
+import logo from '@/images/logo.jpg';
 import * as React from "react"
-import { NavMain } from "@/components/nav-main"
-import { NavUser } from "@/components/nav-user"
+import { NavMain } from "@/components/side-bar/nav-main"
+import { NavUser } from "@/components/side-bar/nav-user"
 import {
   Sidebar,
   SidebarContent,

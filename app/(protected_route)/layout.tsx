@@ -1,5 +1,5 @@
 'use client'
-import Footer from "@/components/footer";
+import Footer from "@/components/footer/footer";
 import Header from "@/components/Header/header"
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { ReactNode } from "react";

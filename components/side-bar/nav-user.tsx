@@ -20,7 +20,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import UserAvatar from "./User/UserAvatar"
+import UserAvatar from "../User/UserAvatar"
 import { authLinks } from "@/utils/auth";
 import { useRouter } from "next/navigation";
 
