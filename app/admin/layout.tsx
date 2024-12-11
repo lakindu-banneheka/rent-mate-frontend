@@ -51,8 +51,10 @@ export default function AdminLayout ({ children }: Props) {
               <DynamicBreadcrumb />
             </div>
           </header>
-          <div className="flex flex-1 flex-col gap-0 p-0 pt-0">
-            {children}
+          <div className="flex flex-1 flex-col gap-0 p-0">
+            <div className="pb-20 mx-5 bg-background" >
+              {children}
+            </div>
             <>
               <Footer />
             </>
