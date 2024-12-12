@@ -6,7 +6,7 @@ export const sampleItemData: Item[] = [
       id: '1',
       lenderId: 'lender1',
       name: 'DJI Mavic 3 Cine Premium Combo',
-      categoryId: 'electronics',
+      categoryId: '1',
       description: 'High-end drone for professional use',
       totalQuantity: 10,
       availableQuantity: 6,
@@ -36,4 +36,38 @@ export const sampleItemData: Item[] = [
       createdAt: new Date(),
       updatedAt: new Date(),
     },
+    {
+      id: "2",
+      lenderId: "124",
+      name: "Canon EOS R5 Full-Frame Mirrorless Camera",
+      categoryId: "2",
+      description: "High-resolution 45MP full-frame CMOS sensor with 8K video capability. Features In-Body Image Stabilization (IBIS).",
+      totalQuantity: 5,
+      availableQuantity: 3,
+      reservedQuantity: 1,
+      rentedQuantity: 1,
+      pricing: [
+        {
+          amount: 250,
+          duration: PricingDuration.PER_DAY
+        },
+        {
+          amount: 1500,
+          duration: PricingDuration.PER_WEEK
+        }
+      ],
+      imageUrls: ["/placeholder.svg"],
+      deliveryOptions: [
+        {
+          method: DeliveryMethod.PICKUP,
+          cost: 0,
+        },
+        {
+          method: DeliveryMethod.DELIVERY,
+          cost: 25,
+        },
+      ],
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }
 ];
