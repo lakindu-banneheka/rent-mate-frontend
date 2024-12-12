@@ -45,7 +45,7 @@ export interface ItemState {
     selectedItem: Item | null;
     loading: boolean;
     error: string | null;
-  }
+}
 
 
 // use this for omoting mongo db generated attributes
