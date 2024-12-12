@@ -4,6 +4,7 @@ import "./globals.css";
 import { UserProvider } from "@auth0/nextjs-auth0/client";
 import StoreProvider from "./StoreProvider";
 import { ThemeProvider } from "@/components/theme/theme-provider";
+import { ThemeScript } from "@/components/theme/theme-script";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -28,22 +29,25 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <UserProvider>
-        <StoreProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="light"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <body
-              className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      <head>
+        <ThemeScript />
+      </head>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <UserProvider>
+          <StoreProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
             >
               {children}
-            </body>
-          </ThemeProvider>
-        </StoreProvider>
-      </UserProvider>
+            </ThemeProvider>
+          </StoreProvider>
+        </UserProvider>
+      </body>
     </html>
   );
 }

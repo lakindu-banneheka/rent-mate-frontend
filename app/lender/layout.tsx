@@ -1,14 +1,13 @@
 'use client'
-import { AppSidebar } from "@/components/app-sidebar";
-import Footer from "@/components/footer";
-import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { Separator } from "@radix-ui/react-separator";
+import { AppSidebar } from "@/components/side-bar/app-sidebar";
+import Footer from "@/components/footer/footer";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { redirect } from "next/navigation";
 import React, { ReactNode, useEffect, useState } from "react";
 import Loading from "../loading";
 import { isUserLender } from "@/actions/isUserLender";
-import DynamicBreadcrumb from "@/components/dynamic-breadcrumb";
 import { UserRoles } from "@/types/userTypes";
+import SideBarHeader from "@/components/side-bar/side-bar-header";
 
 
 interface Props {
@@ -44,13 +43,7 @@ export default function LenderLayout ({ children }: Props) {
           userRole={UserRoles.Lender}
         />
         <SidebarInset>
-          <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
-            <div className="flex items-center gap-2 px-4 fixed bg-sidebar w-full py-5">
-              <SidebarTrigger className="-ml-1" />
-              <Separator orientation="vertical" className="mr-2 h-4 bg-sidebar" />
-              <DynamicBreadcrumb />
-            </div>
-          </header>
+          <SideBarHeader />
           <div className="flex flex-1 flex-col gap-0 p-0 pt-0">
             {children}
             <>
