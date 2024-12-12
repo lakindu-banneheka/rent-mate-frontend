@@ -2,7 +2,7 @@
 import { isUserAdmin } from "@/actions/isUserAdmin";
 import { AppSidebar } from "@/components/side-bar/app-sidebar";
 import Footer from "@/components/footer/footer";
-import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { redirect } from "next/navigation";
 import React, { ReactNode, useEffect, useState } from "react";
 import Loading from "../loading";

@@ -18,8 +18,11 @@ const ItemPage = () => {
     const [activeFilters, setActiveFilters] = useState<string>('name,priority');
     const [searchString, setSearchString] = useState('')
     const [filteredItems, setFilteredItems] = useState<Item[]>([]);
-    const [itemList, setitemList] = React.useState<Item[]>(sampleItemData);
+    const [itemList, setitemList] = React.useState<Item[]>([]);
 
+    useEffect(() => {
+        setitemList(sampleItemData);
+    })
     
     const getFilteredItems = useMemo(() => {
         return itemList.filter((item) => {
@@ -54,7 +57,7 @@ const ItemPage = () => {
             </div>
 
             <div className='grid gap-6 md:grid-cols-1 lg:grid-cols-1'>
-                {filteredItems.map((item, i) => (
+                {filteredItems.map((item) => (
                     <ItemCard
                         key={item.id}
                         item={item}
