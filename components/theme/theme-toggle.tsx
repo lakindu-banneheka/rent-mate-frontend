@@ -6,8 +6,6 @@ import { MoonIcon, SunIcon } from 'lucide-react'
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme()
-  console.log('Current theme:', theme);
-
   return (
     <Button
       variant="ghost"

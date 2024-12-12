@@ -1,7 +1,8 @@
 'use client'
-import { FilterToolbar } from '@/components/filter-toolbar'
-import ListItemcard from '@/components/items/item-list-card'
 import React from 'react'
+import { FilterToolbar } from '@/components/filter-toolbar'
+import { ItemCard } from '@/components/items/item-list-card'
+import { sampleItemData } from '@/data/sample-data/items'
 
 const ItemPage = () => {
     const [filterString, setFilterString] = React.useState('status,priority')
@@ -15,7 +16,7 @@ const ItemPage = () => {
     ];
 
     return (
-        <div className='' >
+        <div className='px-20 ' >
             <div className='py-10' >
                 <FilterToolbar
                     filters={filters}
@@ -27,11 +28,13 @@ const ItemPage = () => {
             </div>
 
             <div>
-                <ListItemcard />
+                <ItemCard 
+                    item={sampleItemData[0]}
+                />
             </div>
 
         </div>
     )
 }
 
-export default ItemPage
+export default ItemPage;

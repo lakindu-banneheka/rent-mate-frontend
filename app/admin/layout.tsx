@@ -3,13 +3,10 @@ import { isUserAdmin } from "@/actions/isUserAdmin";
 import { AppSidebar } from "@/components/side-bar/app-sidebar";
 import Footer from "@/components/footer/footer";
 import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { Separator } from "@radix-ui/react-separator";
 import { redirect } from "next/navigation";
 import React, { ReactNode, useEffect, useState } from "react";
 import Loading from "../loading";
-import DynamicBreadcrumb from "@/components/side-bar/dynamic-breadcrumb";
 import { UserRoles } from "@/types/userTypes";
-import { ThemeToggle } from "@/components/theme/theme-toggle";
 import SideBarHeader from "@/components/side-bar/side-bar-header";
 
 interface Props {

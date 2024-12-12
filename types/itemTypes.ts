@@ -10,7 +10,7 @@ export interface Item {
     rentedQuantity: number;
     pricing: PricingDetails[];
     imageUrls: string[];
-    deliveryOptions: DeliveryOptions;
+    deliveryOptions: DeliveryOptions[];
     createdAt: Date;
     updatedAt: Date;
 }
