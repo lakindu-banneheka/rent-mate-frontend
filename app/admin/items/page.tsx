@@ -18,11 +18,11 @@ const ItemPage = () => {
     const [activeFilters, setActiveFilters] = useState<string>('name,priority');
     const [searchString, setSearchString] = useState('')
     const [filteredItems, setFilteredItems] = useState<Item[]>([]);
-    const [itemList, setitemList] = React.useState<Item[]>([]);
+    const [itemList, setitemList] = React.useState<Item[]>(sampleItemData);
 
     useEffect(() => {
         setitemList(sampleItemData);
-    })
+    },[sampleItemData]);
     
     const getFilteredItems = useMemo(() => {
         return itemList.filter((item) => {

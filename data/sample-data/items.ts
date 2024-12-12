@@ -6,7 +6,7 @@ export const sampleItemData: Item[] = [
       id: '1',
       lenderId: 'lender1',
       name: 'DJI Mavic 3 Cine Premium Combo',
-      categoryId: '1',
+      categoryId: '1', // dones
       description: 'High-end drone for professional use',
       totalQuantity: 10,
       availableQuantity: 6,
@@ -40,7 +40,7 @@ export const sampleItemData: Item[] = [
       id: "2",
       lenderId: "124",
       name: "Canon EOS R5 Full-Frame Mirrorless Camera",
-      categoryId: "2",
+      categoryId: "2", // camera
       description: "High-resolution 45MP full-frame CMOS sensor with 8K video capability. Features In-Body Image Stabilization (IBIS).",
       totalQuantity: 5,
       availableQuantity: 3,
