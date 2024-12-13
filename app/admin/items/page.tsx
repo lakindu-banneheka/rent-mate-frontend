@@ -4,25 +4,31 @@ import { FilterToolbar } from '@/components/filter-toolbar'
 import { ItemCard } from '@/components/items/item-list-card'
 import { sampleItemData } from '@/data/sample-data/items'
 import { Item } from '@/types/itemTypes'
+import { sampleCategories } from '@/data/sample-data/categories'
 
-const filters = [
-    { id: '1', label: 'electronics' },
-];
-
-const filterFunctions = {
-    category: (item: Item, value: string) =>
-      item.categoryId.toLowerCase() === value.toLowerCase(),
-};
+interface Filters {
+    id: string;
+    label: string;
+}
 
 const ItemPage = () => {
-    const [activeFilters, setActiveFilters] = useState<string>('name,priority');
+    const [activeFilters, setActiveFilters] = useState<string>('');
     const [searchString, setSearchString] = useState('')
     const [filteredItems, setFilteredItems] = useState<Item[]>([]);
     const [itemList, setitemList] = React.useState<Item[]>(sampleItemData);
+    const [categories, setCategories] = useState<Filters[]>([]);
+
+    useEffect(() => {
+        const getAllFilters: Filters[] = sampleCategories.map((category) => ({
+            id: category.id,
+            label: category.name
+        }))
+        setCategories(getAllFilters);
+    },[]);
 
     useEffect(() => {
         setitemList(sampleItemData);
-    },[sampleItemData]);
+    },[]);
     
     const getFilteredItems = useMemo(() => {
         return itemList.filter((item) => {
@@ -30,12 +36,10 @@ const ItemPage = () => {
                 item.name.toLowerCase().includes(searchString.toLowerCase()) ||
                 item.description.toLowerCase().includes(searchString.toLowerCase());
         
-            const matchesFilters = activeFilters.split(',').every((filter) => {
-                const [key, value] = filter.split(':');
-                const filterFunction = filterFunctions[key as keyof typeof filterFunctions];
-                return filterFunction ? filterFunction(item, value) : true;
-            });
-        
+            const matchesFilters = activeFilters
+                .split(",") 
+                .some((filterId) => item.categoryId.includes(filterId));
+              
             return matchesSearch && matchesFilters;
         });
     }, [searchString, activeFilters]);
@@ -48,11 +52,12 @@ const ItemPage = () => {
         <div className='container mx-auto px-4 py-8'>
             <div className='mb-8'>
                 <FilterToolbar
-                    filters={filters}
+                    filters={categories}
                     onFilterChange={setActiveFilters}
                     onSearchChange={setSearchString}
                     alignment="right"
                     defaultFilterString={activeFilters}
+                    filterLabel={'Filter'}
                 />
             </div>
 
@@ -61,6 +66,7 @@ const ItemPage = () => {
                     <ItemCard
                         key={item.id}
                         item={item}
+                        categoryFilters={categories}
                     />
                 ))}
             </div>
