@@ -10,15 +10,21 @@ import { useRouter } from "next/navigation";
 interface ItemCardProps {
     item: Item
     // onClick?: () => void
+    categoryFilters: {
+        id: string;
+        label: string;
+    }[];
 }
 
-export function ItemCard({ item }: ItemCardProps) {
+export function ItemCard({ item, categoryFilters }: ItemCardProps) {
 
     const router = useRouter();
 
     const dailyPrice = item.pricing.find(p => p.duration === PricingDuration.PER_DAY)?.amount;
     const weeklyPrice = item.pricing.find(p => p.duration === PricingDuration.PER_WEEK)?.amount;
     const deliveryOptions = item.deliveryOptions.slice(0, 3);
+
+    const categoryName = categoryFilters.filter((category) => category.id === item.categoryId)[0].label;
 
     return (
         <Card
@@ -51,7 +57,7 @@ export function ItemCard({ item }: ItemCardProps) {
                             <p className="mt-2 text-sm text-muted-foreground line-clamp-2">{item.description}</p>
                             <div className="mt-2 flex flex-wrap items-center gap-2">
                                 <Badge variant="secondary" className="text-xs">
-                                    {item.categoryId}
+                                    {categoryName || ""}
                                 </Badge>
                                 {deliveryOptions.map((option, index) => (
                                     <Badge key={index} variant="outline" className="text-xs gap-1">

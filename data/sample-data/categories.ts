@@ -12,6 +12,15 @@ export const sampleCategories: Category[] = [
     },
     {
       id: "2",
+      name: "Camera",
+      description: "cmeras",
+      imageUrls: "https://example.com/images/cameras.jpg",
+      itemCount: 20,
+      createdAt: new Date("2023-02-10T12:45:00Z"),
+      updatedAt: new Date("2023-06-20T09:15:00Z"),
+    },
+    {
+      id: "7",
       name: "Furniture",
       description: "Tables, chairs, and home decor.",
       imageUrls: "https://example.com/images/furniture.jpg",
