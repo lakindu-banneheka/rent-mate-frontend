@@ -8,19 +8,18 @@ import { Card, CardContent } from "@/components/ui/card"
 import { EditableField } from "@/components/editable-field"
 import { PricingEditor } from "@/components/pricing-editor"
 import { DeliveryOptionsEditor } from "@/components/delivery-options-editor"
-import { Item } from "@/types/itemTypes"
+import { DeliveryOptions, Item, PricingDetails } from "@/types/itemTypes"
 import { sampleItemData } from "@/data/sample-data/items"
 import { sampleCategories } from "@/data/sample-data/categories"
-import EditableFormFieldInput from "@/components/editable-form-fields/editable-input"
-import { z } from "zod";
+// import { z } from "zod";
 
-const FormSchema = z.object({
-  name: z.string().min(3, {
-      message: "The inventory name must be at least 3 characters long.",
-  }),
-});
+// const FormSchema = z.object({
+//   name: z.string().min(3, {
+//       message: "The inventory name must be at least 3 characters long.",
+//   }),
+// });
 
-type FormSchemaType = z.infer<typeof FormSchema>;
+// type FormSchemaType = z.infer<typeof FormSchema>;
 
 
 export default function ItemDetails() {
@@ -29,7 +28,7 @@ export default function ItemDetails() {
     const categories = sampleCategories
   const [selectedImage, setSelectedImage] = useState(item.imageUrls[0])
 
-  const handleUpdate = async (field: keyof Item, value: any) => {
+  const handleUpdate = async (field: keyof Item, value: string | number | PricingDetails[] | DeliveryOptions[]) => {
     // Implement your update logic here
     console.log("Updating", field, "with value:", value)
   }

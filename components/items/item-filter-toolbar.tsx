@@ -34,7 +34,7 @@ export function FilterToolbar({
   filters,
   onFilterChange,
   onSearchChange,
-  filterLabel = 'Filter',
+  // filterLabel = 'Filter',
   searchPlaceholder = 'Search...',
   alignment = 'left',
   defaultFilterString = '',
