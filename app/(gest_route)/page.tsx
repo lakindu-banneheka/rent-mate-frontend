@@ -1,11 +1,24 @@
 'use client'
 import ProfileClient from "@/components/auth/ProfileClient";
+import { fetchCategories } from "@/lib/features/categorySlice";
+import { AppDispatch, RootState } from "@/lib/store";
 import { authLinks } from "@/utils/auth";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import Link from "next/link";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Home() {
   const session = useUser();
+  console.log(session, 'session');
+  const dispatch: AppDispatch = useDispatch();
+  const categories = useSelector((state: RootState) => state.category.categories);
+  const isCategoryLoading = useSelector((state: RootState) => state.category.loading);
+  const error = useSelector((state: RootState) => state.category.error);
+
+  useEffect(() => {
+    dispatch(fetchCategories());
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">

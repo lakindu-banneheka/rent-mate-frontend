@@ -1,9 +1,10 @@
 import { Category } from '@/types/categoryTypes';
 import { handleError } from '@/utils/api/handleError';
+import axiosInstance from '@/utils/axios';
 import axios from 'axios';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080';
-const BASE_PATH = BASE_URL + '/api/categories'
+const BASE_PATH = '/api/v1/category'
 
 export const categoryService = {
     // Create Category
@@ -19,7 +20,7 @@ export const categoryService = {
     // Fetch Categories
     async fetchCategories(): Promise<Category[]> {
         try{
-        const response = await axios.get(BASE_PATH);
+        const response = await axiosInstance.get(BASE_PATH);
             return response.data;
         } catch(error) {
             throw handleError(error);

@@ -64,10 +64,10 @@ export const deleteCategory = createAsyncThunk(
 
 // Initial State
 const initialState: CategoryState = {
-    categories: [],
-    selectedCategory: null,
-    loading: false,
-    error: null,
+  categories: [],
+  selectedCategory: null,
+  loading: false,
+  error: null,
 };
 
 // Slice
@@ -76,45 +76,45 @@ const categorySlice = createSlice({
     initialState,
     reducers: {
         clearError: (state) => {
-            state.error = null;
+          state.error = null;
         },
         clearSelectedCategory: (state) => {
-            state.selectedCategory = null;
+          state.selectedCategory = null;
         },
         setSelectedCategory: (state, action: PayloadAction<Category | null>) => {
-            state.selectedCategory = action.payload;
+          state.selectedCategory = action.payload;
         }
     },
     extraReducers: (builder) => {
         // Create Category
         builder
             .addCase(createCategory.pending, (state) => {
-                state.loading = true;
-                state.error = null;
+              state.loading = true;
+              state.error = null;
             })
             .addCase(createCategory.fulfilled, (state, action) => {
-                state.loading = false;
-                state.categories.push(action.payload);
-                state.selectedCategory = null;
+              state.loading = false;
+              state.categories.push(action.payload);
+              state.selectedCategory = null;
             })
             .addCase(createCategory.rejected, (state, action) => {
-                state.loading = false;
-                state.error = action.payload as string;
+              state.loading = false;
+              state.error = action.payload as string;
             });
 
         // Fetch Categories
         builder
             .addCase(fetchCategories.pending, (state) => {
-                state.loading = true;
-                state.error = null;
+              state.loading = true;
+              state.error = null;
             })
             .addCase(fetchCategories.fulfilled, (state, action) => {
-                state.loading = false;
-                state.categories = action.payload;
+              state.loading = false;
+              state.categories = action.payload;
             })
             .addCase(fetchCategories.rejected, (state, action) => {
-                state.loading = false;
-                state.error = action.payload as string;
+              state.loading = false;
+              state.error = action.payload as string;
             });
 
         // Fetch Single Category
@@ -159,15 +159,15 @@ const categorySlice = createSlice({
                 state.error = null;
             })
             .addCase(deleteCategory.fulfilled, (state, action) => {
-                state.loading = false;
-                state.categories = state.categories.filter(category => category.id !== action.payload);
-                if (state.selectedCategory?.id === action.payload) {
+              state.loading = false;
+              state.categories = state.categories.filter(category => category.id !== action.payload);
+              if (state.selectedCategory?.id === action.payload) {
                 state.selectedCategory = null;
-                }
+              }
             })
             .addCase(deleteCategory.rejected, (state, action) => {
-                state.loading = false;
-                state.error = action.payload as string;
+              state.loading = false;
+              state.error = action.payload as string;
             });
     }
 });

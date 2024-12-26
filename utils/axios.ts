@@ -12,18 +12,23 @@ const axiosInstance = axios.create({
 
 // Add request interceptor -------------------------------- authorization add token part after reading Auth0 token store in local storage --
 
-// axiosInstance.interceptors.request.use(
-//     (config) => {
-//         const token = localStorage.getItem('authToken'); // Example for token
-//         if (token) {
-//             config.headers.Authorization = `Bearer ${token}`;
-//         }
-//         return config;
-//     },
-//     (error) => {
-//         return Promise.reject(error);
+// Request interceptor to add auth token
+
+axiosInstance.interceptors.request.use(async (config) => {
+  try {
+    // const session = await getSession();
+    // const token = await getAccessToken();
+    // console.log(token, '| test token');
+//     if (session?.accessToken) {
+//       config.headers.Authorization = `Bearer ${session.accessToken}`;
 //     }
-// );
+    return config;
+  } catch (error) {
+    console.error(error);
+    return Promise.reject(error);
+  }
+});
+  
 
 // Add response interceptor
 axiosInstance.interceptors.response.use(
