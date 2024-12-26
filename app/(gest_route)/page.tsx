@@ -1,13 +1,13 @@
 'use client'
 import ProfileClient from "@/components/auth/ProfileClient";
-import { createCategory, fetchCategories, fetchCategoryById, updateCategory } from "@/lib/features/categorySlice";
-import { fetchItems } from "@/lib/features/itemSlice";
-import { AppDispatch, RootState } from "@/lib/store";
+// import { createCategory, fetchCategories, fetchCategoryById, updateCategory } from "@/lib/features/categorySlice";
+// import { fetchItems } from "@/lib/features/itemSlice";
+// import { AppDispatch, RootState } from "@/lib/store";
 import { authLinks } from "@/utils/auth";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import Link from "next/link";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+// import { useEffect } from "react";
+// import { useDispatch, useSelector } from "react-redux";
 
 export default function Home() {
   const session = useUser();
