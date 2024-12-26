@@ -1,6 +1,7 @@
 'use client'
 import ProfileClient from "@/components/auth/ProfileClient";
 import { createCategory, fetchCategories, fetchCategoryById, updateCategory } from "@/lib/features/categorySlice";
+import { fetchItems } from "@/lib/features/itemSlice";
 import { AppDispatch, RootState } from "@/lib/store";
 import { authLinks } from "@/utils/auth";
 import { useUser } from "@auth0/nextjs-auth0/client";
@@ -13,13 +14,13 @@ export default function Home() {
 
   //  ------------------- Category -------------------
   // const dispatch: AppDispatch = useDispatch();
-  // const categories = useSelector((state: RootState) => state.category.categories);
+  // const categories = useSelector((state: RootState) => state.item.items);
   // const selectedCategory = useSelector((state: RootState) => state.category.selectedCategory);
   // const isCategoryLoading = useSelector((state: RootState) => state.category.loading);
   // const error = useSelector((state: RootState) => state.category.error);
 
   // useEffect(() => {
-  //   dispatch(fetchCategories());
+  //   dispatch(fetchItems());
   // }, []);
 
   // console.log(categories);
