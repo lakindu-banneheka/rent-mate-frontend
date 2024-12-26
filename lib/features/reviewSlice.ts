@@ -30,7 +30,7 @@ export const fetchReviews = createAsyncThunk(
 
 export const fetchReviewById = createAsyncThunk(
   'reviews/fetchReviewById',
-  async (id: number, { rejectWithValue }) => {
+  async (id: string, { rejectWithValue }) => {
     try {
       return await reviewService.fetchReviewById(id);
     } catch (error) {

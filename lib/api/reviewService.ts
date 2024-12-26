@@ -1,15 +1,15 @@
 import { Review } from '@/types/reviewTypes';
 import { handleError } from '@/utils/api/handleError';
-import axios from 'axios';
+import axiosInstance from '@/utils/axios';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080';
-const BASE_PATH = BASE_URL + '/api/reviews'
+const BASE_PATH = BASE_URL + '/review'
 
 export const reviewService = {
     // Create Review
     async createReview(review: Omit<Review, "id" | "createdAt" | "updatedAt">): Promise<Review> {
         try {
-        const response = await axios.post(BASE_PATH, review);
+        const response = await axiosInstance.post(BASE_PATH, review);
             return response.data;
         } catch (error) {
             throw handleError(error);
@@ -19,7 +19,7 @@ export const reviewService = {
     // Fetch Reviews
     async fetchReviews(): Promise<Review[]> {
         try{
-        const response = await axios.get(BASE_PATH);
+        const response = await axiosInstance.get(BASE_PATH);
             return response.data;
         } catch(error) {
             throw handleError(error);
@@ -27,9 +27,9 @@ export const reviewService = {
     },
 
     // Fetch Single Review
-    async fetchReviewById(id: number): Promise<Review> {
+    async fetchReviewById(id: string): Promise<Review> {
         try {
-            const response = await axios.get(`${BASE_PATH}/${id}`);
+            const response = await axiosInstance.get(`${BASE_PATH}/${id}`);
             return response.data;
         } catch (error) {
             throw handleError(error);
@@ -42,7 +42,7 @@ export const reviewService = {
             throw new Error('Review ID is required for update');
         }
         try {
-            const response = await axios.put(`${BASE_PATH}/${review.id}`, review);
+            const response = await axiosInstance.put(`${BASE_PATH}/${review.id}`, review);
             return response.data;
         } catch (error) {
             throw handleError(error);
@@ -52,7 +52,7 @@ export const reviewService = {
     // Delete Review
     async deleteReview(id: string): Promise<void> {
         try {
-            await axios.delete(`${BASE_PATH}/${id}`);
+            await axiosInstance.delete(`${BASE_PATH}/${id}`);
         } catch (error) {
             throw handleError(error);
         }
