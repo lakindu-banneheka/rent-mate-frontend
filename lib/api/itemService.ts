@@ -1,7 +1,6 @@
 import { Item } from '@/types/itemTypes';
 import { handleError } from '@/utils/api/handleError';
 import axiosInstance from '@/utils/axios';
-import axios from 'axios';
 
 const BASE_PATH = '/item'
 

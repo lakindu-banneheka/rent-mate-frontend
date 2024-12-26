@@ -30,7 +30,7 @@ export const fetchRents = createAsyncThunk(
 
 export const fetchRentById = createAsyncThunk(
   'rents/fetchRentById',
-  async (id: number, { rejectWithValue }) => {
+  async (id: string, { rejectWithValue }) => {
     try {
       return await rentService.fetchRentById(id);
     } catch (error) {
