@@ -1,9 +1,20 @@
 import { configureStore } from '@reduxjs/toolkit'
+import categoryReducer from './features/categorySlice'
+import itemReducer from './features/itemSlice'
+import userReducer from './features/userSlice'
+import rentReducer from './features/rentSlice'
+import rentLogReducer from './features/rentLogSlice'
+import reviewReducer from './features/reviewSlice'
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
-        
+      category: categoryReducer,
+      user: userReducer,
+      item: itemReducer,
+      rent: rentReducer,
+      rentLog: rentLogReducer,
+      review: reviewReducer
     },
   })
 }
