@@ -1,12 +1,30 @@
 'use client'
 import ProfileClient from "@/components/auth/ProfileClient";
+import { createCategory, fetchCategories, fetchCategoryById, updateCategory } from "@/lib/features/categorySlice";
+import { AppDispatch, RootState } from "@/lib/store";
 import { authLinks } from "@/utils/auth";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import Link from "next/link";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Home() {
   const session = useUser();
 
+  //  ------------------- Category -------------------
+  // const dispatch: AppDispatch = useDispatch();
+  // const categories = useSelector((state: RootState) => state.category.categories);
+  // const selectedCategory = useSelector((state: RootState) => state.category.selectedCategory);
+  // const isCategoryLoading = useSelector((state: RootState) => state.category.loading);
+  // const error = useSelector((state: RootState) => state.category.error);
+
+  // useEffect(() => {
+  //   dispatch(fetchCategories());
+  // }, []);
+
+  // console.log(categories);
+  // console.log(selectedCategory);
+  
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">

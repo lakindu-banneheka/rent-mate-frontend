@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = process.env.BACEND_PUBLIC_API_BASE_URL || 'http://localhost:8080';
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080';
 
 // Create an Axios instance
 const axiosInstance = axios.create({

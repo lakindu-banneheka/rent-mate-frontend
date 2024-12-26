@@ -30,7 +30,7 @@ export const fetchCategories = createAsyncThunk(
 
 export const fetchCategoryById = createAsyncThunk(
   'categories/fetchCategoryById',
-  async (id: number, { rejectWithValue }) => {
+  async (id: string, { rejectWithValue }) => {
     try {
       return await categoryService.fetchCategoryById(id);
     } catch (error) {
