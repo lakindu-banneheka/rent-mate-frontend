@@ -1,7 +1,6 @@
 import { Category } from '@/types/categoryTypes';
 import { handleError } from '@/utils/api/handleError';
 import axiosInstance from '@/utils/axios';
-import axios from 'axios';
 
 const BASE_PATH = '/category'
 

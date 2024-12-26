@@ -31,7 +31,7 @@ export const fetchRentLogs = createAsyncThunk(
 
 export const fetchRentLogById = createAsyncThunk(
   'rentLogs/fetchRentLogById',
-  async (id: number, { rejectWithValue }) => {
+  async (id: string, { rejectWithValue }) => {
     try {
       return await rentLogService.fetchRentLogById(id);
     } catch (error) {
