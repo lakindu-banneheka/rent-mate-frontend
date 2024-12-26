@@ -1,6 +1,5 @@
 import { DeliveryMethod, Item, PricingDuration } from "@/types/itemTypes";
 import { Card, CardContent } from "../ui/card";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Calendar, Package, Truck } from "lucide-react";
 import { Badge } from "../ui/badge";
@@ -14,7 +13,6 @@ interface ItemCardProps {
   }[];
 }
 const ItemCard = ({ item, categoryFilters }: ItemCardProps) => {
-  const router = useRouter();
 
   const dailyPrice = item.pricing.find(
     (p) => p.duration === PricingDuration.PER_DAY
