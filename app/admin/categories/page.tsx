@@ -11,10 +11,10 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { Category } from '@/types/categoryTypes'
-import { toast } from 'sonner'
+import { useToast } from '@/hooks/use-toast'
 
 const CategoryPage = () => {
-
+    const { toast } = useToast();
     const dispatch: AppDispatch = useDispatch();
     const categories = useSelector((state: RootState) => state.category.categories);
     const isCategoryLoading = useSelector((state: RootState) => state.category.loading);
@@ -36,8 +36,20 @@ const CategoryPage = () => {
     }, [searchString]);
 
     useEffect(() => {
-        dispatch(fetchCategories());
-    }, []);
+        const loadCategories = async () => {
+            const result = await dispatch(fetchCategories());
+            
+            if (fetchCategories.rejected.match(result)) {
+              toast({
+                variant: "destructive",
+                title: "Error fetching categories",
+                description: result.payload as string
+              });
+            }
+          };
+      
+          loadCategories();
+    }, [dispatch]);
 
     useEffect(() => {
         setFilteredCategories(getFilteredCategories);
