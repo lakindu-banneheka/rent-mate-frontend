@@ -14,7 +14,7 @@ import { Category } from "@/types/categoryTypes"
 import { ImageUpload } from "../image/image-upload"
 import { AppDispatch, RootState } from "@/lib/store"
 import { useDispatch, useSelector } from "react-redux"
-import { createCategory } from "@/lib/features/categorySlice"
+import { createCategory, deleteCategory, updateCategory } from "@/lib/features/categorySlice"
 import { useToast } from "@/hooks/use-toast"
 
 const categorySchema = z.object({
@@ -59,37 +59,50 @@ export function CategoryForm({ category }: CategoryFormProps) {
     const image = watch("image")
 
     const onSubmit = async (data: FormData) => {
+
+        // Here you would typically:
+        // 1. Upload the image to your storage service
+        // 2. Get the URL back
+        // 3. Save the category with the image URL
+        const imageUrl = "";
+
         try {
-
             setIsLoading(true)
-            // Here you would typically:
-            // 1. Upload the image to your storage service
-            // 2. Get the URL back
-            // 3. Save the category with the image URL
-
-            const newCategory = {
-                name: data.name,
-                description: data.description,
-                imageUrl: "https://aerialworx.co.uk/wp-content/uploads/2021/11/dji-phantom4-pro-drone-pilot-uk.png",
-                itemCount: 0
+            if (category) {
+                const categoryData: Category = {
+                    id: category ? category.id : "",
+                    name: data.name,
+                    description: data.description,
+                    imageUrl: imageUrl,
+                    itemCount: category ? category.itemCount : 0,
+                    createdAt: category ? category.createdAt : new Date(),
+                    updatedAt: new Date()
+                }
+                await dispatch(updateCategory(categoryData));
+            } else {
+                const categoryData = {
+                    name: data.name,
+                    description: data.description,
+                    imageUrl: imageUrl,
+                    itemCount: 0
+    
+                }
+                await dispatch(createCategory(categoryData));
             }
 
-            await dispatch(createCategory(newCategory));
-
             if (error) {
-                console.log(error, 'err');
                 toast({
                     variant: "destructive",
-                    title: "Error creating category",
+                    title: `Error ${category ? 'updating' : 'creating'} category`,
                     description: error
                 });
             } else {
                 toast({
                     variant: "default",
                     title: "Success",
-                    description: "Category created successfully"
+                    description: `Category ${category ? 'updated' : 'created'} successfully`
                 });
-                router.push("/categories")
+                router.push("/admin/categories")
                 router.refresh()
             }
             
@@ -97,18 +110,47 @@ export function CategoryForm({ category }: CategoryFormProps) {
             toast({
                 variant: "destructive",
                 title: "Unexpected error",
-                description: "Failed to create category"
+                description: `Failed to ${category ? 'update' : 'create'} category`
             });
         } finally {
             setIsLoading(false)
         }
     }
 
-
-
     const onRemove = () => {
         setValue("image", "", { shouldValidate: true })
     }
+
+    const handleDeleteCategory = async (id: string) => {
+        try {
+            setIsLoading(true);
+            const result = await dispatch(deleteCategory(id));
+            
+            if (error) {
+                toast({
+                    variant: "destructive",
+                    title: "Error deleting category",
+                    description: result.payload as string
+                });
+            } else {
+                toast({
+                    title: "Success",
+                    description: "Category deleted successfully"
+                });
+                router.push("/admin/categories")
+                router.refresh()
+            }
+            
+        } catch (err) {
+            toast({
+                variant: "destructive",
+                title: "Unexpected error",
+                description: "Failed to delete category"
+            });
+        } finally {
+            setIsLoading(false)
+        }
+    };
 
     return (
         <Card>
@@ -154,9 +196,20 @@ export function CategoryForm({ category }: CategoryFormProps) {
                         <Button type="submit" disabled={isLoading}>
                             {isLoading ? "Saving..." : category ? "Update Category" : "Add Category"}
                         </Button>
+                        {category && (
+                            <Button
+                                type="button"
+                                variant="destructive"
+                                onClick={() => handleDeleteCategory(category.id)}
+                                disabled={isLoading}
+                            >
+                                Delete
+                            </Button>
+                        )}
                     </div>
                 </form>
             </CardContent>
         </Card>
     )
 }
+
