@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 export interface User {
     id: string; 
     firstName: string;
@@ -5,10 +7,10 @@ export interface User {
     role: UserRoles;
     email: string;
     contactNo: string;
-    isBlackListed: string;
+    isBlackListed: boolean;
     address: string;
     zipCode: string;
-    isVerified: Boolean;
+    isVerified: boolean;
     nic: string;
     
     createdAt: Date;
