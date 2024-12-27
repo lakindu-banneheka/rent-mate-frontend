@@ -81,12 +81,12 @@ export const adminNav: NavItem[] = [
       {
         icon: Tags,
         title: "Item Categories",
-        url: "/admin/items/categories",
+        url: "/admin/categories",
       },
       {
         icon: Tag,
         title: "Add New Category",
-        url: "/admin/items/categories/add",
+        url: "/admin/categories/add",
       },
     ],
   },
