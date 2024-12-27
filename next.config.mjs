@@ -8,6 +8,8 @@ const nextConfig = {
       "cdn.auth0.com",
       "example.com",
       "aerialworx.co.uk",
+      "www-cdn.djiits.com",
+      "survey.crkennedy.com.au",
     ],
   },
 };
