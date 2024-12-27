@@ -1,4 +1,4 @@
-import { BarChart2, ClipboardList, FileText, LayoutDashboard, LucideIcon, Package, PlusSquare, Settings, Tag, Tags, Users } from "lucide-react";
+import { BarChart2, ClipboardList, FileText, LayoutDashboard, LucideIcon, Package, PlusSquare, Tag, Tags, Users } from "lucide-react";
 import { Bot, SquareTerminal } from "lucide-react";
 
 // User data interface
@@ -34,13 +34,8 @@ export const adminNav: NavItem[] = [
     items: [
       {
         icon: BarChart2,
-        title: "Analytics",
-        url: "/admin/dashboard/analytics",
-      },
-      {
-        icon: Settings,
-        title: "Settings",
-        url: "/admin/dashboard/settings",
+        title: "Dashboard",
+        url: "/admin/",
       },
     ],
   },

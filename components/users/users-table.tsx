@@ -20,7 +20,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { MoreHorizontal, Search, ChevronUp, ChevronDown } from 'lucide-react'
 import Link from "next/link"
-import { User, UserRoles } from "@/types/userTypes"
+import { User } from "@/types/userTypes"
 import { AppDispatch, RootState } from "@/lib/store"
 import { useDispatch, useSelector } from "react-redux"
 import { fetchUsers } from "@/lib/features/userSlice"
@@ -30,7 +30,6 @@ export function UsersTable() {
     const { toast } = useToast();
     const dispatch: AppDispatch = useDispatch();
     const users = useSelector((state: RootState) => state.user.users);
-    // const isUserLoading = useSelector((state: RootState) => state.user.loading);
     const UsersLoadingError = useSelector((state: RootState) => state.user.error);
 
     const [searchTerm, setSearchTerm] = React.useState("")

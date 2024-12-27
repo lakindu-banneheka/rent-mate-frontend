@@ -44,14 +44,7 @@ const userFormSchema = z.object({
 
 type FormData = z.infer<typeof userFormSchema>
 
-
-interface UserFormProps {
-    initialData?: FormData;
-    // onSubmit: (data: FormData) => Promise<void>;
-    // isLoading: boolean;
-}
-
-export function UserForm({ initialData }: UserFormProps) {
+export function UserForm() {
     const { toast } = useToast();
     const router = useRouter();
     const dispatch: AppDispatch = useDispatch();
