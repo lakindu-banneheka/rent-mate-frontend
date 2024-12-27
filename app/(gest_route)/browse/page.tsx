@@ -13,7 +13,7 @@ interface Filters {
   label: string;
 }
 
-const browsePage = () => {
+const BrowsePage = () => {
   const [activeFilters, setActiveFilters] = useState<string>("");
   const [searchString, setSearchString] = useState("");
   const [filteredItems, setFilteredItems] = useState<Item[]>([]);
@@ -91,4 +91,4 @@ const browsePage = () => {
   );
 };
 
-export default browsePage;
+export default BrowsePage;
