@@ -1,5 +1,6 @@
-'use client'
+"use client";
 import ProfileClient from "@/components/auth/ProfileClient";
+import DialogflowChatbot from "@/components/chatbot/DialogflowChatbot";
 // import { createCategory, fetchCategories, fetchCategoryById, updateCategory } from "@/lib/features/categorySlice";
 // import { fetchItems } from "@/lib/features/itemSlice";
 // import { AppDispatch, RootState } from "@/lib/store";
@@ -25,7 +26,7 @@ export default function Home() {
 
   // console.log(categories);
   // console.log(selectedCategory);
-  
+
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
@@ -35,14 +36,14 @@ export default function Home() {
           </h1>
           <nav className="flex flex-wrap gap-4 mb-8">
             {!session.user ? (
-              <Link 
+              <Link
                 href={authLinks.login}
                 className="px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
               >
                 Login
               </Link>
             ) : (
-              <Link 
+              <Link
                 href={authLinks.logout}
                 className="px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
               >
@@ -84,6 +85,9 @@ export default function Home() {
             </div>
           )}
         </div>
+      </div>
+      <div>
+        <DialogflowChatbot />
       </div>
     </div>
   );
