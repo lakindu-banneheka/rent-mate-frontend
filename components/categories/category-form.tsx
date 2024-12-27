@@ -107,7 +107,7 @@ export function CategoryForm({ category }: CategoryFormProps) {
             }
             
         } catch (err) {
-            console.error(error);
+            console.error(err);
             toast({
                 variant: "destructive",
                 title: "Unexpected error",
@@ -143,7 +143,7 @@ export function CategoryForm({ category }: CategoryFormProps) {
             }
             
         } catch (err) {
-            console.error(error);
+            console.error(err);
             toast({
                 variant: "destructive",
                 title: "Unexpected error",
