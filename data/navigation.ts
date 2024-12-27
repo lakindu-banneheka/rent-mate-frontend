@@ -1,4 +1,4 @@
-import { BarChart2, ClipboardList, FileText, LayoutDashboard, LucideIcon, Package, PlusSquare, Settings, Tag, Tags, UserPlus, Users } from "lucide-react";
+import { BarChart2, ClipboardList, FileText, LayoutDashboard, LucideIcon, Package, PlusSquare, Settings, Tag, Tags, Users } from "lucide-react";
 import { Bot, SquareTerminal } from "lucide-react";
 
 // User data interface
@@ -53,12 +53,7 @@ export const adminNav: NavItem[] = [
       {
         icon: Users,
         title: "All Users",
-        url: "/admin/users/all",
-      },
-      {
-        icon: UserPlus,
-        title: "Add User",
-        url: "/admin/users/add",
+        url: "/admin/users",
       },
     ],
   },
