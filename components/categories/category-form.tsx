@@ -107,6 +107,7 @@ export function CategoryForm({ category }: CategoryFormProps) {
             }
             
         } catch (err) {
+            console.error(error);
             toast({
                 variant: "destructive",
                 title: "Unexpected error",
@@ -142,6 +143,7 @@ export function CategoryForm({ category }: CategoryFormProps) {
             }
             
         } catch (err) {
+            console.error(error);
             toast({
                 variant: "destructive",
                 title: "Unexpected error",
@@ -178,7 +180,7 @@ export function CategoryForm({ category }: CategoryFormProps) {
                             disabled={isLoading}
                             onChange={(url) => setValue("image", url, { shouldValidate: true })}
                             onRemove={onRemove}
-                            maxImages={1}
+                            // maxImages={1}
                         />
                         {errors.image && (
                             <p className="text-sm text-destructive">{errors.image.message}</p>

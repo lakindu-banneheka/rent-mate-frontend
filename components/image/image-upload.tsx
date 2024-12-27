@@ -12,7 +12,7 @@ interface ImageUploadProps {
   value: string
   disabled?: boolean
   onRemove: () => void
-  maxImages?: number
+  // maxImages?: number
 }
 
 export function ImageUpload({
@@ -20,7 +20,7 @@ export function ImageUpload({
   value,
   disabled,
   onRemove,
-  maxImages = 1
+  // maxImages = 1
 }: ImageUploadProps) {
   const [isMounted, setIsMounted] = React.useState(false)
 

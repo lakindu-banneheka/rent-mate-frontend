@@ -11,7 +11,7 @@ import { CategoryForm } from '@/components/categories/category-form'
 export default function CategoryDetailsPage() {
   const { id } = useParams()
   const dispatch: AppDispatch = useDispatch()
-  const { selectedCategory, loading, error } = useSelector((state: RootState) => state.category)
+  const { selectedCategory, error } = useSelector((state: RootState) => state.category)
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
