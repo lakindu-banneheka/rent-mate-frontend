@@ -1,11 +1,6 @@
 'use client'
 import React, { useEffect } from 'react'
 import { Suspense } from "react"
-import Link from "next/link"
-import { Bell, Plus, Search } from 'lucide-react'
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { CategoryCard } from '@/components/categories/category-card'
 import { fetchCategories } from '@/lib/features/categorySlice'
 import { useDispatch, useSelector } from 'react-redux'

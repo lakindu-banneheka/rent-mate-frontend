@@ -7,9 +7,10 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/comp
 import { Check, Pencil } from 'lucide-react'
 import { Skeleton } from '@/components/ui/skeleton'
 import { cn } from '@/lib/utils'
+import { Control, FieldValues } from 'react-hook-form'
 
 interface EditableFormFieldProps {
-  control: any
+  control: Control<FieldValues> | undefined
   name: string
   label: string
   placeholder?: string
