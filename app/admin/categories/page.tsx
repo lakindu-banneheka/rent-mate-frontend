@@ -11,13 +11,13 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { Category } from '@/types/categoryTypes'
+import { toast } from 'sonner'
 
 const CategoryPage = () => {
 
     const dispatch: AppDispatch = useDispatch();
     const categories = useSelector((state: RootState) => state.category.categories);
     const isCategoryLoading = useSelector((state: RootState) => state.category.loading);
-    // const error = useSelector((state: RootState) => state.category.error);
 
     const [searchString, setSearchString] = useState('')
     const [filteredCategories, setFilteredCategories] = useState<Category[]>([]);
@@ -49,7 +49,7 @@ const CategoryPage = () => {
                 <div className="flex items-center justify-between">
                     <h2 className="text-3xl font-semibold">Category list</h2>
                     <Button asChild>
-                        <Link href="/categories/add">
+                        <Link href="/admin/categories/add">
                             <Plus className="mr-2 h-4 w-4" />
                             Add Category
                         </Link>
