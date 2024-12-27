@@ -1,19 +1,26 @@
-"use client"
-import * as React from "react"
-import { PhoneIcon as WhatsappIcon } from 'lucide-react'
+"use client";
+import * as React from "react";
+import { PhoneIcon as WhatsappIcon } from "lucide-react";
 
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Label } from "@/components/ui/label"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { PaymentDialog } from "./payment-dialog"
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { PaymentDialog } from "./payment-dialog";
 
 export default function OrderSummary() {
-  const [deliveryOption, setDeliveryOption] = React.useState("pickup")
-  const deliveryCharge = 500 // ₨.500 for delivery
+  const [deliveryOption, setDeliveryOption] = React.useState("pickup");
+  const deliveryCharge = 500; // ₨.500 for delivery
 
-  const subtotal = 5000
-  const total = deliveryOption === "delivery" ? subtotal + deliveryCharge : subtotal
+  const subtotal = 5000;
+  const total =
+    deliveryOption === "delivery" ? subtotal + deliveryCharge : subtotal;
 
   return (
     <Card className="w-full max-w-md mx-auto">
@@ -30,12 +37,12 @@ export default function OrderSummary() {
               </p>
               <div className="mt-2 space-y-1">
                 <p className="text-sm">
-                  <span className="text-muted-foreground">From:</span>{" "}
-                  December 31, 2024
+                  <span className="text-muted-foreground">From:</span> December
+                  31, 2024
                 </p>
                 <p className="text-sm">
-                  <span className="text-muted-foreground">To:</span>{" "}
-                  January 1, 2025
+                  <span className="text-muted-foreground">To:</span> January 1,
+                  2025
                 </p>
               </div>
               <p className="text-sm mt-2">
@@ -52,8 +59,8 @@ export default function OrderSummary() {
 
           <div className="border-t pt-4">
             <h3 className="font-medium mb-3">Delivery Options</h3>
-            <RadioGroup 
-              defaultValue="pickup" 
+            <RadioGroup
+              defaultValue="pickup"
               className="space-y-2"
               onValueChange={(value) => setDeliveryOption(value)}
             >
@@ -105,18 +112,16 @@ export default function OrderSummary() {
         <div className="flex items-center space-x-2">
           <Checkbox id="terms" />
           <Label htmlFor="terms" className="text-sm">
-            I've read and accept the terms & conditions
+            {"I've read and accept the terms & conditions"}
           </Label>
         </div>
       </CardContent>
       <CardFooter>
         <PaymentDialog
-         
-          itemTotal={subtotal} 
-          deliveryFees={deliveryOption === "delivery" ? deliveryCharge : 0} 
+          itemTotal={subtotal}
+          deliveryFees={deliveryOption === "delivery" ? deliveryCharge : 0}
         />
       </CardFooter>
     </Card>
-  )
+  );
 }
-
