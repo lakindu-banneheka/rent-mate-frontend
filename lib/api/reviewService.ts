@@ -2,8 +2,7 @@ import { Review } from '@/types/reviewTypes';
 import { handleError } from '@/utils/api/handleError';
 import axiosInstance from '@/utils/axios';
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080';
-const BASE_PATH = BASE_URL + '/review'
+const BASE_PATH =  '/review'
 
 export const reviewService = {
     // Create Review

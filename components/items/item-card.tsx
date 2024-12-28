@@ -1,9 +1,12 @@
+"use client";
 import { DeliveryMethod, Item, PricingDuration } from "@/types/itemTypes";
 import { Card, CardContent } from "../ui/card";
 import Image from "next/image";
 import { Calendar, Package, Truck } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
+
 interface ItemCardProps {
   item: Item;
   // onClick?: () => void
@@ -13,6 +16,7 @@ interface ItemCardProps {
   }[];
 }
 const ItemCard = ({ item, categoryFilters }: ItemCardProps) => {
+  const router = useRouter();
 
   const dailyPrice = item.pricing.find(
     (p) => p.duration === PricingDuration.PER_DAY
@@ -29,7 +33,7 @@ const ItemCard = ({ item, categoryFilters }: ItemCardProps) => {
   return (
     <Card
       onClick={() => {
-        // router.push(`/admin/items/${item.id}`);
+        router.push(`/product/${item.id}`);
       }}
       className="group transition-all hover:shadow-md dark:hover:shadow-primary/5 cursor-pointer w-full md:w-[300px]"
     >

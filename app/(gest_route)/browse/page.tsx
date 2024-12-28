@@ -27,10 +27,7 @@ const BrowsePage = () => {
   );
 
   // const isCategoryLoading = useSelector((state: RootState) => state.category.loading);
-  const categoryError = useSelector((state: RootState) => state.category.error);
-
-  console.log(categoryError, "error");
-  console.log(categoryList);
+  // const categoryError = useSelector((state: RootState) => state.category.error);
 
   useEffect(() => {
     dispatch(fetchItems());
