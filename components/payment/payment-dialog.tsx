@@ -6,14 +6,12 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { AppDispatch, RootState } from "@/lib/store";
 import { useDispatch, useSelector } from "react-redux";
-import { isNewRentType, Rent } from "@/types/rentTypes";
+import { isNewRentType } from "@/types/rentTypes";
 import { createRent, removeNewRent } from "@/lib/features/rentSlice";
-import { useRouter } from "next/navigation";
 
 interface PaymentDialogProps {
   itemTotal: number;
@@ -32,7 +30,6 @@ export function PaymentDialog({
     (state: RootState) => state.rent
   );
   const [open, setOpen] = React.useState(false);
-  const router = useRouter();
 
   const handlePlaceOrder = async () => {
     if (!acceptedTerms) {
