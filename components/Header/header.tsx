@@ -1,33 +1,32 @@
-'use client'
+"use client";
 
-import Link from "next/link"
-import { Search, Bell, User, Menu } from 'lucide-react'
-import { Button } from "@/components/ui/button"
+import Link from "next/link";
+import { Search, Bell, User, Menu } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuList,
-} from "@/components/ui/navigation-menu"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/navigation-menu";
+import { Input } from "@/components/ui/input";
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet"
-import { cn } from "@/lib/utils"
-import { useState } from "react"
+} from "@/components/ui/sheet";
+import { cn } from "@/lib/utils";
+import { useState } from "react";
 
 export default function Header() {
-  const [isSearchOpen, setIsSearchOpen] = useState(false)
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
-            
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-2">
               <span className="text-xl">Rent Mate</span>
@@ -37,17 +36,26 @@ export default function Header() {
             <NavigationMenu className="hidden md:ml-6 md:flex">
               <NavigationMenuList>
                 <NavigationMenuItem>
-                  <Link href="/" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors px-3 py-2 rounded-md">
-                    Home
+                  <Link
+                    href="/browse"
+                    className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors px-3 py-2 rounded-md"
+                  >
+                    products
                   </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                  <Link href="/categories" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors px-3 py-2 rounded-md">
+                  <Link
+                    href="/categories"
+                    className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors px-3 py-2 rounded-md"
+                  >
                     Categories
                   </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                  <Link href="/rent-history" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors px-3 py-2 rounded-md">
+                  <Link
+                    href="/rent-history"
+                    className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors px-3 py-2 rounded-md"
+                  >
                     Rent History
                   </Link>
                 </NavigationMenuItem>
@@ -58,8 +66,12 @@ export default function Header() {
           {/* Right Section - Search, Notifications, Profile */}
           <div className="flex items-center space-x-4">
             {/* Search */}
-            <div className={cn("hidden md:flex items-center", 
-              isSearchOpen ? "w-64" : "w-auto")}>
+            <div
+              className={cn(
+                "hidden md:flex items-center",
+                isSearchOpen ? "w-64" : "w-auto"
+              )}
+            >
               <div className={cn("relative w-full")}>
                 {isSearchOpen ? (
                   <Input
@@ -129,7 +141,11 @@ export default function Header() {
             {/* Mobile Menu Button */}
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="md:hidden rounded-full">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="md:hidden rounded-full"
+                >
                   <Menu className="h-5 w-5" />
                   <span className="sr-only">Menu</span>
                 </Button>
@@ -166,6 +182,5 @@ export default function Header() {
         </div>
       </div>
     </header>
-  )
+  );
 }
-
