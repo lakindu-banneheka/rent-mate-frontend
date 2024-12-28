@@ -2,7 +2,7 @@ export interface Category {
     id: string; 
     name: string; 
     description: string; 
-    imageUrls: string;
+    imageUrl: string;
     itemCount: number; 
     createdAt: Date;
     updatedAt: Date;

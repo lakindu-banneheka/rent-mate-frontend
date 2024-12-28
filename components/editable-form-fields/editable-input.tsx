@@ -1,75 +1,106 @@
-import React, { useState } from 'react';
-import { Control, FieldValues, FieldPath } from 'react-hook-form';
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
-import { Input } from '../ui/input';
-import { Skeleton } from '../ui/skeleton';
-import { Button } from '../ui/button';
-import { Check, Pencil } from 'lucide-react';
+'use client'
 
-interface FormFieldInputProps<TFieldValues extends FieldValues> {
-  control: Control<TFieldValues>;
-  name: FieldPath<TFieldValues>;
-  label: string;
-  placeholder: string;
-  className?: string;
-  isLoading?: boolean;
-  type?: React.HTMLInputTypeAttribute | undefined
+import * as React from 'react'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Check, Pencil } from 'lucide-react'
+import { Skeleton } from '@/components/ui/skeleton'
+import { cn } from '@/lib/utils'
+import { Control, FieldValues } from 'react-hook-form'
+
+interface EditableFormFieldProps {
+  control: Control<FieldValues> | undefined
+  name: string
+  label: string
+  placeholder?: string
+  className?: string
+  type?: string
+  isLoading?: boolean
 }
 
-const EditableFormFieldInput = <TFieldValues extends FieldValues>({
+export function EditableFormField({
   control,
   name,
   label,
   placeholder,
-  isLoading=false,
   className,
-  type
-}: FormFieldInputProps<TFieldValues>) => {
+  type = 'text',
+  isLoading = false,
+}: EditableFormFieldProps) {
+  const [isEditing, setIsEditing] = React.useState(false)
+  const inputRef = React.useRef<HTMLInputElement>(null)
 
-  const [isEditing, setIsEditing] = useState(false)
+  React.useEffect(() => {
+    if (isEditing && inputRef.current) {
+      inputRef.current.focus()
+    }
+  }, [isEditing])
 
   return (
     <FormField
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem className={className}>
-          <div className="flex flex-col space-y-3 md:space-y-0 w-10/12 md:flex-row items-start justify-start">
-            <FormLabel className="mt-2 mr-5 w-28 min-w-28">{label}</FormLabel>
-            { isLoading &&
-                <Skeleton className="w-full h-10" />
-            }
-            { !isLoading &&
-              <FormControl className="flex justify-center items-center">
-                <div className="flex items-center space-x-2">
+        <FormItem className={cn('space-y-2', className)}>
+          <div className="flex flex-col md:flex-row items-center justify-center w-full space-y-3 md:space-y-0 md:space-x-4">
+            <FormLabel className="md:w-28 md:min-w-28 text-sm font-medium text-foreground">
+              {label}
+            </FormLabel>
+            {isLoading ? (
+              <Skeleton className="w-full h-10" />
+            ) : (
+              <FormControl>
+                <div className="relative flex-grow w-full">
                   <Input
+                    // ref={inputRef}
                     placeholder={placeholder}
                     {...field}
-                    className="w-full min-w-[210px]"
+                    className={cn(
+                      'pr-10 w-full min-w-[210px] bg-background transition-colors',
+                      !isEditing && 'border-transparent bg-muted'
+                    )}
                     disabled={!isEditing}
                     type={type}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        setIsEditing(false)
+                      }
+                      if (e.key === 'Escape') {
+                        setIsEditing(false)
+                        field.onChange(field.value) // Reset to original value
+                      }
+                    }}
                   />
                   <Button
                     type={isEditing ? "submit" : "button"}
                     variant="ghost"
                     size="icon"
-                    onClick={() => !isEditing && setIsEditing(true)}
+                    onClick={() => {
+                      if (isEditing) {
+                        setIsEditing(false)
+                      } else {
+                        setIsEditing(true)
+                      }
+                    }}
+                    className="absolute right-0 top-0 h-full w-10"
                   >
                     {isEditing ? (
                       <Check className="h-4 w-4" />
                     ) : (
                       <Pencil className="h-4 w-4" />
                     )}
+                    <span className="sr-only">
+                      {isEditing ? 'Save changes' : 'Edit field'}
+                    </span>
                   </Button>
                 </div>
               </FormControl>
-            }
+            )}
           </div>
-          <FormMessage className="ml-32" />
+          <FormMessage className="ml-0 md:ml-32" />
         </FormItem>
       )}
     />
-  );
-};
-
-export default EditableFormFieldInput;
+  )
+}

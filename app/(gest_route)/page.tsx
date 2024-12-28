@@ -1,6 +1,7 @@
 "use client";
 import ProfileClient from "@/components/auth/ProfileClient";
 import DialogflowChatbot from "@/components/chatbot/DialogflowChatbot";
+
 // import { createCategory, fetchCategories, fetchCategoryById, updateCategory } from "@/lib/features/categorySlice";
 // import { fetchItems } from "@/lib/features/itemSlice";
 // import { AppDispatch, RootState } from "@/lib/store";
@@ -23,6 +24,18 @@ export default function Home() {
   // useEffect(() => {
   //   dispatch(fetchItems());
   // }, []);
+  // const { toast } = useToast();
+
+  // useEffect(() => {
+  //   if (error) {
+  //     toast({
+  //       title: "Error",
+  //       description: error,
+  //       status: "error",
+  //       duration: 5000,
+  //       isClosable: true,
+  //     });
+  // }, [error]);
 
   // console.log(categories);
   // console.log(selectedCategory);
