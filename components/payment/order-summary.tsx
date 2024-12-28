@@ -1,7 +1,5 @@
 "use client";
 import * as React from "react";
-import { PhoneIcon as WhatsappIcon } from "lucide-react";
-
 import {
   Card,
   CardContent,

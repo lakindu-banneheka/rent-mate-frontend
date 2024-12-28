@@ -2,13 +2,9 @@
 
 import BillingForm from "@/components/payment/billing-details";
 import OrderSummary from "@/components/payment/order-summary";
-import {
-  getNewRentFromLocalStorage,
-  updateNewRent,
-} from "@/lib/features/rentSlice";
+import { getNewRentFromLocalStorage } from "@/lib/features/rentSlice";
 import { AppDispatch, RootState } from "@/lib/store";
 import { DeliveryMethod, DeliveryOptions } from "@/types/itemTypes";
-import { BillingDetails } from "@/types/rentTypes";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 

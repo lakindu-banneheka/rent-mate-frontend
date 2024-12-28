@@ -42,10 +42,10 @@ export default function ProductTabs({ item }: ProductTabsProps) {
   }, []);
 
   const { users } = useSelector((state: RootState) => state.user);
-  const ReviwerData_error = useSelector((state: RootState) => state.user.error);
-  const ReviwerData_loading = useSelector(
-    (state: RootState) => state.user.loading
-  );
+  // const ReviwerData_error = useSelector((state: RootState) => state.user.error);
+  // const ReviwerData_loading = useSelector(
+  //   (state: RootState) => state.user.loading
+  // );
 
   const getFilteredReviews = useMemo(() => {
     if (!item) return reviewsList.reviews;

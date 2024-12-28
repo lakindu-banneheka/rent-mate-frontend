@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Calendar } from "@/components/ui/calendar";
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -16,10 +15,6 @@ import { AppDispatch, RootState } from "@/lib/store";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCategoryById } from "@/lib/features/categorySlice";
 import { Skeleton } from "../ui/skeleton";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { cn } from "@/lib/utils";
-import { CalendarIcon } from "lucide-react";
-import { addDays, format } from "date-fns";
 import { DatePickerWithRange } from "../date-picker/DatePickerWithRange";
 import { DateRange } from "react-day-picker";
 

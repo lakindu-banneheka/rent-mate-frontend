@@ -1,7 +1,6 @@
 import { Rent, RentState } from "@/types/rentTypes";
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { rentService } from "../api/rentService";
-import { get } from "http";
 
 // Async Thunks
 export const createRent = createAsyncThunk(
