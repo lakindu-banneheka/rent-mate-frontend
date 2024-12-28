@@ -31,6 +31,7 @@ interface RentalFormProps {
   qty: string;
   setQty: React.Dispatch<React.SetStateAction<string>>;
   totalCost: number;
+  onClickRent: () => void;
 }
 
 export default function RentalForm({
@@ -41,6 +42,7 @@ export default function RentalForm({
   qty,
   setQty,
   totalCost,
+  onClickRent,
 }: RentalFormProps) {
   const dispatch: AppDispatch = useDispatch();
   const category = useSelector((state: RootState) => state.category);
@@ -138,7 +140,9 @@ export default function RentalForm({
           <span className="text-3xl font-bold">{`Rs.${totalCost ?? 0}`}</span>
           {/* <span className="text-sm text-muted-foreground">/total</span> */}
         </div>
-        <Button size="lg">Rent this</Button>
+        <Button size="lg" onClick={onClickRent}>
+          Rent this
+        </Button>
       </div>
     </div>
   );

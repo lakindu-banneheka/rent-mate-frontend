@@ -4,10 +4,13 @@ import ProductGallery from "@/components/product/product-gallery";
 import ProductTabs from "@/components/product/product-tabs";
 import RentalForm from "@/components/product/rental-form";
 import { fetchItemById } from "@/lib/features/itemSlice";
+import { setNewRent } from "@/lib/features/rentSlice";
 import { calculateRentCost } from "@/lib/rent-cost-calculation";
 import { AppDispatch, RootState } from "@/lib/store";
+import { PaymentStatus, Rent, RentStatus } from "@/types/rentTypes";
+import { useUser } from "@auth0/nextjs-auth0/client";
 import { addDays } from "date-fns";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,6 +20,8 @@ const ProductPage = () => {
   const dispatch: AppDispatch = useDispatch();
   const [itemCost, setItemCost] = useState<number>(0);
   const [totalCost, setTotalCost] = useState<number>(0);
+  const user = useUser();
+  const router = useRouter();
 
   const { selectedItem, error, loading } = useSelector(
     (state: RootState) => state.item
@@ -50,7 +55,26 @@ const ProductPage = () => {
     setTotalCost(totalCost);
   }, [qty, date, selectedItem?.pricing]);
 
-  console.log(itemCost, totalCost);
+  const onClickRent = () => {
+    const rentData: Omit<
+      Rent,
+      "id" | "createdAt" | "updatedAt" | "billingDetails" | "deliveryOption"
+    > = {
+      itemCost,
+      lenderId: selectedItem?.lenderId as string,
+      paymentStatus: PaymentStatus.PENDING,
+      rentStatus: RentStatus.RESERVED,
+      userId: user?.user?.sub as string,
+      overDueFee: 0,
+      itemId: selectedItem?.id as string,
+      quantity: Number(qty),
+      startDate: date?.from as Date,
+      endDate: date?.to as Date,
+      totalCost,
+    };
+    dispatch(setNewRent(rentData));
+    router.push("/checkout");
+  };
 
   return (
     <>
@@ -71,6 +95,7 @@ const ProductPage = () => {
               setDate={setDate}
               setQty={setQty}
               totalCost={totalCost}
+              onClickRent={onClickRent}
             />
           </div>
         </div>

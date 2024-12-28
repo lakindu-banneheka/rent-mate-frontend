@@ -26,16 +26,16 @@ export function calculateRentCost({
   return { costPerItem, totalCost };
 }
 
-// Example usage:
-const quantity = 5;
-const amountPerDay = 20;
-const startDate = new Date("2023-10-01");
-const endDate = new Date("2023-10-10");
+// // Example usage:
+// const quantity = 5;
+// const amountPerDay = 20;
+// const startDate = new Date("2023-10-01");
+// const endDate = new Date("2023-10-10");
 
-const result = calculateRentCost({
-  quantity,
-  amountPerDay,
-  startDate,
-  endDate,
-});
-console.log(result); // { costPerItem: 180, totalCost: 900 }
+// const result = calculateRentCost({
+//   quantity,
+//   amountPerDay,
+//   startDate,
+//   endDate,
+// });
+// console.log(result); // { costPerItem: 180, totalCost: 900 }
