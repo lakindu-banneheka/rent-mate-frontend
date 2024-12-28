@@ -1,6 +1,6 @@
 import { Rent } from '@/types/rentTypes';
 import { handleError } from '@/utils/api/handleError';
-import axiosInstance from 'axios';
+import axiosInstance from '@/utils/axios';
 
 const BASE_PATH = '/rent'
 
@@ -9,6 +9,7 @@ export const rentService = {
     async createRent(rent: Omit<Rent, "id" | "createdAt" | "updatedAt">): Promise<Rent> {
         try {
         const response = await axiosInstance.post(BASE_PATH, rent);
+        console.log(response)
             return response.data;
         } catch (error) {
             throw handleError(error);

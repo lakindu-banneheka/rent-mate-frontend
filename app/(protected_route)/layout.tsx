@@ -1,31 +1,28 @@
-'use client'
+"use client";
 import Footer from "@/components/footer/footer";
-import Header from "@/components/Header/header"
+import Header from "@/components/Header/header";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { ReactNode } from "react";
 import { redirect } from "next/navigation";
 
 interface Props {
-    children: ReactNode;
+  children: ReactNode;
 }
-
 
 const ProtectedLayout = ({ children }: Props) => {
-    const session = useUser();
-  
-    if (!session.user) {
-      redirect("/unauthorized");
-    }
+  const session = useUser();
 
-    return (
-        <>
-            <Header />
-            <>
-                {children}
-            </>
-            <Footer />
-        </>
-    )
-}
+  if (!session) {
+    redirect("/unauthorized");
+  }
+
+  return (
+    <>
+      <Header />
+      <>{children}</>
+      <Footer />
+    </>
+  );
+};
 
 export default ProtectedLayout;
