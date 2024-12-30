@@ -49,8 +49,12 @@ export interface ItemState {
     error: string | null;
 }
 
+const mongoIdRegex = /^[a-f\d]{24}$/i;
 
 export const ItemSchema = z.object({
+    lenderId: z.string().regex(mongoIdRegex, {
+      message: "Invalid ID. Please check the User Management window, locate the correct user, and copy and paste their ID here",
+    }),
     name: z.string().min(3, {
       message: "Name must be at least 3 characters long",
     }),

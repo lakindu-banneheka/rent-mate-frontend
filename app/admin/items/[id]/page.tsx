@@ -25,20 +25,24 @@ import {
 import { ImageUpload } from "@/components/items/image-upload"
 import { PricingEditor } from "@/components/items/pricing-editor"
 import { DeliveryOptionsEditor } from "@/components/items/delivery-options-editor"
-import { ItemSchema, type ItemFormData } from "@/types/itemTypes"
+import { Item, ItemSchema, type ItemFormData } from "@/types/itemTypes"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
 import { useParams } from "next/navigation"
 import { AppDispatch, RootState } from "@/lib/store"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
 import { fetchCategories } from "@/lib/features/categorySlice"
-import { fetchItemById } from "@/lib/features/itemSlice"
+import { deleteItem, fetchItemById, updateItem } from "@/lib/features/itemSlice"
+import { useRouter } from "next/navigation"
+import { useToast } from "@/hooks/use-toast"
 
 export default function ItemDetails() {
   const { id } = useParams<{ id: string }>();
   const dispatch: AppDispatch = useDispatch();
   const item = useSelector((state: RootState) => state.item.selectedItem);
   const categories = useSelector((state: RootState) => state.category.categories );
+  const router = useRouter();
+  const toast = useToast();
 
   useEffect(() => {
       dispatch(fetchItemById(id));
@@ -77,22 +81,75 @@ export default function ItemDetails() {
     }
   }, [item, form.reset]);
 
+
   const onSubmit = async (data: ItemFormData) => {
+      // Here you would typically:
+      // 1. Upload the image to your storage service
+      // 2. Get the URL back
+      // 3. Save the category with the image URL
+      const imageUrls: string[] = [];
+
     try {
-      
-      // TODO: Implement your update logic here
-      console.log("Form submitted:", data)
-    } catch (error) {
-      console.error("Error updating item:", error)
+      if(item){
+        const updatedItemData: Item = {
+          id: item?.id,
+          lenderId: data.lenderId,
+          name: data.name,
+          categoryId: data.categoryId,
+          description: data.description,
+          totalQuantity: data.totalQuantity,
+          availableQuantity: data.availableQuantity,
+          reservedQuantity: item?.reservedQuantity || 0,
+          rentedQuantity: item?.rentedQuantity || 0,
+          pricing: data.pricing,
+          deliveryOptions: data.deliveryOptions,
+          imageUrls: imageUrls,
+          createdAt: item?.createdAt,
+          updatedAt: new Date(),
+        };
+
+        await dispatch(updateItem(updatedItemData));
+        
+        toast.toast({
+          variant: "default",
+          title: "Success",
+          description: "Item updated successfully"
+        });
+  
+        // Redirect or refresh the page
+        router.push("/admin/items");
+        router.refresh();
+      }
+
+    } catch (err) {
+      console.error(err);
+      toast.toast({
+        variant: "destructive",
+        title: "Unexpected error",
+        description: "Failed to update item"
+      });
     }
   }
 
   const handleDelete = async () => {
     try {
-      // TODO: Implement your delete logic here
-      console.log("Deleting item:", item?.id || "")
+      if (item) {
+      await dispatch(deleteItem(item.id));
+      toast.toast({
+        variant: "default",
+        title: "Success",
+        description: "Item deleted successfully"
+      });
+      router.push("/admin/items");
+      router.refresh();
+      }
     } catch (error) {
-      console.error("Error deleting item:", error)
+      console.error("Error deleting item:", error);
+      toast.toast({
+      variant: "destructive",
+      title: "Unexpected error",
+      description: "Failed to delete item"
+      });
     }
   }
 

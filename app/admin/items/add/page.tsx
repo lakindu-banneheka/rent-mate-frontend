@@ -25,15 +25,20 @@ import {
 import { ImageUpload } from "@/components/items/image-upload"
 import { PricingEditor } from "@/components/items/pricing-editor"
 import { DeliveryOptionsEditor } from "@/components/items/delivery-options-editor"
-import { ItemSchema, type ItemFormData } from "@/types/itemTypes"
+import { Item, ItemSchema, type ItemFormData } from "@/types/itemTypes"
 import { AppDispatch, RootState } from "@/lib/store"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
 import { fetchCategories } from "@/lib/features/categorySlice"
+import { createItem } from "@/lib/features/itemSlice"
+import { useRouter } from "next/navigation"
+import { useToast } from "@/hooks/use-toast"
 
 export default function CreateItem() {
   const dispatch: AppDispatch = useDispatch();
   const categories = useSelector((state: RootState) => state.category.categories );
+  const router = useRouter();
+  const toast = useToast();
 
   useEffect(() => {
       dispatch(fetchCategories());
@@ -53,13 +58,51 @@ export default function CreateItem() {
     },
   })
 
+  
   const onSubmit = async (data: ItemFormData) => {
-    try {
-      // TODO: Implement your update logic here
-      console.log("Form submitted:", data)
-    } catch (error) {
-      console.error("Error updating item:", error)
-    }
+
+      // Here you would typically:
+      // 1. Upload the image to your storage service
+      // 2. Get the URL back
+      // 3. Save the category with the image URL
+      const imageUrls: string[] = [];
+
+      try {
+          const itemData: Omit<Item, "id" | "createdAt" | "updatedAt"> = {
+            lenderId: data.lenderId,
+            name: data.name,
+            categoryId: data.categoryId,
+            description: data.description,
+            totalQuantity: data.totalQuantity,
+            availableQuantity: 0,
+            reservedQuantity: 0,
+            rentedQuantity: 0,
+            pricing: data.pricing,
+            deliveryOptions: data.deliveryOptions,
+            imageUrls: imageUrls,
+          };
+
+          // Dispatch the create item action
+          await dispatch(createItem(itemData));
+
+          toast.toast({
+            variant: "default",
+            title: "Success",
+            description: "Item created successfully"
+          });
+
+          // Redirect or refresh the page
+          router.push("/admin/items");
+          router.refresh();
+          
+      } catch (err) {
+          console.error(err);
+          toast.toast({
+          variant: "destructive",
+          title: "Unexpected error",
+          description: "Failed to create item"
+          });
+      }
   }
 
   return (
@@ -99,6 +142,20 @@ export default function CreateItem() {
                     <CardTitle>Details</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
+                    <FormField
+                      control={form.control}
+                      name="lenderId"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Lender Id</FormLabel>
+                          <FormControl>
+                            <Input {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
                     <FormField
                       control={form.control}
                       name="name"
