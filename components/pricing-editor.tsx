@@ -116,9 +116,9 @@ export function PricingEditor({ pricing, onUpdate }: PricingEditorProps) {
                         <SelectItem value={PricingDuration.PER_DAY}>
                           Per Day
                         </SelectItem>
-                        <SelectItem value={PricingDuration.PER_WEEK}>
+                        {/* <SelectItem value={PricingDuration.PER_WEEK}>
                           Per Week
-                        </SelectItem>
+                        </SelectItem> */}
                       </SelectContent>
                     </Select>
                   </TableCell>
