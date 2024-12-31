@@ -30,7 +30,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { useParams } from "next/navigation"
 import { AppDispatch, RootState } from "@/lib/store"
 import { useDispatch, useSelector } from "react-redux"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { fetchCategories } from "@/lib/features/categorySlice"
 import { deleteItem, fetchItemById, updateItem } from "@/lib/features/itemSlice"
 import { useRouter } from "next/navigation"
@@ -39,6 +39,7 @@ import { useToast } from "@/hooks/use-toast"
 export default function ItemDetails() {
   const { id } = useParams<{ id: string }>();
   const dispatch: AppDispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
   const item = useSelector((state: RootState) => state.item.selectedItem);
   const categories = useSelector((state: RootState) => state.category.categories );
   const router = useRouter();
@@ -55,6 +56,7 @@ export default function ItemDetails() {
   const form = useForm<ItemFormData>({
     resolver: zodResolver(ItemSchema),
     defaultValues: {
+      lenderId: item?.lenderId || "",
       name: "",
       categoryId:  "",
       description: "",
@@ -69,6 +71,7 @@ export default function ItemDetails() {
   useEffect(() => {
     if (item) {
       form.reset({
+        lenderId: item.lenderId,
         name: item.name || "",
         categoryId: item.categoryId || "",
         description: item.description || "",
@@ -81,8 +84,14 @@ export default function ItemDetails() {
     }
   }, [item, form.reset]);
 
+  useEffect(() => { 
+    if (categories.length > 0 && item) {
+      form.setValue("categoryId", item?.categoryId);
+    }
+  }, [categories, item]);
 
   const onSubmit = async (data: ItemFormData) => {
+    console.log(data);
       // Here you would typically:
       // 1. Upload the image to your storage service
       // 2. Get the URL back
@@ -90,6 +99,7 @@ export default function ItemDetails() {
       const imageUrls: string[] = [];
 
     try {
+      setIsLoading(true);
       if(item){
         const updatedItemData: Item = {
           id: item?.id,
@@ -117,7 +127,7 @@ export default function ItemDetails() {
         });
   
         // Redirect or refresh the page
-        router.push("/admin/items");
+        // router.push("/admin/items");
         router.refresh();
       }
 
@@ -128,6 +138,8 @@ export default function ItemDetails() {
         title: "Unexpected error",
         description: "Failed to update item"
       });
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -150,7 +162,7 @@ export default function ItemDetails() {
       title: "Unexpected error",
       description: "Failed to delete item"
       });
-    }
+    } 
   }
 
   return (
@@ -192,6 +204,20 @@ export default function ItemDetails() {
                     <CardTitle>Details</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
+                    <FormField
+                        control={form.control}
+                        name="lenderId"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Lender Id</FormLabel>
+                            <FormControl>
+                              <Input {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
                     <FormField
                       control={form.control}
                       name="name"
@@ -385,8 +411,9 @@ export default function ItemDetails() {
                   type="submit"
                   form="item-form"
                   variant="default"
+                  disabled={isLoading}
                 >
-                  Save Changes
+                  {isLoading ? 'Saving...' :'Save Changes'}
                 </Button>
                 <AlertDialog>
                   <AlertDialogTrigger asChild>

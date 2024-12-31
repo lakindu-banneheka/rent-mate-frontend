@@ -30,6 +30,7 @@ import { updateUser } from "@/lib/features/userSlice"
 import { useEffect, useState } from "react"
 
 const userFormSchema = z.object({
+    id: z.string(),
     firstName: z.string().min(2, "First name must be at least 2 characters"),
     lastName: z.string().min(2, "Last name must be at least 2 characters"),
     email: z.string().email("Invalid email address"),
@@ -117,6 +118,19 @@ export function UserForm() {
             <Card>
                 <CardContent className="pt-6">
                     <div className="grid gap-6 md:grid-cols-2">
+                    <FormField
+                        control={form.control}
+                        name="id"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>User ID</FormLabel>
+                            <FormControl>
+                            <Input {...field} disabled />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
                     <FormField
                         control={form.control}
                         name="firstName"
