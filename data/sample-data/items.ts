@@ -17,10 +17,10 @@ export const sampleItemData: Item[] = [
           amount: 700,
           duration: PricingDuration.PER_DAY,
         },
-        {
-            amount: 5000,
-            duration: PricingDuration.PER_WEEK,
-          },
+        // {
+        //     amount: 5000,
+        //     duration: PricingDuration.PER_WEEK,
+        //   },
       ],
       imageUrls: ['https://s3-ap-southeast-1.amazonaws.com/media.cameralk.com/8516/1636064531_1665140.jpg'],
       deliveryOptions: [
@@ -51,10 +51,10 @@ export const sampleItemData: Item[] = [
           amount: 250,
           duration: PricingDuration.PER_DAY
         },
-        {
-          amount: 1500,
-          duration: PricingDuration.PER_WEEK
-        }
+        // {
+        //   amount: 1500,
+        //   duration: PricingDuration.PER_WEEK
+        // }
       ],
       imageUrls: ["/placeholder.svg"],
       deliveryOptions: [

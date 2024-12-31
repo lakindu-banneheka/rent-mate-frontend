@@ -19,63 +19,68 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { PricingDetails, PricingDuration } from "../types/itemTypes"
+import { DeliveryMethod, DeliveryOptions } from "@/types/itemTypes"
 
-interface PricingEditorProps {
-  pricing: PricingDetails[]
-  onUpdate: (pricing: PricingDetails[]) => Promise<void>
+interface DeliveryOptionsEditorProps {
+  deliveryOptions: DeliveryOptions[]
+  onUpdate: (options: DeliveryOptions[]) => Promise<void>
 }
 
-export function PricingEditor({ pricing, onUpdate }: PricingEditorProps) {
+export function DeliveryOptionsEditor({
+  deliveryOptions,
+  onUpdate,
+}: DeliveryOptionsEditorProps) {
   const [isEditing, setIsEditing] = useState(false)
-  const [editPricing, setEditPricing] = useState<PricingDetails[]>(pricing)
+  const [editOptions, setEditOptions] = useState<DeliveryOptions[]>(
+    deliveryOptions
+  )
   const [isLoading, setIsLoading] = useState(false)
 
   const handleUpdate = async () => {
     try {
       setIsLoading(true)
-      await onUpdate(editPricing)
+      await onUpdate(editOptions)
       setIsEditing(false)
     } catch (error) {
-      console.error("Failed to update pricing:", error)
+      console.error("Failed to update delivery options:", error)
     } finally {
       setIsLoading(false)
     }
   }
 
   const handleCancel = () => {
-    setEditPricing(pricing)
+    setEditOptions(deliveryOptions)
     setIsEditing(false)
   }
 
-  const addPricing = () => {
-    setEditPricing([
-      ...editPricing,
-      { amount: 0, duration: PricingDuration.PER_DAY },
-    ])
+  const addOption = () => {
+    setEditOptions([...editOptions, { method: DeliveryMethod.PICKUP, cost: 0 }])
   }
 
-  const removePricing = (index: number) => {
-    setEditPricing(editPricing.filter((_, i) => i !== index))
+  const removeOption = (index: number) => {
+    setEditOptions(editOptions.filter((_, i) => i !== index))
   }
 
-  const updatePricing = (
+  const updateOption = (
     index: number,
-    field: keyof PricingDetails,
-    value: number | PricingDuration
+    field: keyof DeliveryOptions,
+    value: string | number
   ) => {
-    const newPricing = [...editPricing]
-    newPricing[index] = { ...newPricing[index], [field]: value }
-    setEditPricing(newPricing)
+    const newOptions = [...editOptions]
+    newOptions[index] = {
+      ...newOptions[index],
+      [field]: field === "cost" ? Number(value) : value,
+    }
+    setEditOptions(newOptions)
   }
 
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-medium">Pricing</h3>
+        <h3 className="text-lg font-medium">Delivery Options</h3>
         {!isEditing && (
           <Button onClick={() => setIsEditing(true)} variant="outline">
-            Edit Pricing
+            {editOptions ? 'Edit Options': 'Add Options'}
           </Button>
         )}
       </div>
@@ -84,49 +89,49 @@ export function PricingEditor({ pricing, onUpdate }: PricingEditorProps) {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Amount</TableHead>
-                <TableHead>Duration</TableHead>
+                <TableHead>Method</TableHead>
+                <TableHead>Cost</TableHead>
                 <TableHead className="w-[100px]">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {editPricing.map((price, index) => (
+              {editOptions.map((option, index) => (
                 <TableRow key={index}>
                   <TableCell>
-                    <Input
-                      type="number"
-                      value={price.amount}
-                      onChange={(e) =>
-                        updatePricing(index, "amount", Number(e.target.value))
-                      }
-                      className="w-[120px]"
-                    />
-                  </TableCell>
-                  <TableCell>
                     <Select
-                      value={price.duration}
-                      onValueChange={(value: PricingDuration) =>
-                        updatePricing(index, "duration", value)
+                      value={option.method}
+                      onValueChange={(value: DeliveryMethod) =>
+                        updateOption(index, "method", value)
                       }
                     >
                       <SelectTrigger className="w-[120px]">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value={PricingDuration.PER_DAY}>
-                          Per Day
+                        <SelectItem value={DeliveryMethod.PICKUP}>
+                          Pickup
                         </SelectItem>
-                        {/* <SelectItem value={PricingDuration.PER_WEEK}>
-                          Per Week
-                        </SelectItem> */}
+                        <SelectItem value={DeliveryMethod.DELIVERY}>
+                          Delivery
+                        </SelectItem>
                       </SelectContent>
                     </Select>
+                  </TableCell>
+                  <TableCell>
+                    <Input
+                      type="number"
+                      value={option.cost}
+                      onChange={(e) =>
+                        updateOption(index, "cost", Number(e.target.value))
+                      }
+                      className="w-[120px]"
+                    />
                   </TableCell>
                   <TableCell>
                     <Button
                       variant="ghost"
                       size="icon"
-                      onClick={() => removePricing(index)}
+                      onClick={() => removeOption(index)}
                     >
                       <Trash className="h-4 w-4" />
                     </Button>
@@ -135,9 +140,9 @@ export function PricingEditor({ pricing, onUpdate }: PricingEditorProps) {
               ))}
             </TableBody>
           </Table>
-          <Button onClick={addPricing} variant="outline">
+          <Button onClick={addOption} variant="outline">
             <Plus className="mr-2 h-4 w-4" />
-            Add Pricing
+            Add Option
           </Button>
           <div className="flex items-center gap-2">
             <Button onClick={handleUpdate} disabled={isLoading}>
@@ -160,19 +165,15 @@ export function PricingEditor({ pricing, onUpdate }: PricingEditorProps) {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Amount</TableHead>
-              <TableHead>Duration</TableHead>
+              <TableHead>Method</TableHead>
+              <TableHead>Cost</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {pricing.map((price, index) => (
+            {deliveryOptions.map((option, index) => (
               <TableRow key={index}>
-                <TableCell>${price.amount}</TableCell>
-                <TableCell>
-                  {price.duration === PricingDuration.PER_DAY
-                    ? "Per Day"
-                    : "Per Week"}
-                </TableCell>
+                <TableCell className="capitalize">{option.method}</TableCell>
+                <TableCell>${option.cost}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -181,4 +182,3 @@ export function PricingEditor({ pricing, onUpdate }: PricingEditorProps) {
     </div>
   )
 }
-

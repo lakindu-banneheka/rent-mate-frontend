@@ -21,10 +21,10 @@ export function ItemCard({ item, categoryFilters }: ItemCardProps) {
     const router = useRouter();
 
     const dailyPrice = item.pricing.find(p => p.duration === PricingDuration.PER_DAY)?.amount;
-    const weeklyPrice = item.pricing.find(p => p.duration === PricingDuration.PER_WEEK)?.amount;
+    // const weeklyPrice = item.pricing.find(p => p.duration === PricingDuration.PER_WEEK)?.amount;
     const deliveryOptions = item.deliveryOptions.slice(0, 3);
 
-    const categoryName = categoryFilters.filter((category) => category.id === item.categoryId)[0].label;
+    const categoryName = categoryFilters.filter((category) => category.id === item.categoryId)[0]?.label ?? "";
 
     return (
         <Card
@@ -81,11 +81,11 @@ export function ItemCard({ item, categoryFilters }: ItemCardProps) {
                                 <span className="font-medium">${dailyPrice?.toFixed(2) ?? "N/A"}</span>
                                 <span className="text-muted-foreground">/day</span>
                             </div>
-                            <div className="flex items-center gap-2">
+                            {/* <div className="flex items-center gap-2">
                                 <Calendar className="h-4 w-4 text-muted-foreground" />
                                 <span className="font-medium">${weeklyPrice?.toFixed(2) ?? "N/A"}</span>
                                 <span className="text-muted-foreground">/week</span>
-                            </div>
+                            </div> */}
                         </div>
                         <div className="mt-4 flex justify-end">
                             <Button 

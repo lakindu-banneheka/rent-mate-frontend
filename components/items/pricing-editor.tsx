@@ -19,7 +19,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { PricingDetails, PricingDuration } from "../types/itemTypes"
+import { PricingDetails, PricingDuration } from "@/types/itemTypes"
 
 interface PricingEditorProps {
   pricing: PricingDetails[]
@@ -75,7 +75,7 @@ export function PricingEditor({ pricing, onUpdate }: PricingEditorProps) {
         <h3 className="text-lg font-medium">Pricing</h3>
         {!isEditing && (
           <Button onClick={() => setIsEditing(true)} variant="outline">
-            Edit Pricing
+            {editPricing.length > 0 ?`Edit Pricing`: `Add Pricing`}
           </Button>
         )}
       </div>
