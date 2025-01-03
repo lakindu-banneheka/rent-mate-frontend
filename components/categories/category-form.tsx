@@ -42,7 +42,7 @@ export function CategoryForm({ category }: CategoryFormProps) {
     const {
         register,
         handleSubmit,
-        formState: { errors },
+        formState: { errors, isDirty },
         setValue,
         watch,
     } = useForm<FormData>({
@@ -60,7 +60,6 @@ export function CategoryForm({ category }: CategoryFormProps) {
 
     const image = watch("image");
 
-    console.log(image, '- image,, ', s3ImgUrl, ' s3ImgUrl');
     useEffect(() => {
         if(s3ImgUrl){
             setValue("image", s3ImgUrl, { shouldValidate: true })
@@ -170,6 +169,21 @@ export function CategoryForm({ category }: CategoryFormProps) {
             setIsLoading(false)
         }
     };
+
+    useEffect(() => {
+        const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+          if (isDirty) {
+            event.preventDefault();
+            event.returnValue = "You have unsaved changes. Are you sure you want to leave?";
+          }
+        };
+    
+        window.addEventListener("beforeunload", handleBeforeUnload);
+    
+        return () => {
+          window.removeEventListener("beforeunload", handleBeforeUnload);
+        };
+    }, [isDirty]);
 
     return (
         <Card>

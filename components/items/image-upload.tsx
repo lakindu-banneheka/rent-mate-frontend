@@ -4,27 +4,80 @@ import { useState, useCallback } from "react"
 import { Upload, X } from 'lucide-react'
 import Image from "next/image"
 import { cn } from "@/lib/utils"
+import axios from "axios"
+import { toast } from "sonner"
 
 interface ImageUploadProps {
   images: string[]
   onImagesChange: (urls: string[]) => void
-  className?: string
+  className?: string;
 }
 
 export function ImageUpload({ images, onImagesChange, className }: ImageUploadProps) {
   const [selectedImage, setSelectedImage] = useState<string>(() => images[0] || '')
+  const [uploading, setUploading] = useState(false)
+  const [uploadProgress, setUploadProgress] = useState<{ [key: string]: number }>({})
+
+  const handleUpload = async (file: File): Promise<string | null> => {
+    const formData = new FormData()
+    formData.append("file", file)
+    
+    try {
+      const response = await axios.post<{ url: string }>("/api/upload", formData, {
+        onUploadProgress: (progressEvent) => {
+          if (progressEvent.total) {
+            const progress = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+            setUploadProgress(prev => ({
+              ...prev,
+              [file.name]: progress
+            }))
+          }
+        }
+      })
+      
+      if (response.data.url) {
+        return response.data.url
+      }
+      return null
+    } catch (error) {
+      toast.error(`Error uploading ${file.name}`)
+      console.error("Error uploading image:", error)
+      return null
+    }
+  }
 
   const handleImageUpload = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files?.length) return
 
-    // Create object URLs for the new images
-    const newImages = Array.from(e.target.files).map((file) => URL.createObjectURL(file))
-    const updatedImages = [...images, ...newImages]
-    onImagesChange(updatedImages)
+    setUploading(true)
+    const files = Array.from(e.target.files)
+    
+    try {
+      // Upload files simultaneously but track them individually
+      const uploadPromises = files.map(file => handleUpload(file))
+      const uploadedUrls = await Promise.all(uploadPromises)
+      
+      // Filter out any failed uploads (null values)
+      const successfulUrls = uploadedUrls.filter((url): url is string => url !== null)
+      
+      if (successfulUrls.length > 0) {
+        const updatedImages = [...images, ...successfulUrls]
+        onImagesChange(updatedImages)
+        // setS3ImgUrls(updatedImages);
 
-    // Keep the current selected image if it exists, otherwise select the first new image
-    if (!selectedImage && newImages.length > 0) {
-      setSelectedImage(newImages[0])
+        // Select the first new image if nothing is currently selected
+        if (!selectedImage) {
+          setSelectedImage(successfulUrls[0])
+        }
+
+        toast.success(`Successfully uploaded ${successfulUrls.length} image${successfulUrls.length > 1 ? 's' : ''}`)
+      }
+    } catch (error) {
+      toast.error("Failed to upload one or more images")
+      console.error("Upload error:", error)
+    } finally {
+      setUploading(false)
+      setUploadProgress({})
     }
   }, [images, onImagesChange, selectedImage])
 
@@ -103,7 +156,19 @@ export function ImageUpload({ images, onImagesChange, className }: ImageUploadPr
         <label className="aspect-square relative rounded-lg overflow-hidden border-2 border-dashed border-muted-foreground/25 hover:border-muted-foreground/50 cursor-pointer transition-colors">
           <div className="h-full flex flex-col items-center justify-center text-muted-foreground">
             <Upload className="h-6 w-6 mb-2" />
-            <span className="text-xs text-center">Add Image</span>
+            <span className="text-xs text-center">
+              {uploading ? "Uploading..." : "Add Image"}
+            </span>
+            {uploading && Object.entries(uploadProgress).map(([filename, progress]) => (
+              <div key={filename} className="w-full px-2 mt-1">
+                <div className="h-1 bg-gray-200 rounded">
+                  <div 
+                    className="h-full bg-primary rounded" 
+                    style={{ width: `${progress}%` }}
+                  />
+                </div>
+              </div>
+            ))}
           </div>
           <input
             type="file"
@@ -111,6 +176,7 @@ export function ImageUpload({ images, onImagesChange, className }: ImageUploadPr
             multiple
             className="sr-only"
             onChange={handleImageUpload}
+            disabled={uploading}
           />
         </label>
       </div>
