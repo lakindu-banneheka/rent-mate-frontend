@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback } from "react"
+import { useState, useCallback, useEffect } from "react"
 import { Upload, X } from 'lucide-react'
 import Image from "next/image"
 import { cn } from "@/lib/utils"
@@ -14,9 +14,15 @@ interface ImageUploadProps {
 }
 
 export function ImageUpload({ images, onImagesChange, className }: ImageUploadProps) {
-  const [selectedImage, setSelectedImage] = useState<string>(() => images[0] || '')
-  const [uploading, setUploading] = useState(false)
-  const [uploadProgress, setUploadProgress] = useState<{ [key: string]: number }>({})
+  const [selectedImage, setSelectedImage] = useState<string>(() => images[0] || '');
+  const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState<{ [key: string]: number }>({});
+
+  useEffect(() => {
+    if (!images.includes(selectedImage)) {
+      setSelectedImage(images[0] || '')
+    }
+  }, [images])
 
   const handleUpload = async (file: File): Promise<string | null> => {
     const formData = new FormData()
