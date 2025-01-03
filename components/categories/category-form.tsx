@@ -130,22 +130,23 @@ export function CategoryForm({ category }: CategoryFormProps) {
 
     const onRemove = () => {
         setValue("image", "", { shouldValidate: true })
-        axios.delete("/api/delete", { data: { url: watch('image')} })
-        .then(() => {
-            toast({
-                variant: "default",
-                title: "Success",
-                description: "Image deleted successfully"
-            });
-        })
-        .catch((error) => {
-            toast({
-                variant: "destructive",
-                title: "Error",
-                description: "Failed to delete image"
-            });
-            console.error("Delete error:", error);
-        });
+        // axios.delete("/api/delete", { data: { url: watch('image')} })
+        // .then(() => {
+        //     toast({
+        //         variant: "default",
+        //         title: "Success",
+        //         description: "Image deleted successfully"
+        //     });
+        //     setValue("image", "", { shouldValidate: true })
+        // })
+        // .catch((error) => {
+        //     toast({
+        //         variant: "destructive",
+        //         title: "Error",
+        //         description: "Failed to delete image"
+        //     });
+        //     console.error("Delete error:", error);
+        // });
     }
 
     const handleDeleteCategory = async (id: string) => {

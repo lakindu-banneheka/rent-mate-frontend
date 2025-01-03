@@ -5,7 +5,6 @@ import { Upload, X } from 'lucide-react'
 import Image from "next/image"
 import { cn } from "@/lib/utils"
 import axios from "axios"
-import { toast } from "sonner"
 import { useToast } from "@/hooks/use-toast"
 
 interface ImageUploadProps {
@@ -18,7 +17,6 @@ export function ImageUpload({ images, onImagesChange, className }: ImageUploadPr
   const [selectedImage, setSelectedImage] = useState<string>(() => images[0] || '');
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState<{ [key: string]: number }>({});
-  const [deleting, setDeleting] = useState(false);
   const toast = useToast();
 
   useEffect(() => {
@@ -104,31 +102,10 @@ export function ImageUpload({ images, onImagesChange, className }: ImageUploadPr
 
   const handleImageDelete = useCallback((urlToDelete: string) => {
     const updatedImages = images.filter(url => url !== urlToDelete)
-    onImagesChange(updatedImages)
-
-    setDeleting(true);
-    axios.delete("/api/delete", { data: { url: urlToDelete } })
-      .then(() => {
-        toast.toast({
-          variant: "default",
-          title: "Success",
-          description: "Image deleted successfully"
-      });
-        if (selectedImage === urlToDelete) {
-          setSelectedImage(updatedImages[0] || '');
-        }
-      })
-      .catch((error) => {
-        toast.toast({
-          variant: "destructive",
-          title: "Error",
-          description: "Failed to delete image"
-      });
-      console.error("Delete error:", error)
-      })
-      .finally(() => {
-        setDeleting(false);
-      });
+    onImagesChange(updatedImages);
+    if (selectedImage === urlToDelete) {
+      setSelectedImage(updatedImages[0] || '');
+    }
   }, [images, onImagesChange, selectedImage])
 
   const handleImageSelect = useCallback((url: string) => {
@@ -169,21 +146,15 @@ export function ImageUpload({ images, onImagesChange, className }: ImageUploadPr
                   : "border-muted hover:border-muted-foreground/50"
               )}
             >
-              {url === selectedImage && deleting && (
-                <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                  <span className="text-white text-xs font-medium">Deleting...</span>
-                </div>
-              )}
-              {!deleting && (
-                <>
-                  <Image
-                    src={url}
-                    alt={`Product image ${index + 1}`}
-                    fill
-                    className="object-cover"
-                  />
-                </>
-              )}
+              <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                <span className="text-white text-xs font-medium">Deleting...</span>
+              </div>
+                <Image
+                  src={url}
+                  alt={`Product image ${index + 1}`}
+                  fill
+                  className="object-cover"
+                />
               <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                 <span className="text-white text-xs font-medium">
                   Image {index + 1}
@@ -195,7 +166,6 @@ export function ImageUpload({ images, onImagesChange, className }: ImageUploadPr
               onClick={() => handleImageDelete(url)}
               className="absolute -top-1.5 -right-1.5 h-6 w-6 bg-destructive text-destructive-foreground rounded-full opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
               aria-label={`Delete image ${index + 1}`}
-              disabled={deleting && selectedImage === url}
             >
               <X className="h-4 w-4" />
             </button>

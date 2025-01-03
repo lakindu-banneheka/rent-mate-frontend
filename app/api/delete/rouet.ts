@@ -1,26 +1,26 @@
 import { NextRequest, NextResponse } from "next/server";
-import { deleteFromS3, uploadToS3 } from "@/utils/s3";
+import { deleteFromS3 } from "@/utils/s3";
 
-export async function POST(req: NextRequest) {
-  try {
-    const formData = await req.formData();
-    const file = formData.get("file") as File;
+// export async function POST(req: NextRequest) {
+//   try {
+//     const formData = await req.formData();
+//     const file = formData.get("file") as File;
 
-    if (!file) {
-      return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
-    }
+//     if (!file) {
+//       return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
+//     }
 
-    const buffer = Buffer.from(await file.arrayBuffer());
-    const fileName = `${Date.now()}-${file.name}`;
+//     const buffer = Buffer.from(await file.arrayBuffer());
+//     const fileName = `${Date.now()}-${file.name}`;
 
-    const url = await uploadToS3(buffer, fileName);
+//     const url = await uploadToS3(buffer, fileName);
 
-    return NextResponse.json({ url });
-  } catch (error) {
-    console.error("Error uploading file:", error);
-    return NextResponse.json({ error: "Error uploading file" }, { status: 500 });
-  }
-}
+//     return NextResponse.json({ url });
+//   } catch (error) {
+//     console.error("Error uploading file:", error);
+//     return NextResponse.json({ error: "Error uploading file" }, { status: 500 });
+//   }
+// }
 
 export async function DELETE(req: NextRequest) {
   if (!req.body) {
