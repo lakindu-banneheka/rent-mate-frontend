@@ -28,7 +28,7 @@ import { DeliveryOptionsEditor } from "@/components/items/delivery-options-edito
 import { Item, ItemSchema, type ItemFormData } from "@/types/itemTypes"
 import { AppDispatch, RootState } from "@/lib/store"
 import { useDispatch, useSelector } from "react-redux"
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { fetchCategories } from "@/lib/features/categorySlice"
 import { createItem } from "@/lib/features/itemSlice"
 import { useRouter } from "next/navigation"

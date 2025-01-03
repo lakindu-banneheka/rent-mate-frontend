@@ -16,7 +16,6 @@ import { AppDispatch, RootState } from "@/lib/store"
 import { useDispatch, useSelector } from "react-redux"
 import { createCategory, deleteCategory, updateCategory } from "@/lib/features/categorySlice"
 import { useToast } from "@/hooks/use-toast"
-import axios from "axios"
 
 const categorySchema = z.object({
   name: z.string().min(1, "Name is required"),
