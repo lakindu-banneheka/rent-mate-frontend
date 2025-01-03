@@ -16,6 +16,7 @@ import { AppDispatch, RootState } from "@/lib/store"
 import { useDispatch, useSelector } from "react-redux"
 import { createCategory, deleteCategory, updateCategory } from "@/lib/features/categorySlice"
 import { useToast } from "@/hooks/use-toast"
+import axios from "axios"
 
 const categorySchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -67,13 +68,6 @@ export function CategoryForm({ category }: CategoryFormProps) {
     },[s3ImgUrl])
 
     const onSubmit = async (data: FormData) => {
-
-        // Here you would typically:
-        // 1. Upload the image to your storage service
-        // 2. Get the URL back
-        // 3. Save the category with the image URL
-        // const imageUrl = "";
-        console.log(data)
         try {
             setIsLoading(true)
             if(s3ImgUrl){
@@ -136,6 +130,22 @@ export function CategoryForm({ category }: CategoryFormProps) {
 
     const onRemove = () => {
         setValue("image", "", { shouldValidate: true })
+        axios.delete("/api/delete", { data: { url: watch('image')} })
+        .then(() => {
+            toast({
+                variant: "default",
+                title: "Success",
+                description: "Image deleted successfully"
+            });
+        })
+        .catch((error) => {
+            toast({
+                variant: "destructive",
+                title: "Error",
+                description: "Failed to delete image"
+            });
+            console.error("Delete error:", error);
+        });
     }
 
     const handleDeleteCategory = async (id: string) => {

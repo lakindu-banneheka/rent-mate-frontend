@@ -6,6 +6,7 @@ import Image from "next/image"
 import { cn } from "@/lib/utils"
 import axios from "axios"
 import { toast } from "sonner"
+import { useToast } from "@/hooks/use-toast"
 
 interface ImageUploadProps {
   images: string[]
@@ -18,6 +19,7 @@ export function ImageUpload({ images, onImagesChange, className }: ImageUploadPr
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState<{ [key: string]: number }>({});
   const [deleting, setDeleting] = useState(false);
+  const toast = useToast();
 
   useEffect(() => {
     if (!images.includes(selectedImage)) {
@@ -47,7 +49,11 @@ export function ImageUpload({ images, onImagesChange, className }: ImageUploadPr
       }
       return null
     } catch (error) {
-      toast.error(`Error uploading ${file.name}`)
+      toast.toast({
+        variant: "destructive",
+        title: "Error",
+        description: `Error uploading ${file.name}`
+      })
       console.error("Error uploading image:", error)
       return null
     }
@@ -77,10 +83,18 @@ export function ImageUpload({ images, onImagesChange, className }: ImageUploadPr
           setSelectedImage(successfulUrls[0])
         }
 
-        toast.success(`Successfully uploaded ${successfulUrls.length} image${successfulUrls.length > 1 ? 's' : ''}`)
+        toast.toast({
+          variant: "default",
+          title: "Success",
+          description: `Successfully uploaded ${successfulUrls.length} image${successfulUrls.length > 1 ? 's' : ''}`
+        })
       }
     } catch (error) {
-      toast.error("Failed to upload one or more images")
+      toast.toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to upload one or more images"
+      })
       console.error("Upload error:", error)
     } finally {
       setUploading(false)
@@ -95,13 +109,21 @@ export function ImageUpload({ images, onImagesChange, className }: ImageUploadPr
     setDeleting(true);
     axios.delete("/api/delete", { data: { url: urlToDelete } })
       .then(() => {
-        toast.success("Image deleted successfully");
+        toast.toast({
+          variant: "default",
+          title: "Success",
+          description: "Image deleted successfully"
+      });
         if (selectedImage === urlToDelete) {
           setSelectedImage(updatedImages[0] || '');
         }
       })
       .catch((error) => {
-      toast.error("Failed to delete image")
+        toast.toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Failed to delete image"
+      });
       console.error("Delete error:", error)
       })
       .finally(() => {
