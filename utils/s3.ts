@@ -22,3 +22,13 @@ export async function uploadToS3(file: Buffer, fileName: string): Promise<string
   return `https://${process.env.S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${fileName}`;
 }
 
+export async function deleteFromS3(url: string): Promise<void> {
+  const fileName = url.split("/").pop()!;
+  const params = {
+    Bucket: process.env.S3_BUCKET_NAME,
+    Key: fileName,
+  };
+
+  // @ts-ignore
+  await s3Client.send(new DeleteObjectCommand(params));
+}
