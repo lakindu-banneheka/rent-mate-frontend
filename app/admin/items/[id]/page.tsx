@@ -89,7 +89,7 @@ export default function ItemDetails() {
       form.setValue("categoryId", item?.categoryId);
     }
   }, [categories, item]);
-
+  
   const onSubmit = async (data: ItemFormData) => {
     try {
       setIsLoading(true);
@@ -249,7 +249,7 @@ export default function ItemDetails() {
                           <FormLabel>Category</FormLabel>
                           <Select
                             onValueChange={field.onChange}
-                            defaultValue={field.value}
+                            value={field.value}
                           >
                             <FormControl>
                               <SelectTrigger>
