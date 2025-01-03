@@ -26,19 +26,19 @@ export interface SubNavItem {
 
 // Admin navigation
 export const adminNav: NavItem[] = [
-  {
-    title: "Dashboard",
-    url: "/admin/",
-    icon: LayoutDashboard, 
-    isActive: true,
-    items: [
-      {
-        icon: BarChart2,
-        title: "Dashboard",
-        url: "/admin/",
-      },
-    ],
-  },
+  // {
+  //   title: "Dashboard",
+  //   url: "/admin/",
+  //   icon: LayoutDashboard, 
+  //   isActive: true,
+  //   items: [
+  //     {
+  //       icon: BarChart2,
+  //       title: "Dashboard",
+  //       url: "/admin/",
+  //     },
+  //   ],
+  // },
   {
     title: "User Management",
     url: "/admin/users",

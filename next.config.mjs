@@ -10,6 +10,7 @@ const nextConfig = {
       "aerialworx.co.uk",
       "www-cdn.djiits.com",
       "survey.crkennedy.com.au",
+      "rent-mate-s3.s3.eu-north-1.amazonaws.com"
     ],
   },
 };
