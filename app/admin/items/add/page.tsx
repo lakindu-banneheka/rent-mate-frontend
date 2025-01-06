@@ -39,6 +39,7 @@ export default function CreateItem() {
   const categories = useSelector((state: RootState) => state.category.categories );
   const router = useRouter();
   const toast = useToast();
+  // const [s3ImgUrls, setS3ImgUrls] = useState<string[]>([]);
 
   useEffect(() => {
       dispatch(fetchCategories());
@@ -61,12 +62,6 @@ export default function CreateItem() {
   
   const onSubmit = async (data: ItemFormData) => {
 
-      // Here you would typically:
-      // 1. Upload the image to your storage service
-      // 2. Get the URL back
-      // 3. Save the category with the image URL
-      const imageUrls: string[] = [];
-
       try {
           const itemData: Omit<Item, "id" | "createdAt" | "updatedAt"> = {
             lenderId: data.lenderId,
@@ -79,7 +74,7 @@ export default function CreateItem() {
             rentedQuantity: 0,
             pricing: data.pricing,
             deliveryOptions: data.deliveryOptions,
-            imageUrls: imageUrls,
+            imageUrls: data.imageUrls,
           };
 
           // Dispatch the create item action
@@ -104,6 +99,21 @@ export default function CreateItem() {
           });
       }
   }
+
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      if (form.formState.isDirty) {
+        event.preventDefault();
+        event.returnValue = "You have unsaved changes. Are you sure you want to leave?";
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [form.formState.isDirty]);
 
   return (
     <div className="min-h-screen bg-background text-foreground px-14">

@@ -1,18 +1,20 @@
-'use client'
+"use client";
 
-import * as React from "react"
-import Image from "next/image"
-import { X } from 'lucide-react'
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import * as React from "react";
+import axios from "axios";
+import Image from "next/image";
+import { X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { toast } from "sonner";
 
 interface ImageUploadProps {
-  onChange: (value: string) => void
-  value: string
-  disabled?: boolean
-  onRemove: () => void
-  // maxImages?: number
+  onChange: (value: string) => void;
+  value: string;
+  s3ImgUrl: string | null;
+  disabled?: boolean;
+  onRemove: () => void;
 }
 
 export function ImageUpload({
@@ -20,29 +22,44 @@ export function ImageUpload({
   value,
   disabled,
   onRemove,
-  // maxImages = 1
+  s3ImgUrl,
 }: ImageUploadProps) {
-  const [isMounted, setIsMounted] = React.useState(false)
+  const [isMounted, setIsMounted] = React.useState(false);
+  const [file, setFile] = React.useState<File | null>(null);
+  const [uploading, setUploading] = React.useState(false);
 
   React.useEffect(() => {
-    setIsMounted(true)
-  }, [])
+    setIsMounted(true);
+  }, []);
 
-  const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file) return
-
-    const reader = new FileReader()
-    reader.onloadend = () => {
-      if (typeof reader.result === 'string') {
-        onChange(reader.result)
-      }
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setFile(e.target.files[0]);
     }
-    reader.readAsDataURL(file)
-  }
+  };
+
+  const handleUpload = async () => {
+    if (!file) return;
+
+    setUploading(true);
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const response = await axios.post<{ url: string }>("/api/upload", formData);
+      if (response.data.url) {
+        onChange(response.data.url); // Set the S3 image URL as the value
+      }
+    } catch (error) {
+      toast.error("Error uploading image");
+      console.error("Error uploading image:", error);
+    } finally {
+      setUploading(false);
+    }
+  };
 
   if (!isMounted) {
-    return null
+    return null;
   }
 
   return (
@@ -64,23 +81,31 @@ export function ImageUpload({
           <Image
             fill
             src={value}
-            alt="Category image"
+            alt="Uploaded image"
             className="rounded-lg object-cover"
           />
         </div>
       ) : (
-        <Input
-          type="file"
-          accept="image/*"
-          disabled={disabled}
-          onChange={handleUpload}
-          className="cursor-pointer"
-        />
+        <div>
+          <Input
+            type="file"
+            accept="image/*"
+            disabled={disabled || uploading }
+            onChange={handleFileChange}
+            className="cursor-pointer"
+          />
+          <Button
+            onClick={handleUpload}
+            disabled={!file || uploading || (file && s3ImgUrl?true:false)}
+            className="mt-2"
+          >
+            {uploading ? "Uploading..." : "Upload Image"}
+          </Button>
+        </div>
       )}
       <div className="mt-1 text-xs text-muted-foreground">
         Supported formats: PNG, JPG, JPEG. Max file size: 5MB
       </div>
     </div>
-  )
+  );
 }
-

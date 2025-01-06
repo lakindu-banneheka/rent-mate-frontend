@@ -89,15 +89,8 @@ export default function ItemDetails() {
       form.setValue("categoryId", item?.categoryId);
     }
   }, [categories, item]);
-
+  
   const onSubmit = async (data: ItemFormData) => {
-    console.log(data);
-      // Here you would typically:
-      // 1. Upload the image to your storage service
-      // 2. Get the URL back
-      // 3. Save the category with the image URL
-      const imageUrls: string[] = [];
-
     try {
       setIsLoading(true);
       if(item){
@@ -113,7 +106,7 @@ export default function ItemDetails() {
           rentedQuantity: item?.rentedQuantity || 0,
           pricing: data.pricing,
           deliveryOptions: data.deliveryOptions,
-          imageUrls: imageUrls,
+          imageUrls: data.imageUrls,
           createdAt: item?.createdAt,
           updatedAt: new Date(),
         };
@@ -165,6 +158,21 @@ export default function ItemDetails() {
     } 
   }
 
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      if (form.formState.isDirty) {
+        event.preventDefault();
+        event.returnValue = "You have unsaved changes. Are you sure you want to leave?";
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [form.formState.isDirty]);
+
   return (
     <div className="min-h-screen bg-background text-foreground px-14">
       <div className="container max-w-6xl mx-auto py-8 space-y-8">
@@ -189,6 +197,7 @@ export default function ItemDetails() {
                           <ImageUpload
                             images={field.value}
                             onImagesChange={field.onChange}
+                            // setS3ImgUrls={(urls) => form.setValue('imageUrls',urls)}
                           />
                         </FormControl>
                         <FormMessage />
@@ -240,7 +249,7 @@ export default function ItemDetails() {
                           <FormLabel>Category</FormLabel>
                           <Select
                             onValueChange={field.onChange}
-                            defaultValue={field.value}
+                            value={field.value}
                           >
                             <FormControl>
                               <SelectTrigger>

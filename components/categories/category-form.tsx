@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -34,13 +34,15 @@ export function CategoryForm({ category }: CategoryFormProps) {
     const { toast } = useToast();
 
     const [isLoading, setIsLoading] = useState(false)
+    const [s3ImgUrl, setS3ImgUrl] = useState<string | null>(null)
     const dispatch: AppDispatch = useDispatch();
     const error = useSelector((state: RootState) => state.category.error);
+
 
     const {
         register,
         handleSubmit,
-        formState: { errors },
+        formState: { errors, isDirty },
         setValue,
         watch,
     } = useForm<FormData>({
@@ -56,38 +58,45 @@ export function CategoryForm({ category }: CategoryFormProps) {
         },
     })
 
-    const image = watch("image")
+    const image = watch("image");
+
+    useEffect(() => {
+        if(s3ImgUrl){
+            setValue("image", s3ImgUrl, { shouldValidate: true })
+        }
+    },[s3ImgUrl])
 
     const onSubmit = async (data: FormData) => {
-
-        // Here you would typically:
-        // 1. Upload the image to your storage service
-        // 2. Get the URL back
-        // 3. Save the category with the image URL
-        const imageUrl = "";
-
         try {
             setIsLoading(true)
-            if (category) {
-                const categoryData: Category = {
-                    id: category ? category.id : "",
-                    name: data.name,
-                    description: data.description,
-                    imageUrl: imageUrl,
-                    itemCount: category ? category.itemCount : 0,
-                    createdAt: category ? category.createdAt : new Date(),
-                    updatedAt: new Date()
+            if(s3ImgUrl){
+                if (category) {
+                    const categoryData: Category = {
+                        id: category ? category.id : "",
+                        name: data.name,
+                        description: data.description,
+                        imageUrl: s3ImgUrl,
+                        itemCount: category ? category.itemCount : 0,
+                        createdAt: category ? category.createdAt : new Date(),
+                        updatedAt: new Date()
+                    }
+                    await dispatch(updateCategory(categoryData));
+                } else {
+                    const categoryData = {
+                        name: data.name,
+                        description: data.description,
+                        imageUrl: s3ImgUrl,
+                        itemCount: 0
+        
+                    }
+                    await dispatch(createCategory(categoryData));
                 }
-                await dispatch(updateCategory(categoryData));
             } else {
-                const categoryData = {
-                    name: data.name,
-                    description: data.description,
-                    imageUrl: imageUrl,
-                    itemCount: 0
-    
-                }
-                await dispatch(createCategory(categoryData));
+                toast({
+                    variant: "destructive",
+                    title: "Error",
+                    description: "Image is required"
+                });
             }
 
             if (error) {
@@ -120,6 +129,23 @@ export function CategoryForm({ category }: CategoryFormProps) {
 
     const onRemove = () => {
         setValue("image", "", { shouldValidate: true })
+        // axios.delete("/api/delete", { data: { url: watch('image')} })
+        // .then(() => {
+        //     toast({
+        //         variant: "default",
+        //         title: "Success",
+        //         description: "Image deleted successfully"
+        //     });
+        //     setValue("image", "", { shouldValidate: true })
+        // })
+        // .catch((error) => {
+        //     toast({
+        //         variant: "destructive",
+        //         title: "Error",
+        //         description: "Failed to delete image"
+        //     });
+        //     console.error("Delete error:", error);
+        // });
     }
 
     const handleDeleteCategory = async (id: string) => {
@@ -154,6 +180,21 @@ export function CategoryForm({ category }: CategoryFormProps) {
         }
     };
 
+    useEffect(() => {
+        const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+          if (isDirty) {
+            event.preventDefault();
+            event.returnValue = "You have unsaved changes. Are you sure you want to leave?";
+          }
+        };
+    
+        window.addEventListener("beforeunload", handleBeforeUnload);
+    
+        return () => {
+          window.removeEventListener("beforeunload", handleBeforeUnload);
+        };
+    }, [isDirty]);
+
     return (
         <Card>
             <CardContent className="p-6">
@@ -178,8 +219,9 @@ export function CategoryForm({ category }: CategoryFormProps) {
                         <ImageUpload
                             value={image}
                             disabled={isLoading}
-                            onChange={(url) => setValue("image", url, { shouldValidate: true })}
+                            onChange={(url) => setS3ImgUrl(url)}
                             onRemove={onRemove}
+                            s3ImgUrl={s3ImgUrl}
                             // maxImages={1}
                         />
                         {errors.image && (
