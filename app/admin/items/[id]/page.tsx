@@ -185,6 +185,13 @@ export default function ItemDetails() {
     );
   }
 
+  const getRentalHistories = (rentals: Rent[]): Rent[] => {
+    return rentals.filter((rent) => 
+      rent.rentStatus === RentStatus.CANCELED || 
+      rent.rentStatus === RentStatus.RETURNED 
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background text-foreground px-14">
       <div className="container max-w-6xl mx-auto py-8 space-y-8">
@@ -411,11 +418,11 @@ export default function ItemDetails() {
                 </div>
               </TabsContent>
               <TabsContent value="history" className="mt-6">
-                <Card>
-                  <CardContent className="p-6">
-                    History content coming soon...
-                  </CardContent>
-                </Card>
+                <div className="space-y-4">
+                  {getRentalHistories(sampleRents).map((rental: Rent) => (
+                      <RentCard key={rental.id} rental={rental} />
+                  ))}
+                </div>
               </TabsContent>
               <TabsContent value="reviews" className="mt-6">
                 <Card>
