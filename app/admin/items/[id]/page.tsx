@@ -35,6 +35,9 @@ import { fetchCategories } from "@/lib/features/categorySlice"
 import { deleteItem, fetchItemById, updateItem } from "@/lib/features/itemSlice"
 import { useRouter } from "next/navigation"
 import { useToast } from "@/hooks/use-toast"
+import RentCard from "@/components/rental-history/rent-card"
+import { Rent } from "@/types/rentTypes"
+import { sampleRents } from "@/data/sample-data/rents"
 
 export default function ItemDetails() {
   const { id } = useParams<{ id: string }>();
@@ -392,11 +395,15 @@ export default function ItemDetails() {
                 </Card>
               </TabsContent>
               <TabsContent value="orders" className="mt-6">
-                <Card>
+                {/* <Card>
                   <CardContent className="p-6">
                     Orders content coming soon...
                   </CardContent>
-                </Card>
+                </Card> */}
+                {sampleRents.map((rental: Rent) => (
+                    <RentCard key={rental.id} rental={rental} />
+                ))}
+
               </TabsContent>
               <TabsContent value="history" className="mt-6">
                 <Card>
