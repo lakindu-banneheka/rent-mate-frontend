@@ -103,33 +103,43 @@ export const adminNav: NavItem[] = [
 // Lender navigation
 export const lenderNav: NavItem[] = [
   {
-    title: "My Loans",
-    url: "/lender/loans",
-    icon: SquareTerminal, 
+    title: "Item Management",
+    url: "/lender/items",
+    icon: Package, 
     isActive: true,
     items: [
       {
-        title: "Current Loans",
-        url: "/lender/loans/current",
+        icon: Package,
+        title: "All Item",
+        url: "/lender/items",
       },
       {
-        title: "Loan History",
-        url: "/lender/loans/history",
+        icon: PlusSquare,
+        title: "Add Item",
+        url: "/lender/items/add",
+      },
+      {
+        icon: Tags,
+        title: "Item Categories",
+        url: "/lender/categories",
       },
     ],
   },
   {
-    title: "Profile",
-    url: "/lender/profile",
-    icon: Bot,
+    title: "Rentals",
+    url: "/lender/rentals",
+    icon: FileText, 
+    isActive: true,
     items: [
       {
-        title: "View Profile",
-        url: "/lender/profile/view",
+        icon: FileText,
+        title: "Active Rentals",
+        url: "/lender/rentals",
       },
       {
-        title: "Edit Profile",
-        url: "/lender/profile/edit",
+        icon: ClipboardList,
+        title: "Rental Logs",
+        url: "/lender/rentals/logs",
       },
     ],
   },
