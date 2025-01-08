@@ -36,7 +36,7 @@ import { deleteItem, fetchItemById, updateItem } from "@/lib/features/itemSlice"
 import { useRouter } from "next/navigation"
 import { useToast } from "@/hooks/use-toast"
 import RentCard from "@/components/rental-history/rent-card"
-import { Rent } from "@/types/rentTypes"
+import { Rent, RentStatus } from "@/types/rentTypes"
 import { sampleRents } from "@/data/sample-data/rents"
 
 export default function ItemDetails() {
@@ -175,6 +175,15 @@ export default function ItemDetails() {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
   }, [form.formState.isDirty]);
+
+  const getCurrentRentals = (rentals: Rent[]): Rent[] => {
+    return rentals.filter((rent) => 
+      rent.rentStatus === RentStatus.OUT_FOR_DELIVERY || 
+      rent.rentStatus === RentStatus.PAID || 
+      rent.rentStatus === RentStatus.RESERVED || 
+      rent.rentStatus === RentStatus.WITH_CUSTOMER
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background text-foreground px-14">
@@ -395,15 +404,11 @@ export default function ItemDetails() {
                 </Card>
               </TabsContent>
               <TabsContent value="orders" className="mt-6">
-                {/* <Card>
-                  <CardContent className="p-6">
-                    Orders content coming soon...
-                  </CardContent>
-                </Card> */}
-                {sampleRents.map((rental: Rent) => (
-                    <RentCard key={rental.id} rental={rental} />
-                ))}
-
+                <div className="space-y-4">
+                  {getCurrentRentals(sampleRents).map((rental: Rent) => (
+                      <RentCard key={rental.id} rental={rental} />
+                  ))}
+                </div>
               </TabsContent>
               <TabsContent value="history" className="mt-6">
                 <Card>
