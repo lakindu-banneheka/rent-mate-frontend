@@ -1,4 +1,5 @@
 'use client'
+import { RentalDetailsPopup } from "@/components/rental-history/rent-dialog"
 import { Badge } from "@/components/ui/badge"
 import { Card } from "@/components/ui/card"
 import { fetchRents } from "@/lib/features/rentSlice"
@@ -8,110 +9,14 @@ import { Building2, User, Clock, Package, DollarSign, Truck, Calendar } from 'lu
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 
-// enum DeliveryOptions {
-//   Pickup = "Pickup",
-//   Delivery = "Delivery"
-// }
-
-// enum PaymentStatus {
-//   Pending = "Pending",
-//   Paid = "Paid",
-//   Refunded = "Refunded"
-// }
-
-// enum RentStatus {
-//   Reserved = "Reserved",
-//   Active = "Active",
-//   Completed = "Completed",
-//   Canceled = "Canceled",
-//   Overdue = "Overdue"
-// }
-
-// interface BillingDetails {
-//   name: string;
-//   address: string;
-//   // Add other billing details as needed
-// }
-
-// interface RentalEntry {
-//   id: string;
-//   userId: string;
-//   lenderId: string;
-//   itemId: string;
-//   startDate: Date;
-//   endDate: Date;
-//   deliveryOption: DeliveryOptions;
-//   itemCost: number;
-//   totalCost: number;
-//   paymentStatus: PaymentStatus;
-//   rentStatus: RentStatus;
-//   itemReturnedDate?: Date;
-//   overDueFee?: number;
-//   quantity: number;
-//   billingDetails: BillingDetails;
-//   createdAt: Date;
-//   updatedAt: Date;
-// }
-
-// const rentals: RentalEntry[] = [
-//   {
-//     id: "001285634",
-//     userId: "004865233",
-//     lenderId: "L001",
-//     itemId: "ITEM001",
-//     startDate: new Date("2024-12-23"),
-//     endDate: new Date("2024-12-30"),
-//     deliveryOption: DeliveryOptions.Delivery,
-//     itemCost: 50,
-//     totalCost: 299.99,
-//     paymentStatus: PaymentStatus.Paid,
-//     rentStatus: RentStatus.Reserved,
-//     quantity: 1,
-//     billingDetails: { name: "John Doe", address: "123 Main St" },
-//     createdAt: new Date("2024-12-20"),
-//     updatedAt: new Date("2024-12-20")
-//   },
-//   {
-//     id: "001285635",
-//     userId: "004865234",
-//     lenderId: "L002",
-//     itemId: "ITEM002",
-//     startDate: new Date("2024-12-15"),
-//     endDate: new Date("2024-12-22"),
-//     deliveryOption: DeliveryOptions.Pickup,
-//     itemCost: 75,
-//     totalCost: 399.99,
-//     paymentStatus: PaymentStatus.Pending,
-//     rentStatus: RentStatus.Active,
-//     quantity: 2,
-//     billingDetails: { name: "Jane Smith", address: "456 Elm St" },
-//     createdAt: new Date("2024-12-10"),
-//     updatedAt: new Date("2024-12-14")
-//   },
-//   {
-//     id: "001285636",
-//     userId: "004865235",
-//     lenderId: "L003",
-//     itemId: "ITEM003",
-//     startDate: new Date("2024-11-23"),
-//     endDate: new Date("2024-11-30"),
-//     deliveryOption: DeliveryOptions.Delivery,
-//     itemCost: 100,
-//     totalCost: 499.99,
-//     paymentStatus: PaymentStatus.Refunded,
-//     rentStatus: RentStatus.Canceled,
-//     quantity: 1,
-//     billingDetails: { name: "Bob Johnson", address: "789 Oak St" },
-//     createdAt: new Date("2024-11-20"),
-//     updatedAt: new Date("2024-11-22")
-//   }
-// ]
 
 export default function RentalTracking() {
 
     const allRentalsSelector = useSelector((state: RootState) => state.rent.rents)
     const [rentals, setRentals] = useState<Rent[]>([]);
-      const dispatch: AppDispatch = useDispatch();
+    const dispatch: AppDispatch = useDispatch();
+    const [selectedRental, setSelectedRental] = useState<Rent | null>(null);
+    const [open, setOpen] = useState(false);
 
     useEffect(() => {
         const getAllRentals = () => {
@@ -121,6 +26,11 @@ export default function RentalTracking() {
         getAllRentals();
     },[]);
 
+    useEffect(() => {
+        setRentals(allRentalsSelector);
+    },[allRentalsSelector]);
+
+    console.log(rentals)
 
     const getStatusColor = (status: RentStatus) => {
         switch (status) {
@@ -193,16 +103,16 @@ export default function RentalTracking() {
                     </div>
                     <div className="flex items-center gap-2 text-gray-600">
                     <Truck className="h-4 w-4" />
-                    <span>Delivery: {rental.deliveryOption.method}</span>
+                    <span>Delivery: {rental.deliveryOption?.method.toString()}</span>
                     </div>
                     <div className="flex items-center gap-2 text-gray-600">
                     <Calendar className="h-4 w-4" />
-                    <span>{rental.startDate.toLocaleDateString()} - {rental.endDate.toLocaleDateString()}</span>
+                    {/* <span>{rental.startDate?.toLocaleDateString()} - {rental.endDate?.toLocaleDateString()}</span> */}
                     </div>
                     <div className="flex items-center gap-2 text-gray-600">
                     <DollarSign className="h-4 w-4" />
                     <span className={getPaymentStatusColor(rental.paymentStatus)}>
-                        Payment: {rental.paymentStatus}
+                        Payment: {rental.totalCost}
                     </span>
                     </div>
                 </div>
@@ -210,16 +120,30 @@ export default function RentalTracking() {
                 <div className="flex items-center justify-between pt-2">
                     <div className="flex items-center gap-2 text-gray-500 text-sm">
                     <Clock className="h-4 w-4" />
-                    <span>Updated {rental.updatedAt.toLocaleString()}</span>
+                    {/* <span>Updated {rental.updatedAt.toLocaleString()}</span> */}
                     </div>
-                    <button className="text-blue-500 hover:text-blue-600 font-medium">
-                    More Details
+                    <button 
+                        className="text-blue-500 hover:text-blue-600 font-medium"
+                        onClick={()=>{
+                            setOpen(true);
+                            setSelectedRental(rental)
+                        }}    
+                    >
+                        More Details
                     </button>
+                    
                 </div>
                 </div>
             </Card>
             ))}
         </div>
+            { selectedRental &&
+                <RentalDetailsPopup 
+                    isOpen={open}
+                    onClose={()=>{setOpen(false)}}
+                    rental={selectedRental}
+                />
+            }
         </div>
     )
 }
