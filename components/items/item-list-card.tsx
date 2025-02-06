@@ -9,14 +9,14 @@ import { useRouter } from "next/navigation";
 
 interface ItemCardProps {
     item: Item
-    // onClick?: () => void
+    params: 'admin' | 'lender';    
     categoryFilters: {
         id: string;
         label: string;
     }[];
 }
 
-export function ItemCard({ item, categoryFilters }: ItemCardProps) {
+export function ItemCard({ item, categoryFilters, params }: ItemCardProps) {
 
     const router = useRouter();
 
@@ -29,7 +29,7 @@ export function ItemCard({ item, categoryFilters }: ItemCardProps) {
     return (
         <Card
             onClick={()=>{
-                router.push(`/admin/items/${item.id}`);
+                router.push(`/${params}/items/${item.id}`);
             }}
             className="group transition-all hover:shadow-md dark:hover:shadow-primary/5 cursor-pointer w-full"
         >

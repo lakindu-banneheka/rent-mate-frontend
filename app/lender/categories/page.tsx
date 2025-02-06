@@ -6,9 +6,8 @@ import { fetchCategories } from '@/lib/features/categorySlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/lib/store'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Plus, Search } from 'lucide-react'
+import { Search } from 'lucide-react'
 import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { Category } from '@/types/categoryTypes'
 import { useToast } from '@/hooks/use-toast'
@@ -60,14 +59,6 @@ const CategoryPage = () => {
             <div className="container space-y-6 py-6 px-14">
                 <div className="flex items-center justify-between">
                     <h2 className="text-3xl font-semibold">Category list</h2>
-                    <Button asChild>
-                        <Link href="/admin/categories/add">
-                            <Plus className="mr-2 h-4 w-4" />
-                            Add Category
-                        </Link>
-                    </Button>
-                </div>
-                <div className='flex items-center gap-2 justify-end' >
                     <div className="relative flex-1 max-w-sm">
                         <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                         <Input
@@ -91,7 +82,7 @@ const CategoryPage = () => {
                     {!isCategoryLoading && categories.length > 0 &&
                         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                             {filteredCategories.map((category) => (
-                                <CategoryCard key={category.id} category={category} />
+                                <CategoryCard params='lender' key={category.id} category={category} />
                             ))}
                         </div>
                     }
