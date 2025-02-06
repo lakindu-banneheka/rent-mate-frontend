@@ -19,7 +19,7 @@ export const rentService = {
     // Fetch Rents
     async fetchRents(): Promise<Rent[]> {
         try{
-        const response = await axiosInstance.get(BASE_PATH);
+            const response = await axiosInstance.get(BASE_PATH);
             return response.data;
         } catch(error) {
             throw handleError(error);

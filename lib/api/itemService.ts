@@ -8,7 +8,7 @@ export const itemService = {
     // Create Item
     async createItem(item: Omit<Item, "id" | "createdAt" | "updatedAt">): Promise<Item> {
         try {
-        const response = await axiosInstance.post(BASE_PATH, item);
+            const response = await axiosInstance.post(BASE_PATH, item);
             return response.data;
         } catch (error) {
             throw handleError(error);
@@ -18,7 +18,7 @@ export const itemService = {
     // Fetch Items
     async fetchItems(): Promise<Item[]> {
         try{
-        const response = await axiosInstance.get(BASE_PATH);
+            const response = await axiosInstance.get(BASE_PATH);
             return response.data;
         } catch(error) {
             throw handleError(error);
