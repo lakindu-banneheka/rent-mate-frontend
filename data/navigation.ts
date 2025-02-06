@@ -133,14 +133,14 @@ export const lenderNav: NavItem[] = [
     items: [
       {
         icon: FileText,
-        title: "Active Rentals",
+        title: "Rentals",
         url: "/lender/rentals",
       },
-      {
-        icon: ClipboardList,
-        title: "Rental Logs",
-        url: "/lender/rentals/logs",
-      },
+      // {
+      //   icon: ClipboardList,
+      //   title: "Rental Logs",
+      //   url: "/lender/rentals/logs",
+      // },
     ],
   },
 ];
