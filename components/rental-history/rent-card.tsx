@@ -2,6 +2,8 @@ import { Building2, Calendar, CircleDot, Clock, DollarSign, Package, Truck, User
 import { Card } from "../ui/card";
 import { PaymentStatus, Rent, RentStatus } from "@/types/rentTypes";
 import { Badge } from "../ui/badge";
+import { useState } from "react";
+import { RentalDetailsPopup } from "./rent-dialog";
 
 
 const RentCard = ({rental}: {rental: Rent}) => {
@@ -36,8 +38,14 @@ const RentCard = ({rental}: {rental: Rent}) => {
         }
       }
 
+      // const [selectedRental, setSelectedRental] = useState<Rent | null>(null);
+      const [open, setOpen] = useState(false);
+
+
 
     return (
+      <>
+      
         <Card key={rental.id} className="p-6">
             <div className="space-y-4">
               <div className="flex items-center justify-between">
@@ -96,16 +104,25 @@ const RentCard = ({rental}: {rental: Rent}) => {
                 <button 
                     onClick={(e) => {
                         e.preventDefault();
-                        console.log('test')
+                        setOpen(true);
                     }} 
+
                     className="text-blue-500 hover:text-blue-600 font-medium"
+
                 >
                   More Details
                 </button>
               </div>
             </div>
           </Card>
-
+          { rental &&
+            <RentalDetailsPopup
+                isOpen={open}
+                onClose={()=>{setOpen(false)}}
+                rental={rental}
+            />
+        }
+      </>
     )
 }
 
