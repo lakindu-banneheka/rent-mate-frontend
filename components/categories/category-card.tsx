@@ -5,11 +5,12 @@ import { Category } from "@/types/categoryTypes"
 
 interface CategoryCardProps {
   category: Category
+  params: 'admin' | 'lender'
 }
 
-export function CategoryCard({ category }: CategoryCardProps) {
+export function CategoryCard({ category, params }: CategoryCardProps) {
   return (
-    <Link href={`/admin/categories/${category.id}`}>
+    <Link href={`/${params}/categories/${category.id}`}>
       <Card className="overflow-hidden transition-shadow hover:shadow-lg">
         <CardContent className="p-0">
           <div className="relative aspect-[4/3]">
