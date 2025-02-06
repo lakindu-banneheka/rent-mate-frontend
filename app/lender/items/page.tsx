@@ -44,17 +44,19 @@ const ItemPage = () => {
 
     const getFilteredItems = useMemo(() => {
         if (itemList.length > 0 && itemList[0]) {
-        return itemList.filter((item) => {
-            const matchesSearch =
-            item.name.toLowerCase().includes(searchString.toLowerCase()) ||
-            item.description.toLowerCase().includes(searchString.toLowerCase());
+            return itemList.filter((item) => {
+                // user Id = item owner id to filter
+                
+                const matchesSearch =
+                    item.name.toLowerCase().includes(searchString.toLowerCase()) ||
+                    item.description.toLowerCase().includes(searchString.toLowerCase());
 
-            const matchesFilters = activeFilters
-            .split(",")
-            .some((filterId) => item.categoryId.includes(filterId));
+                const matchesFilters = activeFilters
+                    .split(",")
+                    .some((filterId) => item.categoryId.includes(filterId));
 
-            return matchesSearch && matchesFilters;
-        });
+                return matchesSearch && matchesFilters;
+            });
         }
 
         return [];
@@ -94,7 +96,7 @@ const ItemPage = () => {
                     <ItemCard
                         key={item.id}
                         item={item}
-                        params='admin'
+                        params={'lender'}
                         categoryFilters={categories}
                     />
                 ))}
