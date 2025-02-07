@@ -12,7 +12,6 @@ import { Reviews } from "@/components/landing-page/reviews";
 // import { createCategory, fetchCategories, fetchCategoryById, updateCategory } from "@/lib/features/categorySlice";
 // import { fetchItems } from "@/lib/features/itemSlice";
 // import { AppDispatch, RootState } from "@/lib/store";
-import { authLinks } from "@/utils/auth";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import Link from "next/link";
 // import { useEffect } from "react";

@@ -11,7 +11,7 @@ export default function ProfileClient() {
 
   return (
     user && (
-      <div className="text-slate-500" >
+      <div className="text-slate-500 " >
         {user.picture && (
           <Image
             src={user.picture}
