@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/lib/store'
 import { Skeleton } from '@/components/ui/skeleton'
 import { fetchCategoryById } from '@/lib/features/categorySlice'
-import { CategoryForm } from '@/components/categories/category-form'
+import { CategoryForm } from '@/components/categories/category-card-nonEditable'
 
 export default function CategoryDetailsPage() {
   const { id } = useParams()
@@ -43,7 +43,7 @@ export default function CategoryDetailsPage() {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Edit Category</h1>
+      <h1 className="text-2xl font-bold mb-4">Category Details</h1>
       {selectedCategory && <CategoryForm category={selectedCategory} />}
     </div>
   )
