@@ -12,9 +12,11 @@ interface Props {
 const ProtectedLayout = ({ children }: Props) => {
   const session = useUser();
 
-  if (!session) {
+  if (!session.user) {
     redirect("/unauthorized");
   }
+
+  console.log('test ', session)
 
   return (
     <>

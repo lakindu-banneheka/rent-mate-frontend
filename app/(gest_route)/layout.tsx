@@ -1,4 +1,5 @@
 'use client'
+import DialogflowChatbot from "@/components/chatbot/DialogflowChatbot";
 import Footer from "@/components/footer/footer";
 import Header from "@/components/Header/header"
 import { ReactNode } from "react";
@@ -15,6 +16,7 @@ const GestLayout = ({ children }: Props) => {
             <>
                 {children}
             </>
+            <DialogflowChatbot />
             <Footer />
         </>
     )

@@ -17,10 +17,66 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useUser } from "@auth0/nextjs-auth0/client";
+import { authLinks } from "@/utils/auth";
+import ProfileClient from "../auth/ProfileClient";
+import { isUserAdmin } from "@/actions/isUserAdmin";
+import { redirect } from "next/navigation";
+import Loading from "@/app/loading";
+import { isUserLender } from "@/actions/isUserLender";
 
 export default function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const session = useUser();
+  const [isLender, setIsLender] = useState<boolean | null>(null); 
+  const [isAdmin, setIsAdmin] = useState<boolean | null>(null); // Track admin status
+  
+  // is admin
+
+  useEffect(() => {
+    const checkAdminStatus = async () => {
+      const adminStatus = await isUserAdmin(); 
+      setIsAdmin(adminStatus); 
+    };
+
+    checkAdminStatus();
+  }, []);
+
+  useEffect(() => {
+    const checkLenderStatus = async () => {
+      const lenderStatus = await isUserLender(); 
+      setIsLender(lenderStatus); 
+    };
+
+    checkLenderStatus();
+  }, []);
+
+  // useEffect(() => {
+  //   if (isAdmin === false) {
+  //     redirect("/unauthorized");
+  //   }
+  // }, [isAdmin]);
+
+  // if (isAdmin === null) {
+  //   return <Loading />
+  // }
+
+
+  // // is lender
+
+
+
+  // useEffect(() => {
+  //   if (isLender === false) {
+  //     redirect("/unauthorized");
+  //   }
+  // }, [isLender]); 
+
+  // if (isLender === null) {
+  //   return <Loading />
+  // }
+
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -114,25 +170,56 @@ export default function Header() {
               </SheetTrigger>
               <SheetContent>
                 <SheetHeader>
-                  <SheetTitle>Profile</SheetTitle>
+                  {/* <SheetTitle>Profile</SheetTitle> */}
+                  {session ? (
+                    <div className="border-t border-gray-200 pt-6">
+                      <h2 className="text-xl font-semibold text-gray-800 mb-4">
+                        Profile Information
+                      </h2>
+                      <ProfileClient />
+                    </div>
+                  ) : (
+                    <div className="border-t border-gray-200 pt-6">
+                      <h2 className="text-xl font-semibold text-gray-800 mb-4">
+                        Please login to see your profile information
+                      </h2>
+                    </div>
+                  )}
                 </SheetHeader>
                 <div className="grid gap-4">
-                  <nav className="grid gap-2">
-                    <Link
-                      href="/profile"
-                      className="hover:bg-accent hover:text-accent-foreground rounded-md px-2 py-1 transition-colors"
-                    >
-                      My Profile
-                    </Link>
-                    <Link
-                      href="/settings"
-                      className="hover:bg-accent hover:text-accent-foreground rounded-md px-2 py-1 transition-colors"
-                    >
-                      Settings
-                    </Link>
-                    <Button variant="outline" className="mt-2">
-                      Sign Out
-                    </Button>
+                  <nav className="grid gap-2 mt-10">
+                    { isAdmin &&
+                      <Link
+                        href="/admin"
+                        className="hover:bg-accent hover:text-accent-foreground rounded-md px-2 py-1 transition-colors"
+                      >
+                        Admin Pannel
+                      </Link>
+                    }
+                    { isLender && 
+                      <Link
+                        href="/lender"
+                        className="hover:bg-accent hover:text-accent-foreground rounded-md px-2 py-1 transition-colors"
+                      >
+                        Lender Panel
+                      </Link>
+                    }
+
+                    {!session.user ? (
+                      <Link
+                        href={authLinks.login}
+                        className="px-4 py-2 text-center bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+                      >
+                        Login
+                      </Link>
+                    ) : (
+                      <Link
+                        href={authLinks.logout}
+                        className="px-4 py-2 text-center bg-white border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+                      >
+                        Logout
+                      </Link>
+                    )}
                   </nav>
                 </div>
               </SheetContent>
