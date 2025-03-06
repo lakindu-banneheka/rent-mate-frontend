@@ -17,6 +17,7 @@ export default function RentalTracking() {
     const dispatch: AppDispatch = useDispatch();
     const [selectedRental, setSelectedRental] = useState<Rent | null>(null);
     const [open, setOpen] = useState(false);
+    const currentUser = localStorage.getItem('userId');
 
     useEffect(() => {
         const getAllRentals = () => {
@@ -27,10 +28,10 @@ export default function RentalTracking() {
     },[]);
 
     useEffect(() => {
-        setRentals(allRentalsSelector);
+        if(currentUser){
+            setRentals(allRentalsSelector.filter(rental => rental.lenderId === currentUser));
+        }
     },[allRentalsSelector]);
-
-    console.log(rentals)
 
     const getStatusColor = (status: RentStatus) => {
         switch (status) {
