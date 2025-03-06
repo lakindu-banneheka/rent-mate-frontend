@@ -61,8 +61,6 @@ export default function ProductTabs({ item }: ProductTabsProps) {
       ? reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length
       : 0;
 
-  console.log(reviews, reviewsList);
-
   return (
     <Tabs defaultValue="description" className="w-full max-w-4xl mx-auto">
       <TabsList className="grid w-full grid-cols-2 max-w-[400px]">

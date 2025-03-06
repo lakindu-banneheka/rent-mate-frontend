@@ -30,7 +30,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { useParams } from "next/navigation"
 import { AppDispatch, RootState } from "@/lib/store"
 import { useDispatch, useSelector } from "react-redux"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { fetchCategories } from "@/lib/features/categorySlice"
 import { deleteItem, fetchItemById, updateItem } from "@/lib/features/itemSlice"
 import { useRouter } from "next/navigation"
@@ -38,6 +38,12 @@ import { useToast } from "@/hooks/use-toast"
 import RentCard from "@/components/rental-history/rent-card"
 import { Rent, RentStatus } from "@/types/rentTypes"
 import { sampleRents } from "@/data/sample-data/rents"
+import { Review } from "@/types/reviewTypes"
+import { Star } from "lucide-react"
+import { fetchReviews } from "@/lib/features/reviewSlice"
+import { fetchUsers } from "@/lib/features/userSlice"
+import ReviewCard from "@/components/product/review-card"
+import { fetchRents } from "@/lib/features/rentSlice"
 
 export default function ItemDetails() {
   const { id } = useParams<{ id: string }>();
@@ -45,8 +51,43 @@ export default function ItemDetails() {
   const [isLoading, setIsLoading] = useState(false);
   const item = useSelector((state: RootState) => state.item.selectedItem);
   const categories = useSelector((state: RootState) => state.category.categories );
+  const rents = useSelector((state: RootState) => state.rent.rents );
+  
   const router = useRouter();
   const toast = useToast();
+  
+  const reviewsList = useSelector((state: RootState) => state.review);
+  const { users } = useSelector((state: RootState) => state.user);
+  const [reviews, setReviews] = useState<Review[]>([]);
+  
+    useEffect(() => {
+      const loardReviews = async () => {
+        dispatch(fetchReviews());
+  
+        if (reviewsList.error) {
+          console.log(reviewsList.error);
+        }
+      };
+  
+      loardReviews();
+    }, []);
+  
+    useEffect(() => {
+      const loardReviewerData = async () => {
+        dispatch(fetchUsers());
+      };
+  
+      loardReviewerData();
+    }, []);
+
+    useEffect(() => {
+      const loardRentData = async () => {
+        dispatch(fetchRents());
+      };
+  
+      loardRentData();
+    }, []);
+
 
   useEffect(() => {
       dispatch(fetchItemById(id));
@@ -99,7 +140,7 @@ export default function ItemDetails() {
       if(item){
         const updatedItemData: Item = {
           id: item?.id,
-          lenderId: data.lenderId,
+          lenderId: item?.lenderId,
           name: data.name,
           categoryId: data.categoryId,
           description: data.description,
@@ -177,20 +218,45 @@ export default function ItemDetails() {
   }, [form.formState.isDirty]);
 
   const getCurrentRentals = (rentals: Rent[]): Rent[] => {
-    return rentals.filter((rent) => 
-      rent.rentStatus === RentStatus.OUT_FOR_DELIVERY || 
-      rent.rentStatus === RentStatus.PAID || 
-      rent.rentStatus === RentStatus.RESERVED || 
-      rent.rentStatus === RentStatus.WITH_CUSTOMER
-    );
+    if(item){
+      return rents.filter((rent) => 
+        rent.itemId === item.id && 
+        (rent.rentStatus?.toLocaleLowerCase() === RentStatus.OUT_FOR_DELIVERY || 
+        rent.rentStatus?.toLocaleLowerCase() === RentStatus.PAID || 
+        rent.rentStatus?.toLocaleLowerCase() === RentStatus.RESERVED || 
+        rent.rentStatus?.toLocaleLowerCase() === RentStatus.WITH_CUSTOMER)
+      );
+    } else {
+      return []
+    }
   }
 
   const getRentalHistories = (rentals: Rent[]): Rent[] => {
-    return rentals.filter((rent) => 
-      rent.rentStatus === RentStatus.CANCELED || 
-      rent.rentStatus === RentStatus.RETURNED 
-    );
+    if(item){
+      return rents.filter((rent) => 
+        rent.itemId === item.id && 
+        ( rent.rentStatus?.toLocaleLowerCase() == RentStatus.CANCELED || 
+        rent.rentStatus?.toLocaleLowerCase() == RentStatus.RETURNED )
+      );
+    } else {
+      return []
+    }
   }
+
+  // reviews
+  const getFilteredReviews = useMemo(() => {
+      if (!item) return reviewsList.reviews;
+      return reviewsList.reviews.filter((review) => review.itemId === item.id);
+    }, [reviewsList.reviews, item]);
+  
+    useEffect(() => {
+      setReviews(getFilteredReviews);
+    }, [getFilteredReviews]);
+  
+    const averageRating =
+      reviews.length > 0
+        ? reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length
+        : 0;
 
   return (
     <div className="min-h-screen bg-background text-foreground px-14">
@@ -425,11 +491,45 @@ export default function ItemDetails() {
                 </div>
               </TabsContent>
               <TabsContent value="reviews" className="mt-6">
-                <Card>
-                  <CardContent className="p-6">
-                    Reviews content coming soon...
-                  </CardContent>
-                </Card>
+                <div className="space-y-6">
+                   <div className="space-y-2">
+                     <h3 className="text-xl font-semibold">
+                       Based on {reviews.length}{" "}
+                       {reviews.length === 1 ? "Review" : "Reviews"}
+                     </h3>
+                     <div className="flex items-baseline gap-4">
+                       <div className="text-3xl font-bold">
+                         {averageRating.toFixed(1)}
+                       </div>
+                       <div>
+                         <div className="text-sm font-medium">Overall</div>
+                         <div className="flex gap-1 mt-1">
+                           {[1, 2, 3, 4, 5].map((star) => (
+                             <Star
+                               key={star}
+                               className={`w-5 h-5 ${
+                                 star <= averageRating
+                                   ? "fill-primary stroke-primary"
+                                   : "fill-muted stroke-muted-foreground"
+                               }`}
+                             />
+                           ))}
+                         </div>
+                       </div>
+                       <div className="text-sm text-muted-foreground">
+                         {reviews.length} rating{reviews.length !== 1 ? "s" : ""}
+                       </div>
+                     </div>
+                   </div>
+         
+                   <div className="space-y-4">
+                     {reviews.map((review, index) => {
+                       const user = users.find((user) => user.id === review.reviewerId);
+                       const name = `${user?.firstName ?? ""} ${user?.lastName ?? ""}`;
+                       return <ReviewCard key={index} review={review} name={name} />;
+                     })}
+                   </div>
+                 </div>
               </TabsContent>
             </Tabs>
 

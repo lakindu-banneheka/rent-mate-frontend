@@ -82,7 +82,7 @@ const RentCard = ({rental}: {rental: Rent}) => {
                 </div>
                 <div className="flex items-center gap-2 text-gray-600">
                   <Truck className="h-4 w-4" />
-                  <span>Delivery: {rental.deliveryOption.method}</span>
+                  <span>Delivery: {rental.deliveryOption?.method || ""}</span>
                 </div>
                 <div className="flex items-center gap-2 text-gray-600">
                   <Calendar className="h-4 w-4" />

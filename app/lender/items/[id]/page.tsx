@@ -30,18 +30,19 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { useParams } from "next/navigation"
 import { AppDispatch, RootState } from "@/lib/store"
 import { useDispatch, useSelector } from "react-redux"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { fetchCategories } from "@/lib/features/categorySlice"
 import { deleteItem, fetchItemById, updateItem } from "@/lib/features/itemSlice"
 import { useRouter } from "next/navigation"
 import { useToast } from "@/hooks/use-toast"
 import RentCard from "@/components/rental-history/rent-card"
 import { Rent, RentStatus } from "@/types/rentTypes"
-import { sampleRents } from "@/data/sample-data/rents"
 import { fetchRents } from "@/lib/features/rentSlice"
 import { fetchReviews } from "@/lib/features/reviewSlice"
 import { Review } from "@/types/reviewTypes"
 import ReviewCard from "@/components/product/review-card"
+import { Star } from "lucide-react"
+import { fetchUsers } from "@/lib/features/userSlice"
 
 export default function ItemDetails() {
   const { id } = useParams<{ id: string }>();
@@ -50,8 +51,31 @@ export default function ItemDetails() {
   const item = useSelector((state: RootState) => state.item.selectedItem);
   const categories = useSelector((state: RootState) => state.category.categories );
   const rents = useSelector((state: RootState) => state.rent.rents );
-  const reviews = useSelector((state: RootState) => state.review.reviews );
-
+  
+   const reviewsList = useSelector((state: RootState) => state.review);
+    const { users } = useSelector((state: RootState) => state.user);
+    const [reviews, setReviews] = useState<Review[]>([]);
+    
+      useEffect(() => {
+        const loardReviews = async () => {
+          dispatch(fetchReviews());
+    
+          if (reviewsList.error) {
+            console.log(reviewsList.error);
+          }
+        };
+    
+        loardReviews();
+      }, []);
+    
+      useEffect(() => {
+        const loardReviewerData = async () => {
+          dispatch(fetchUsers());
+        };
+    
+        loardReviewerData();
+      }, []);
+  
   const router = useRouter();
   const toast = useToast();
 
@@ -194,7 +218,7 @@ export default function ItemDetails() {
 
   const getCurrentRentals = (rentals: Rent[]): Rent[] => {
     if(item){
-      return rentals.filter((rent) => 
+      return rents.filter((rent) => 
         rent.itemId === item.id && 
         (rent.rentStatus?.toLocaleLowerCase() === RentStatus.OUT_FOR_DELIVERY || 
         rent.rentStatus?.toLocaleLowerCase() === RentStatus.PAID || 
@@ -208,7 +232,7 @@ export default function ItemDetails() {
 
   const getRentalHistories = (rentals: Rent[]): Rent[] => {
     if(item){
-      return rentals.filter((rent) => 
+      return rents.filter((rent) => 
         rent.itemId === item.id && 
         ( rent.rentStatus === RentStatus.CANCELED || 
         rent.rentStatus === RentStatus.RETURNED )
@@ -218,14 +242,21 @@ export default function ItemDetails() {
     }
   }
 
-  const getReviews = () => {
-    if(item){
-      // return reviews.filter((review) => review.itemId === item.id);
-      return reviews
 
-    }
-    return []
-  }
+  // reviews
+  const getFilteredReviews = useMemo(() => {
+      if (!item) return reviewsList.reviews;
+      return reviewsList.reviews.filter((review) => review.itemId === item.id);
+    }, [reviewsList.reviews, item]);
+  
+    useEffect(() => {
+      setReviews(getFilteredReviews);
+    }, [getFilteredReviews]);
+  
+    const averageRating =
+      reviews.length > 0
+        ? reviews.reduce((acc, review) => acc + review.rating, 0) / reviews.length
+        : 0;
 
   return (
     <div className="min-h-screen bg-background text-foreground px-14">
@@ -474,17 +505,45 @@ export default function ItemDetails() {
                 </div>
               </TabsContent>
               <TabsContent value="reviews" className="mt-6">
-                  { getReviews().length === 0 && 
-                    <Card>
-                        <CardContent className="p-6 text-center text-lg text-muted-foreground">
-                            No current reviews for this item
-                      </CardContent>
-                    </Card>
-                  }
-                  {getReviews().map((review: Review) => (
-                      // <RentCard key={rental.id} rental={rental} />
-                      <ReviewCard key={review.id} review={review} name={review.reviewerId} />
-                  ))}
+                <div className="space-y-6">
+                  <div className="space-y-2">
+                    <h3 className="text-xl font-semibold">
+                      Based on {reviews.length}{" "}
+                      {reviews.length === 1 ? "Review" : "Reviews"}
+                    </h3>
+                    <div className="flex items-baseline gap-4">
+                      <div className="text-3xl font-bold">
+                        {averageRating.toFixed(1)}
+                      </div>
+                      <div>
+                        <div className="text-sm font-medium">Overall</div>
+                        <div className="flex gap-1 mt-1">
+                          {[1, 2, 3, 4, 5].map((star) => (
+                            <Star
+                              key={star}
+                              className={`w-5 h-5 ${
+                                star <= averageRating
+                                  ? "fill-primary stroke-primary"
+                                  : "fill-muted stroke-muted-foreground"
+                              }`}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                      <div className="text-sm text-muted-foreground">
+                        {reviews.length} rating{reviews.length !== 1 ? "s" : ""}
+                      </div>
+                    </div>
+                  </div>
+        
+                  <div className="space-y-4">
+                    {reviews.map((review, index) => {
+                      const user = users.find((user) => user.id === review.reviewerId);
+                      const name = `${user?.firstName ?? ""} ${user?.lastName ?? ""}`;
+                      return <ReviewCard key={index} review={review} name={name} />;
+                    })}
+                  </div>
+                </div>
               </TabsContent>
             </Tabs>
 
