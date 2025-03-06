@@ -20,8 +20,6 @@ function ReviewCard({ review, name }: ReviewCardProps) {
     dispatch(fetchUserById(review.reviewerId));
   }, [dispatch, review]);
 
-  console.log(selectedUser, review.reviewerId);
-
   return (
     <>
       <div className="border rounded-lg p-4 space-y-2 my-3">

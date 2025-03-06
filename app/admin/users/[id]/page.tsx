@@ -16,7 +16,7 @@ export default function EditUserPage() {
 
     useEffect(() => {
         const loadCategory = async () => {
-            await dispatch(fetchUserById(id as string))
+            await dispatch(fetchUserById(Array.isArray(id) ? id[0] : id));
 
             if (error) {
                 toast({
@@ -30,9 +30,10 @@ export default function EditUserPage() {
         loadCategory();
     }, [id])
 
+    console.log(selectedUser, error)
     return (
         <div className="container px-14 py-6 space-y-4">
-            <h1 className="text-2xl font-bold">Edit User</h1>
+            <h1 className="text-2xl font-bold">View Details</h1>
                 {selectedUser && (
                     <UserForm />
                 )}

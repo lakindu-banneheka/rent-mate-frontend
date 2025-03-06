@@ -27,7 +27,7 @@ export function CategoryCard({ category, params }: CategoryCardProps) {
           <h3 className="text-lg font-semibold">{category.name}</h3>
           <p className="text-sm text-muted-foreground line-clamp-2">{category.description}</p>
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <span>{category.itemCount} items</span>
+            {/* <span>{category.itemCount} items</span> */}
             {/* <span>•</span> */}
             {/* <span>Updated {formatDistanceToNow(category.updatedAt, { addSuffix: true })}</span> */}
           </div>

@@ -74,7 +74,7 @@ export function NavUser({
                 </div>
               </div>
             </DropdownMenuLabel>
-            <DropdownMenuSeparator />
+            {/* <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem
                 onClick={() => {
@@ -85,7 +85,7 @@ export function NavUser({
                 My Profile
               </DropdownMenuItem>
             </DropdownMenuGroup>
-            <DropdownMenuSeparator />
+            <DropdownMenuSeparator /> */}
 
             <DropdownMenuItem
               onClick={() => {

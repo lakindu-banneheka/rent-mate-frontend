@@ -1,5 +1,5 @@
 "use client"
-import logo from '@/images/logo.jpg';
+import logo from '@/images/logo.png';
 import * as React from "react"
 import { NavMain } from "@/components/side-bar/nav-main"
 import { NavUser } from "@/components/side-bar/nav-user"

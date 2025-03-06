@@ -17,6 +17,7 @@ export default function RentalTracking() {
     const dispatch: AppDispatch = useDispatch();
     const [selectedRental, setSelectedRental] = useState<Rent | null>(null);
     const [open, setOpen] = useState(false);
+    const currentUser = localStorage.getItem('userId');
 
     useEffect(() => {
         const getAllRentals = () => {
@@ -27,10 +28,10 @@ export default function RentalTracking() {
     },[]);
 
     useEffect(() => {
-        setRentals(allRentalsSelector);
+        if(currentUser){
+            setRentals(allRentalsSelector.filter(rental => rental.lenderId === currentUser));
+        }
     },[allRentalsSelector]);
-
-    console.log(rentals)
 
     const getStatusColor = (status: RentStatus) => {
         switch (status) {
@@ -65,78 +66,78 @@ export default function RentalTracking() {
 
     return (
         <div className="w-full max-w-6xl mx-auto p-4 space-y-6">
-        <div className="space-y-4">
-            {rentals.map((rental) => (
-            <Card key={rental.id} className="p-6">
-                <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                    <span className="text-gray-600">#{rental.id}</span>
-                    <span className="font-medium">- Item ID: {rental.itemId}</span>
-                    </div>
-                    <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-1 text-green-600 font-medium">
-                        <DollarSign className="h-4 w-4" />
-                        {rental.totalCost.toFixed(2)} LKR
-                    </div>
-                    <Badge 
-                        variant="secondary" 
-                        className={getStatusColor(rental.rentStatus)}
-                    >
-                        {rental.rentStatus}
-                    </Badge>
-                    </div>
-                </div>
+            <div className="space-y-4">
+                {rentals.map((rental) => (
+                    <Card key={rental.id} className="p-6">
+                        <div className="space-y-4">
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                    <span className="text-gray-600">#{rental.id}</span>
+                                    <span className="font-medium">- Item ID: {rental.itemId}</span>
+                                </div>
+                                <div className="flex items-center gap-4">
+                                    <div className="flex items-center gap-1 text-green-600 font-medium">
+                                        <DollarSign className="h-4 w-4" />
+                                        {rental.totalCost.toFixed(2)} LKR
+                                    </div>
+                                    <Badge 
+                                        variant="secondary" 
+                                        className={getStatusColor(rental.rentStatus)}
+                                    >
+                                        {rental.rentStatus}
+                                    </Badge>
+                                </div>
+                            </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div className="flex items-center gap-2 text-gray-600">
-                    <User className="h-4 w-4" />
-                    <span>User ID: {rental.userId}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-gray-600">
-                    <Building2 className="h-4 w-4" />
-                    <span>Lender ID: {rental.lenderId}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-gray-600">
-                    <Package className="h-4 w-4" />
-                    <span>Quantity: {rental.quantity}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-gray-600">
-                    <Truck className="h-4 w-4" />
-                    <span>Delivery: {rental.deliveryOption?.method.toString()}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-gray-600">
-                    <Calendar className="h-4 w-4" />
-                    {/* <span>{rental.startDate?.toLocaleDateString()} - {rental.endDate?.toLocaleDateString()}</span> */}
-                    </div>
-                    <div className="flex items-center gap-2 text-gray-600">
-                    <DollarSign className="h-4 w-4" />
-                    <span className={getPaymentStatusColor(rental.paymentStatus)}>
-                        Payment: {rental.totalCost}
-                    </span>
-                    </div>
-                </div>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div className="flex items-center gap-2 text-gray-600">
+                                    <User className="h-4 w-4" />
+                                    <span>User ID: {rental.userId}</span>
+                                </div>
+                                <div className="flex items-center gap-2 text-gray-600">
+                                    <Building2 className="h-4 w-4" />
+                                    <span>Lender ID: {rental.lenderId}</span>
+                                </div>
+                                <div className="flex items-center gap-2 text-gray-600">
+                                    <Package className="h-4 w-4" />
+                                    <span>Quantity: {rental.quantity}</span>
+                                </div>
+                                <div className="flex items-center gap-2 text-gray-600">
+                                    <Truck className="h-4 w-4" />
+                                    <span>Delivery: {rental.deliveryOption?.method.toString()}</span>
+                                </div>
+                                <div className="flex items-center gap-2 text-gray-600">
+                                    <Calendar className="h-4 w-4" />
+                                    <span>{new Date(rental.startDate)?.toLocaleDateString()} - {new Date(rental.endDate)?.toLocaleDateString()}</span>
+                                </div>
+                                <div className="flex items-center gap-2 text-gray-600">
+                                    <DollarSign className="h-4 w-4" />
+                                    <span className={getPaymentStatusColor(rental.paymentStatus)}>
+                                        Payment: {rental.totalCost}
+                                    </span>
+                                </div>
+                            </div>
 
-                <div className="flex items-center justify-between pt-2">
-                    <div className="flex items-center gap-2 text-gray-500 text-sm">
-                    <Clock className="h-4 w-4" />
-                    {/* <span>Updated {rental.updatedAt.toLocaleString()}</span> */}
-                    </div>
-                    <button 
-                        className="text-blue-500 hover:text-blue-600 font-medium"
-                        onClick={()=>{
-                            setOpen(true);
-                            setSelectedRental(rental)
-                        }}    
-                    >
-                        More Details
-                    </button>
-                    
-                </div>
-                </div>
-            </Card>
-            ))}
-        </div>
+                            <div className="flex items-center justify-between pt-2">
+                                <div className="flex items-center gap-2 text-gray-500 text-sm">
+                                    <Clock className="h-4 w-4" />
+                                    <span>Updated {new Date(rental.updatedAt).toLocaleString()}</span>
+                                </div>
+                                <button 
+                                    className="text-blue-500 hover:text-blue-600 font-medium"
+                                    onClick={()=>{
+                                        setOpen(true);
+                                        setSelectedRental(rental)
+                                    }}    
+                                >
+                                    More Details
+                                </button>
+                                
+                            </div>
+                        </div>
+                    </Card>
+                ))}
+            </div>
             { selectedRental &&
                 <RentalDetailsPopup 
                     isOpen={open}
