@@ -99,7 +99,7 @@ export default function ItemDetails() {
       if(item){
         const updatedItemData: Item = {
           id: item?.id,
-          lenderId: data.lenderId,
+          lenderId: item.lenderId,
           name: data.name,
           categoryId: data.categoryId,
           description: data.description,
@@ -148,7 +148,7 @@ export default function ItemDetails() {
         title: "Success",
         description: "Item deleted successfully"
       });
-      router.push("/admin/items");
+      router.push("/lender/items");
       router.refresh();
       }
     } catch (error) {
@@ -239,7 +239,7 @@ export default function ItemDetails() {
                           <FormItem>
                             <FormLabel>Lender Id</FormLabel>
                             <FormControl>
-                              <Input {...field} />
+                              <Input disabled {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>

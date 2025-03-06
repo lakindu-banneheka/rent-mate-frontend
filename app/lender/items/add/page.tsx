@@ -64,7 +64,6 @@ export default function CreateItem() {
     },
   })
 
-  console.log(userId)
   const onSubmit = async (data: ItemFormData) => {
 
       try {
@@ -93,7 +92,7 @@ export default function CreateItem() {
           });
 
           // Redirect or refresh the page
-          router.push("/admin/items");
+          router.push("/lender/items");
           router.refresh();
         } else {
           throw new Error("Login before submitting")
