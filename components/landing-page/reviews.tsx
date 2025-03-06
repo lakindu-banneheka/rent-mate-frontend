@@ -22,19 +22,19 @@ export function Reviews() {
   }, [dispatch]);
   const reviews = [
     {
-      name: "Sarah",
+      name: "Praveena Hansani",
       rating: "4.5",
       comment: "Great experience renting camera equipment. Very professional service!",
       // avatar: "/placeholder.svg?height=40&width=40",
     },
     {
-      name: "Mike",
+      name: "Sarith Mendis",
       rating: "5.0",
-      comment: "The car was in perfect condition. Will definitely use again!",
+      comment: "The drone was in perfect condition. Will definitely use again!",
       // avatar: "/placeholder.svg?height=40&width=40",
     },
     {
-      name: "Emma",
+      name: "Michel de Zoysa",
       rating: "4.8",
       comment: "Smooth process from start to finish. Highly recommended!",
       // avatar: "/placeholder.svg?height=40&width=40",

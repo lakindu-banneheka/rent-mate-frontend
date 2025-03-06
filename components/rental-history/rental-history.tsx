@@ -13,8 +13,6 @@ export default function RentalHistory() {
   const rents = useSelector((state: RootState) => state.rent.rents);
   const currentUserId = localStorage.getItem('userId') || '';
 
-  console.log(rents)
-
   const handleItemClick = (id: string) => {
     console.log('Clicked item:', id);
     // Add navigation or modal open logic here
@@ -59,6 +57,7 @@ export default function RentalHistory() {
                   key={item.id}
                   item={item}
                   onClick={handleItemClick}
+                  canReview={(group === 'pending')?false:true}
                 />
               ))}
               {filteredRents.length === 0 && (

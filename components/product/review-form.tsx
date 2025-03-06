@@ -13,46 +13,84 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
+import { AppDispatch, RootState } from "@/lib/store";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchItemById } from "@/lib/features/itemSlice";
+import { createReview } from "@/lib/features/reviewSlice";
+import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
 const reviewSchema = z.object({
-  rating: z.number().min(1, "Please select a rating").max(5),
-  review: z.string().min(10, "Review must be at least 10 characters"),
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Please enter a valid email address"),
+  reviewerId: z.string(),
+  itemId: z.string(),
+  comment: z.string().min(10, "Review must be at least 10 characters"),
+  rating: z.number().min(1, "Please select a rating").max(5), // 0 - 10 
 });
 
 type ReviewForm = z.infer<typeof reviewSchema>;
 
-export default function ReviewForm() {
+export default function ReviewForm({
+  itemId
+}:{
+  itemId: string
+}) {
   const [hoveredStar, setHoveredStar] = useState<number>(0);
+  const user = localStorage.getItem('userId');
+  const selectedItem = useSelector((state: RootState) => state.item.selectedItem);
+  const { error, loading  } = useSelector((state: RootState) => state.review)
+  const dispatch: AppDispatch = useDispatch();
+  const toast = useToast();
+  const router = useRouter();
 
   const form = useForm<ReviewForm>({
     resolver: zodResolver(reviewSchema),
     defaultValues: {
       rating: 0,
-      review: "",
-      name: "",
-      email: "",
+      reviewerId: user??undefined,
+      itemId: itemId,
+      comment: "",
     },
   });
+
+    useEffect(() => {
+      dispatch(fetchItemById(itemId));
+    }, [dispatch]);
 
   const onSubmit = useCallback(
     async (data: ReviewForm) => {
       try {
         // Here you would typically send the data to your API
-        console.log(data);
-        // Reset form after successful submission
-        form.reset();
-        setHoveredStar(0);
+        await dispatch(createReview(data));
+
+        if(!error){
+          toast.toast({
+            variant: "default",
+            title: "Success",
+            description: "Review added successfully"
+          });
+  
+          // Redirect or refresh the page
+          router.push("/rent-history");
+          router.refresh();
+        } else {
+          throw new Error("Error Submitting Review")
+        }
       } catch (error) {
         console.error("Error submitting review:", error);
+        toast.toast({
+          variant: "destructive",
+          title: "Unexpected error",
+          description: "Failed to add review"
+        });
       }
     },
     [form]
   );
+
+
+
 
   const handleStarClick = useCallback(
     (value: number) => {
@@ -68,7 +106,7 @@ export default function ReviewForm() {
   return (
     <div className="max-w-2xl mx-auto p-6">
       <h2 className="text-2xl font-bold mb-6">
-        Epson EB-X9 Projector 2500 Luminous SVGA
+        {selectedItem?.name || ""}
       </h2>
 
       <Form {...form}>
@@ -108,10 +146,10 @@ export default function ReviewForm() {
 
           <FormField
             control={form.control}
-            name="review"
+            name="comment"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Your Review</FormLabel>
+                <FormLabel>Your Comment</FormLabel>
                 <FormControl>
                   <Textarea
                     placeholder="Write your review here..."
@@ -124,39 +162,7 @@ export default function ReviewForm() {
             )}
           />
 
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="Enter your name" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input
-                    type="email"
-                    placeholder="Enter your email"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <Button type="submit" className="w-full sm:w-auto">
+          <Button type="submit" className="w-full sm:w-auto" disabled={loading}>
             Add Review
           </Button>
         </form>
