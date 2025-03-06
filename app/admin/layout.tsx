@@ -50,18 +50,16 @@ export default function AdminLayout({ children }: Props) {
         }
       }
     };
-    if (!session) {
+    if (!session.user) {
       localStorage.removeItem("userId");
       localStorage.removeItem("user");
     }
     fetchDBUser();
-  }, [session]);
+  }, [session.user]);
 
   if (isAdmin === null) {
     return <Loading />;
   }
-
-  console.log("user id", localStorage.getItem("userId"));
 
   return (
     <>

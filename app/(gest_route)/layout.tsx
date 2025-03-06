@@ -36,11 +36,11 @@ const GestLayout = ({ children }: Props) => {
   }, [session]);
 
   useEffect(() => {
-    if (!session) {
+    if (!session.user) {
       localStorage.removeItem("userId");
       localStorage.removeItem("user");
     }
-  }, [session]);
+  }, []);
 
   return (
     <>
