@@ -22,9 +22,8 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 import { authLinks } from "@/utils/auth";
 import ProfileClient from "../auth/ProfileClient";
 import { isUserAdmin } from "@/actions/isUserAdmin";
-import { redirect } from "next/navigation";
-import Loading from "@/app/loading";
 import { isUserLender } from "@/actions/isUserLender";
+import { ThemeToggle } from "../theme/theme-toggle";
 
 export default function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -52,31 +51,6 @@ export default function Header() {
     checkLenderStatus();
   }, []);
 
-  // useEffect(() => {
-  //   if (isAdmin === false) {
-  //     redirect("/unauthorized");
-  //   }
-  // }, [isAdmin]);
-
-  // if (isAdmin === null) {
-  //   return <Loading />
-  // }
-
-
-  // // is lender
-
-
-
-  // useEffect(() => {
-  //   if (isLender === false) {
-  //     redirect("/unauthorized");
-  //   }
-  // }, [isLender]); 
-
-  // if (isLender === null) {
-  //   return <Loading />
-  // }
-
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -96,7 +70,7 @@ export default function Header() {
                     href="/browse"
                     className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors px-3 py-2 rounded-md"
                   >
-                    products
+                    Products
                   </Link>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
@@ -122,7 +96,7 @@ export default function Header() {
           {/* Right Section - Search, Notifications, Profile */}
           <div className="flex items-center space-x-4">
             {/* Search */}
-            <div
+            {/* <div
               className={cn(
                 "hidden md:flex items-center",
                 isSearchOpen ? "w-64" : "w-auto"
@@ -152,13 +126,16 @@ export default function Header() {
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                 )}
               </div>
-            </div>
+            </div> */}
 
             {/* Notifications */}
-            <Button variant="ghost" size="icon" className="rounded-full">
+            {/* <Button variant="ghost" size="icon" className="rounded-full">
               <Bell className="h-5 w-5" />
               <span className="sr-only">Notifications</span>
-            </Button>
+            </Button> */}
+
+            {/* Theme */}
+              <ThemeToggle />
 
             {/* Profile */}
             <Sheet>
