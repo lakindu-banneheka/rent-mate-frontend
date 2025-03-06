@@ -6,92 +6,71 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/lib/store";
 import { useEffect } from "react";
 import { fetchRents } from "@/lib/features/rentSlice";
-import { RentalItem } from "@/types/rental"
-
-// Mock data - replace with actual data from your API
-const mockRentals: RentalItem[] = [
-  {
-    id: '1',
-    name: 'DJI Mavic 3 Cine Premium Combo',
-    image: '/placeholder.svg',
-    quantity: 10,
-    availableQuantity: 6,
-    pricePerDay: 700.00,
-    status: 'pending'
-  },
-  {
-    id: '2',
-    name: 'DJI Mavic 3 Cine Premium Combo',
-    image: '/placeholder.svg',
-    quantity: 10,
-    availableQuantity: 6,
-    pricePerDay: 700.00,
-    status: 'rented'
-  },
-  {
-    id: '3',
-    name: 'DJI Mavic 3 Cine Premium Combo',
-    image: '/placeholder.svg',
-    quantity: 10,
-    availableQuantity: 6,
-    pricePerDay: 700.00,
-    status: 'completed'
-  },
-  {
-    id: '4',
-    name: 'DJI Mavic 3 Cine Premium Combo',
-    image: '/placeholder.svg',
-    quantity: 10,
-    availableQuantity: 6,
-    pricePerDay: 700.00,
-    status: 'cancelled'
-  },
-]
+import { RentStatus } from "@/types/rentTypes";
 
 export default function RentalHistory() {
-  
   const dispatch: AppDispatch = useDispatch();
-  const rents = useSelector((state: RootState) => state.rent.rents );
+  const rents = useSelector((state: RootState) => state.rent.rents);
+  const currentUserId = localStorage.getItem('userId') || '';
+
+  console.log(rents)
 
   const handleItemClick = (id: string) => {
-    console.log('Clicked item:', id)
+    console.log('Clicked item:', id);
     // Add navigation or modal open logic here
-  }
+  };
 
-    useEffect(() => {
-      dispatch(fetchRents());
-    }, []);
+  useEffect(() => {
+    dispatch(fetchRents());
+  }, [dispatch]);
+
+  // Map each tab group to an array of RentStatus values
+  const statusMapping = {
+    pending: [RentStatus.RESERVED],
+    rented: [RentStatus.PAID, RentStatus.OUT_FOR_DELIVERY, RentStatus.WITH_CUSTOMER],
+    completed: [RentStatus.RETURNED],
+    cancelled: [RentStatus.CANCELED],
+  };
+
+  // Create an array of the group names (keys of the mapping)
+  const groups = Object.keys(statusMapping) as Array<keyof typeof statusMapping>;
 
   return (
     <div className="w-full max-w-4xl mx-auto p-4">
       <Tabs defaultValue="pending" className="w-full">
         <TabsList className="grid w-full grid-cols-4 mb-4">
-          <TabsTrigger value="pending">Pending</TabsTrigger>
-          <TabsTrigger value="rented">Rented</TabsTrigger>
-          <TabsTrigger value="completed">Completed</TabsTrigger>
-          <TabsTrigger value="cancelled">Cancelled</TabsTrigger>
+          {groups.map((group) => (
+            <TabsTrigger key={group} value={group}>
+              {group.charAt(0).toUpperCase() + group.slice(1)}
+            </TabsTrigger>
+          ))}
         </TabsList>
-        
-        {(['pending', 'rented', 'completed', 'cancelled'] as const).map((status) => (
-          <TabsContent key={status} value={status} className="space-y-4">
-            {mockRentals
-              .filter(item => item.status === status)
-              .map(item => (
+
+        {groups.map((group) => {
+          const filteredRents = rents.filter(item =>
+            statusMapping[group].includes(item.rentStatus.toLocaleLowerCase() as RentStatus) 
+            && item.userId === currentUserId
+          );
+
+          return (
+            <TabsContent key={group} value={group} className="space-y-4">
+              {filteredRents.map((item) => (
                 <RentalItemCard
                   key={item.id}
                   item={item}
                   onClick={handleItemClick}
                 />
               ))}
-            {mockRentals.filter(item => item.status === status).length === 0 && (
-              <div className="text-center py-8 text-muted-foreground">
-                No {status} rentals found
-              </div>
-            )}
-          </TabsContent>
-        ))}
+              {filteredRents.length === 0 && (
+                <div className="text-center py-8 text-muted-foreground">
+                  No {group} rentals found
+                </div>
+              )}
+            </TabsContent>
+          );
+        })}
       </Tabs>
     </div>
-  )
+  );
 }
 
