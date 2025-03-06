@@ -6,9 +6,7 @@ import { rentService } from "../api/rentService";
 export const createRent = createAsyncThunk(
   "rents/createRent",
   async (
-    rentData: Omit<Rent, "id" | "createdAt" | "updatedAt">,
-    { rejectWithValue }
-  ) => {
+    rentData: Omit<Rent, "id" | "createdAt" | "updatedAt">, { rejectWithValue } ) => {
     try {
       return await rentService.createRent(rentData);
     } catch (error) {
