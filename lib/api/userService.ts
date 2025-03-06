@@ -35,6 +35,27 @@ export const userService = {
         }
     },
 
+    // Fetch Single User by SId
+    async fetchUserBySId(sid: string): Promise<User> {
+        try {
+            const response = await axiosInstance.get(`${BASE_PATH}/${sid}`);
+            return response.data;
+        } catch (error) {
+            throw handleError(error);
+        }
+    },
+
+    // Fetch Single UserId by SId
+    async fetchUserIdBySId(sid: string): Promise<User> {
+        try {
+            const response = await axiosInstance.get(`${BASE_PATH}/userId/${sid}`);
+            return response.data;
+        } catch (error) {
+            throw handleError(error);
+        }
+    },
+    
+
     // Update User
     async updateUser(user: User): Promise<User> {
         if (!user.id) {

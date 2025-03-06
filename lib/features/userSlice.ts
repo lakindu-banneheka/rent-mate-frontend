@@ -39,6 +39,28 @@ export const fetchUserById = createAsyncThunk(
   }
 );
 
+export const fetchUserBySId = createAsyncThunk(
+  'users/fetchUserBySId',
+  async (sid: string, { rejectWithValue }) => {
+    try {
+      return await userService.fetchUserBySId(sid);
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
+export const fetchUserIdBySId = createAsyncThunk(
+  'users/fetchUserIdBySId',
+  async (sid: string, { rejectWithValue }) => {
+    try {
+      return await userService.fetchUserIdBySId(sid);
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
 export const updateUser = createAsyncThunk(
   'users/updateUser',
   async (user: User, { rejectWithValue }) => {
