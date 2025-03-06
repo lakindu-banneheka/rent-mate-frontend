@@ -17,28 +17,28 @@ type FooterData = {
 
 const footerData: FooterData = {
   main: [
-    { name: 'Overview', link: '/overview' },
-    { name: 'Features', link: '/features' },
-    { name: 'Solutions', link: '/solutions' },
-    { name: 'Tutorials', link: '/tutorials' },
+    { name: 'Overview', link: '/' },
+    { name: 'Features', link: '/' },
+    { name: 'Solutions', link: '/' },
+    { name: 'Tutorials', link: '/' },
   ],
   quick_links: [
-    { name: 'About us', link: '/about' },
-    { name: 'Contact us', link: '/contact' },
-    { name: 'Privacy Policy', link: '/privacy' },
-    { name: 'Terms of Service', link: '/terms' },
+    { name: 'About us', link: '/' },
+    { name: 'Contact us', link: '/' },
+    { name: 'Privacy Policy', link: '/' },
+    { name: 'Terms of Service', link: '/' },
   ],
   categories: [
-    { name: 'Apartments', link: '/apartments' },
-    { name: 'Houses', link: '/houses' },
-    { name: 'Rooms', link: '/rooms' },
-    { name: 'Studios', link: '/studios' },
+    { name: 'Drones', link: '/' },
+    { name: 'Cameras', link: '/' },
+    { name: 'Rooms', link: '/' },
+    { name: 'Speaker Systems', link: '/' },
   ],
   resources: [
-    { name: 'Setup Guide', link: '/setup' },
-    { name: 'Documentation', link: '/docs' },
-    { name: 'Help Center', link: '/help' },
-    { name: 'FAQ', link: '/faq' },
+    { name: 'Setup Guide', link: '/' },
+    { name: 'Documentation', link: '/' },
+    { name: 'Help Center', link: '/' },
+    { name: 'FAQ', link: '/' },
   ],
 }
 
