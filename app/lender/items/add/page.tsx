@@ -28,7 +28,7 @@ import { DeliveryOptionsEditor } from "@/components/items/delivery-options-edito
 import { Item, ItemSchema, type ItemFormData } from "@/types/itemTypes"
 import { AppDispatch, RootState } from "@/lib/store"
 import { useDispatch, useSelector } from "react-redux"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { fetchCategories } from "@/lib/features/categorySlice"
 import { createItem } from "@/lib/features/itemSlice"
 import { useRouter } from "next/navigation"
@@ -39,7 +39,12 @@ export default function CreateItem() {
   const categories = useSelector((state: RootState) => state.category.categories );
   const router = useRouter();
   const toast = useToast();
+  const [userId, setUserId] = useState<string | null>(null);
   // const [s3ImgUrls, setS3ImgUrls] = useState<string[]>([]);
+
+  useEffect(() => {
+    setUserId(localStorage.getItem('userId'))
+  },[])
 
   useEffect(() => {
       dispatch(fetchCategories());
@@ -59,17 +64,17 @@ export default function CreateItem() {
     },
   })
 
-  
   const onSubmit = async (data: ItemFormData) => {
 
       try {
+        if(userId){
           const itemData: Omit<Item, "id" | "createdAt" | "updatedAt"> = {
-            lenderId: data.lenderId,
+            lenderId: userId,
             name: data.name,
             categoryId: data.categoryId,
             description: data.description,
             totalQuantity: data.totalQuantity,
-            availableQuantity: 0,
+            availableQuantity: data.totalQuantity,
             reservedQuantity: 0,
             rentedQuantity: 0,
             pricing: data.pricing,
@@ -87,8 +92,11 @@ export default function CreateItem() {
           });
 
           // Redirect or refresh the page
-          router.push("/admin/items");
+          router.push("/lender/items");
           router.refresh();
+        } else {
+          throw new Error("Login before submitting")
+        }
           
       } catch (err) {
           console.error(err);
@@ -152,7 +160,7 @@ export default function CreateItem() {
                     <CardTitle>Details</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <FormField
+                    {/* <FormField
                       control={form.control}
                       name="lenderId"
                       render={({ field }) => (
@@ -164,7 +172,7 @@ export default function CreateItem() {
                           <FormMessage />
                         </FormItem>
                       )}
-                    />
+                    /> */}
 
                     <FormField
                       control={form.control}

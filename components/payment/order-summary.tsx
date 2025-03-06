@@ -43,7 +43,9 @@ export default function OrderSummary({
   const dispatch: AppDispatch = useDispatch();
   const { selectedItem } = useSelector((state: RootState) => state.item);
   const [acceptedTerms, setAcceptedTerms] = React.useState<boolean>(false);
-
+  const { newRent, loading, error } = useSelector(
+    (state: RootState) => state.rent
+  );
   React.useEffect(() => {
     const loadItem = async () => {
       if (rentData) {
@@ -53,6 +55,8 @@ export default function OrderSummary({
 
     loadItem();
   }, [rentData]);
+
+  console.log("rentData", rentData, newRent, );
 
   React.useEffect(() => {
     setDeliveryOptionData({
@@ -84,6 +88,23 @@ export default function OrderSummary({
     deliveryOption === "delivery"
       ? subtotal + (deliveryOptionData?.cost || 0)
       : subtotal;
+
+  // const handlePlaceOrder = async () => {
+  //   if (!acceptedTerms) {
+  //     alert("Please accept the terms and conditions");
+  //     return;
+  //   }
+
+  //   if(!rentData) {
+  //     alert("No rent data found");
+  //     return;
+  //   }
+
+  //   if(newRent){
+  //     await dispatch(createRent(newRent));
+  //   }
+
+  // };
 
   return (
     <Card className="w-full max-w-md mx-auto h-fit">
@@ -210,6 +231,9 @@ export default function OrderSummary({
           }
           acceptedTerms={acceptedTerms}
         />
+        {/* <Button className="w-full" size="lg" onClick={handlePlaceOrder}>
+          Place order
+        </Button> */}
       </CardFooter>
     </Card>
   );

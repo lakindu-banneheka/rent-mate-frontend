@@ -65,19 +65,19 @@ export interface BillingDetails {
 
 type NewRent = Omit<Rent, "id" | "createdAt" | "updatedAt">;
 
-export function isNewRentType(obj: any): obj is NewRent {
-  return (
-    (typeof obj === "object" && obj !== null && "startDate" in obj) ||
-    (typeof obj.startDate === "string" && "endDate" in obj) ||
-    (typeof obj.endDate === "string" &&
-      // typeof obj.startDate === "string" &&
-      // typeof obj.endDate === "string" &&
-      typeof obj.itemCost === "number" &&
-      typeof obj.lenderId === "string" &&
-      typeof obj.paymentStatus === "string" &&
-      typeof obj.quantity === "number" &&
-      typeof obj.rentStatus === "string" &&
-      typeof obj.totalCost === "number" &&
-      typeof obj.userId === "string")
-  );
-}
+// export function isNewRentType(obj: any): obj is NewRent {
+//   return (
+//     (typeof obj === "object" && obj !== null && "startDate" in obj) ||
+//     (typeof obj?.startDate === "string" && "endDate" in obj) ||
+//     (typeof obj?.endDate === "string" &&
+//       // typeof obj.startDate === "string" &&
+//       // typeof obj.endDate === "string" &&
+//       typeof obj.itemCost === "number" &&
+//       typeof obj.lenderId === "string" &&
+//       typeof obj.paymentStatus === "string" &&
+//       typeof obj.quantity === "number" &&
+//       typeof obj.rentStatus === "string" &&
+//       typeof obj.totalCost === "number" &&
+//       typeof obj.userId === "string")
+//   );
+// }

@@ -25,7 +25,7 @@ const ItemPage = () => {
     const itemList = useSelector((state: RootState) => state.item.items);
     const itemsLoading = useSelector((state: RootState) => state.item.loading);
     const categoryList = useSelector((state: RootState) => state.category.categories );
-    
+
     useEffect(() => {
         dispatch(fetchItems());
     }, []);
@@ -46,6 +46,8 @@ const ItemPage = () => {
         if (itemList.length > 0 && itemList[0]) {
             return itemList.filter((item) => {
                 // user Id = item owner id to filter
+                const userId = localStorage.getItem('userId');
+                const isOwner = item.lenderId === userId;
                 
                 const matchesSearch =
                     item.name.toLowerCase().includes(searchString.toLowerCase()) ||
@@ -55,7 +57,7 @@ const ItemPage = () => {
                     .split(",")
                     .some((filterId) => item.categoryId.includes(filterId));
 
-                return matchesSearch && matchesFilters;
+                return matchesSearch && matchesFilters && isOwner;
             });
         }
 

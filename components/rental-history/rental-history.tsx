@@ -2,6 +2,10 @@
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { RentalItemCard } from "./rental-item-card"
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/lib/store";
+import { useEffect } from "react";
+import { fetchRents } from "@/lib/features/rentSlice";
 import { RentalItem } from "@/types/rental"
 
 // Mock data - replace with actual data from your API
@@ -45,10 +49,18 @@ const mockRentals: RentalItem[] = [
 ]
 
 export default function RentalHistory() {
+  
+  const dispatch: AppDispatch = useDispatch();
+  const rents = useSelector((state: RootState) => state.rent.rents );
+
   const handleItemClick = (id: string) => {
     console.log('Clicked item:', id)
     // Add navigation or modal open logic here
   }
+
+    useEffect(() => {
+      dispatch(fetchRents());
+    }, []);
 
   return (
     <div className="w-full max-w-4xl mx-auto p-4">

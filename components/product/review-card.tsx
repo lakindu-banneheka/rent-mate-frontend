@@ -1,6 +1,10 @@
+'use client'
+import { fetchUserById } from "@/lib/features/userSlice";
+import { AppDispatch, RootState } from "@/lib/store";
 import { Review } from "@/types/reviewTypes";
 import { Star } from "lucide-react";
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 interface ReviewCardProps {
   review: Review;
@@ -8,10 +12,20 @@ interface ReviewCardProps {
 }
 
 function ReviewCard({ review, name }: ReviewCardProps) {
+
+  const dispatch: AppDispatch = useDispatch();
+  const selectedUser = useSelector((state: RootState) => state.user.selectedUser );
+  
+  useEffect(() => {
+    dispatch(fetchUserById(review.reviewerId));
+  }, [dispatch, review]);
+
+  console.log(selectedUser, review.reviewerId);
+
   return (
     <>
-      <div className="border rounded-lg p-4 space-y-2">
-        <div className="font-medium">{name}</div>
+      <div className="border rounded-lg p-4 space-y-2 my-3">
+        <div className="font-medium">{selectedUser?.firstName}</div>
         <div className="flex gap-1">
           {[1, 2, 3, 4, 5].map((star) => (
             <Star

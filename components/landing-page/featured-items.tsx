@@ -24,32 +24,14 @@ export function FeaturedItems() {
           loadCategories();
   }, [dispatch]);
 
-  // const items = [
-  //   {
-  //     title: "Mazda 3 Sedan",
-  //     price: "$99/day",
-  //     image: "/placeholder.svg?height=200&width=300",
-  //   },
-  //   {
-  //     title: "Nikon D3500",
-  //     price: "$35/day",
-  //     image: "/placeholder.svg?height=200&width=300",
-  //   },
-  //   {
-  //     title: "House for Rent",
-  //     price: "$150/day",
-  //     image: "/placeholder.svg?height=200&width=300",
-  //   },
-  // ]
-
   return (
-    <section className="bg-black py-16">
+    <section className="dark:bg-700 py-16 bg-gray-100 max-w-screen mx-auto">
       <div className="mx-auto max-w-6xl px-4">
-        <h2 className="mb-8 text-3xl font-bold text-white">Featured Items</h2>
-        <Carousel className="w-full">
+        <h2 className="mb-8 text-3xl font-bold text-black dark:text-black">Featured Items</h2>
+        <Carousel className="w-full dark:text-black">
           <CarouselContent>
             {items.map((item, index) => (
-              <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
+              <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3 basis-1/2">
                 <Card
                   onClick={()=>{redirect(`/product/${item.id}`)}}
                   className="cursor-pointer"

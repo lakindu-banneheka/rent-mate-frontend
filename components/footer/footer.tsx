@@ -1,6 +1,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { Facebook, Twitter, Instagram, Linkedin } from 'lucide-react'
+import logo from '../../images/logo.png';
 
 type LinkItem = {
     name: string;
@@ -16,28 +17,28 @@ type FooterData = {
 
 const footerData: FooterData = {
   main: [
-    { name: 'Overview', link: '/overview' },
-    { name: 'Features', link: '/features' },
-    { name: 'Solutions', link: '/solutions' },
-    { name: 'Tutorials', link: '/tutorials' },
+    { name: 'Overview', link: '/' },
+    { name: 'Features', link: '/' },
+    { name: 'Solutions', link: '/' },
+    { name: 'Tutorials', link: '/' },
   ],
   quick_links: [
-    { name: 'About us', link: '/about' },
-    { name: 'Contact us', link: '/contact' },
-    { name: 'Privacy Policy', link: '/privacy' },
-    { name: 'Terms of Service', link: '/terms' },
+    { name: 'About us', link: '/' },
+    { name: 'Contact us', link: '/' },
+    { name: 'Privacy Policy', link: '/' },
+    { name: 'Terms of Service', link: '/' },
   ],
   categories: [
-    { name: 'Apartments', link: '/apartments' },
-    { name: 'Houses', link: '/houses' },
-    { name: 'Rooms', link: '/rooms' },
-    { name: 'Studios', link: '/studios' },
+    { name: 'Drones', link: '/' },
+    { name: 'Cameras', link: '/' },
+    { name: 'Rooms', link: '/' },
+    { name: 'Speaker Systems', link: '/' },
   ],
   resources: [
-    { name: 'Setup Guide', link: '/setup' },
-    { name: 'Documentation', link: '/docs' },
-    { name: 'Help Center', link: '/help' },
-    { name: 'FAQ', link: '/faq' },
+    { name: 'Setup Guide', link: '/' },
+    { name: 'Documentation', link: '/' },
+    { name: 'Help Center', link: '/' },
+    { name: 'FAQ', link: '/' },
   ],
 }
 
@@ -47,14 +48,29 @@ export default function Footer() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
                 <div className="xl:grid xl:grid-cols-3 xl:gap-8">
                     <div className="space-y-8 xl:col-span-1">
-                        <Image
-                            src="/logo-placeholder.svg"
+                        <div>
+                            <Link href="/" className="flex items-center justify-center space-x-2">
+                                <span className="sr-only">Rent Mate</span>
+                                <Image
+                                    src={logo}
+                                    alt="Rent Mate Logo"
+                                    // width={150}
+                                    // height={40}
+                                    className="w-28 rounded-lg"
+                                />
+                            </Link>
+                            {/* <p className="text-gray-600 text-base">
+                                Making renting simple and accessible for everyone.
+                            </p> */}
+                        </div>
+                        {/* <Image
+                            src={logo}
                             alt="Rent Mate Logo"
-                            width={150}
-                            height={40}
-                            className="h-10 w-auto"
-                        />
-                        <p className="text-gray-600 text-base">
+                            // width={150}
+                            // height={40}
+                            className="w-28 rounded-lg"
+                        /> */}
+                        <p className="text-gray-600 text-base ">
                             Making renting simple and accessible for everyone.
                         </p>
                         <div className="flex space-x-6">
@@ -102,7 +118,7 @@ export default function Footer() {
                 </div>
                 <div className="mt-12 border-t border-gray-200 pt-8">
                     <p className="text-base text-gray-400 xl:text-center">
-                        &copy; 2023 Rent Mate. All rights reserved.
+                        &copy; 2025 Rent Mate. All rights reserved.
                     </p>
                 </div>
             </div>

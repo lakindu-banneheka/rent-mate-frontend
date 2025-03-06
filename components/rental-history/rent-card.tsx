@@ -56,7 +56,7 @@ const RentCard = ({rental}: {rental: Rent}) => {
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-1 text-green-600 font-medium">
                     <DollarSign className="h-4 w-4" />
-                    {rental.totalCost.toFixed(2)} USD
+                    {rental.totalCost?.toFixed(2)} USD
                   </div>
                   <Badge 
                     variant="secondary" 
@@ -86,7 +86,11 @@ const RentCard = ({rental}: {rental: Rent}) => {
                 </div>
                 <div className="flex items-center gap-2 text-gray-600">
                   <Calendar className="h-4 w-4" />
-                  <span>{rental.startDate.toLocaleDateString()} - {rental.endDate.toLocaleDateString()}</span>
+                  <span>
+                    {rental.startDate && new Date(rental.startDate).toLocaleDateString()} - 
+                    {rental.endDate && new Date(rental.endDate).toLocaleDateString()}
+                  </span>
+
                 </div>
                 <div className="flex items-center gap-2 text-gray-600">
                   <DollarSign className="h-4 w-4" />

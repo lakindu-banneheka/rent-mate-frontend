@@ -8,8 +8,13 @@ export const rentService = {
     // Create Rent
     async createRent(rent: Omit<Rent, "id" | "createdAt" | "updatedAt">): Promise<Rent> {
         try {
-        const response = await axiosInstance.post(BASE_PATH, rent);
-        console.log(response)
+
+            const newRent: Omit<Rent, "id" | "createdAt" | "updatedAt"> = {
+                ...rent,
+                userId: localStorage.getItem('userId') || rent.userId
+            }
+            console.log(newRent, localStorage.getItem('userId'))
+            const response = await axiosInstance.post(BASE_PATH, newRent);
             return response.data;
         } catch (error) {
             throw handleError(error);

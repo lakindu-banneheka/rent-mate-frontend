@@ -58,7 +58,6 @@ export default function BillingForm() {
     }
   };
 
-  console.log(newRent ? (newRent as Rent).billingDetails : null);
   React.useEffect(() => {
     if (newRent && (newRent as Rent).billingDetails) {
       const billingDetails = (newRent as Rent).billingDetails;

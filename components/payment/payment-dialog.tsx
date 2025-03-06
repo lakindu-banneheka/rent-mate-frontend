@@ -10,7 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { AppDispatch, RootState } from "@/lib/store";
 import { useDispatch, useSelector } from "react-redux";
-import { isNewRentType } from "@/types/rentTypes";
+import { Rent } from "@/types/rentTypes";
 import { createRent, removeNewRent } from "@/lib/features/rentSlice";
 
 interface PaymentDialogProps {
@@ -31,27 +31,57 @@ export function PaymentDialog({
   );
   const [open, setOpen] = React.useState(false);
 
+  // const handlePlaceOrder = async () => {
+  //   if (!acceptedTerms) {
+  //     alert("Please accept the terms and conditions");
+  //     setOpen(false);
+  //     return;
+  //   } else if (isNewRentType(newRent)) {
+  //     await dispatch(createRent(newRent as Rent));
+  //     // setOpen(true);
+  //     if (loading === false && error === null) {
+  //       dispatch(removeNewRent());
+  //     } else {
+  //       console.log("Error placing order", error);
+  //       setOpen(false);
+  //       return;
+  //     }
+  //   } else {
+  //     alert("No rent data found");
+  //     setOpen(false);
+  //     return;
+  //   }
+  // };
+
   const handlePlaceOrder = async () => {
-    if (!acceptedTerms) {
-      alert("Please accept the terms and conditions");
-      setOpen(false);
-      return;
-    } else if (isNewRentType(newRent)) {
-      await dispatch(createRent(newRent));
-      setOpen(true);
-      if (loading === false && error === null) {
-        dispatch(removeNewRent());
+    try {
+      if (!acceptedTerms) {
+        alert("Please accept the terms and conditions");
+        setOpen(false);
+        return;
+      } else if (newRent) {
+        console.log("newRent", newRent, localStorage.getItem('userId'));
+        await dispatch(createRent(newRent as Rent));
+        // setOpen(true);
+        if (loading === false && error === null) {
+          dispatch(removeNewRent());
+        } else {
+          alert("Error placing order: " + error);
+          setOpen(false);
+          return;
+        }
       } else {
-        console.log("Error placing order", error);
+        alert("No rent data found");
         setOpen(false);
         return;
       }
-    } else {
-      alert("No rent data found");
+    } catch (err) {
+      console.error("Error in handlePlaceOrder", err);
       setOpen(false);
-      return;
     }
   };
+  
+  
 
   return (
     <>
