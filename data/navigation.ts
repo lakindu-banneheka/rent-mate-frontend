@@ -1,5 +1,4 @@
-import { BarChart2, ClipboardList, FileText, LayoutDashboard, LucideIcon, Package, PlusSquare, Tag, Tags, Users } from "lucide-react";
-import { Bot, SquareTerminal } from "lucide-react";
+import { FileText, LucideIcon, Package, PlusSquare, Tag, Tags, Users } from "lucide-react";
 
 // User data interface
 export interface UserData {
@@ -88,14 +87,9 @@ export const adminNav: NavItem[] = [
     items: [
       {
         icon: FileText,
-        title: "Active Rentals",
+        title: "Rentals",
         url: "/admin/rentals",
-      },
-      {
-        icon: ClipboardList,
-        title: "Rental Logs",
-        url: "/admin/rentals/logs",
-      },
+      }
     ],
   },
 ];

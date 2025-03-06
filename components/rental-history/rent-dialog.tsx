@@ -9,6 +9,7 @@ import {
 import { Separator } from '@/components/ui/separator'
 import { Badge } from '@/components/ui/badge'
 import { Rent } from '@/types/rentTypes'
+import { DialogTitle } from '@radix-ui/react-dialog'
 
 interface RentalDetailsPopupProps {
   rental: Rent 
@@ -36,6 +37,7 @@ export function RentalDetailsPopup({ rental, isOpen, onClose }: RentalDetailsPop
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogTitle></DialogTitle>
       <DialogContent className="max-w-md md:max-w-lg max-h-[80vh] overflow-y-auto">
         <div className="grid gap-4">
             <div className="text-xl font-semibold">
@@ -69,13 +71,13 @@ export function RentalDetailsPopup({ rental, isOpen, onClose }: RentalDetailsPop
             <h3 className="font-medium mb-2">Customer Information</h3>
             <div className="grid grid-cols-2 gap-2 text-sm">
               <div className="text-muted-foreground">Name</div>
-              {/* <div>{`${rental.firstName} ${rental.lastName}`}</div> */}
+              <div>{`${rental?.billingDetails?.firstName} ${rental?.billingDetails?.lastName}`}</div>
               <div className="text-muted-foreground">Email</div>
-              {/* <div>{rental.email}</div> */}
+              <div>{rental?.billingDetails?.email}</div>
               <div className="text-muted-foreground">Phone</div>
-              {/* <div>{rental.contactNo}</div> */}
+              <div>{rental?.billingDetails?.phone}</div>
               <div className="text-muted-foreground">Address</div>
-              {/* <div>{rental.address}</div> */}
+              <div>{rental?.billingDetails?.streetAddress}</div>
             </div>
           </div>
 

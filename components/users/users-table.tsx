@@ -114,7 +114,7 @@ export function UsersTable() {
                 <div className="text-sm font-medium">Email:</div>
                 <div className="text-sm">{user.email}</div>
               </div>
-              <div className="mt-4 flex justify-end">
+              {/* <div className="mt-4 flex justify-end">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" className="h-8 w-8 p-0">
@@ -123,14 +123,11 @@ export function UsersTable() {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
                     <DropdownMenuItem asChild>
-                      <Link href={`/users/${user.id}`}>View</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                      <Link href={`/users/${user.id}/edit`}>Edit</Link>
+                      <Link href={`/users/${user.id}`}>View Details</Link>
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
-              </div>
+              </div> */}
             </CardContent>
           </Card>
         ))}
@@ -153,7 +150,7 @@ export function UsersTable() {
               <TableHead onClick={() => handleSort('contactNo')} className="cursor-pointer">
                 Contact No <SortIcon column="contactNo" />
               </TableHead>
-              <TableHead>Actions</TableHead>
+              {/* <TableHead>Actions</TableHead> */}
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -165,7 +162,7 @@ export function UsersTable() {
                   <span className="capitalize">{user.role}</span>
                 </TableCell>
                 <TableCell>{user.contactNo}</TableCell>
-                <TableCell>
+                {/* <TableCell>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button variant="ghost" className="h-8 w-8 p-0">
@@ -173,15 +170,12 @@ export function UsersTable() {
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      <DropdownMenuItem asChild>
-                        <Link href={`/admin/users/${user.id}`}>View</Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem asChild>
-                        <Link href={`/admin/users/${user.id}/edit`}>Edit</Link>
-                      </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href={`/admin/users/${user.id}`}>View Details</Link>
+                    </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
-                </TableCell>
+                </TableCell> */}
               </TableRow>
             ))}
           </TableBody>

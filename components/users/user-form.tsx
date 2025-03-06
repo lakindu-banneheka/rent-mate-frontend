@@ -68,7 +68,8 @@ export function UserForm() {
                     createdAt: selectedUser.createdAt,
                     updatedAt: new Date(),
                     isBlackListed: false,
-                    isVerified: false
+                    isVerified: false,
+                    sid: "",
                 }
                 await dispatch(updateUser(userData));
             }
