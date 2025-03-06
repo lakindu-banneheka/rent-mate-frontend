@@ -1,6 +1,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { Facebook, Twitter, Instagram, Linkedin } from 'lucide-react'
+import logo from '../../images/logo.png';
 
 type LinkItem = {
     name: string;
@@ -47,14 +48,29 @@ export default function Footer() {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
                 <div className="xl:grid xl:grid-cols-3 xl:gap-8">
                     <div className="space-y-8 xl:col-span-1">
-                        <Image
-                            src="/logo-placeholder.svg"
+                        <div>
+                            <Link href="/" className="flex items-center justify-center space-x-2">
+                                <span className="sr-only">Rent Mate</span>
+                                <Image
+                                    src={logo}
+                                    alt="Rent Mate Logo"
+                                    // width={150}
+                                    // height={40}
+                                    className="w-28 rounded-lg"
+                                />
+                            </Link>
+                            {/* <p className="text-gray-600 text-base">
+                                Making renting simple and accessible for everyone.
+                            </p> */}
+                        </div>
+                        {/* <Image
+                            src={logo}
                             alt="Rent Mate Logo"
-                            width={150}
-                            height={40}
-                            className="h-10 w-auto"
-                        />
-                        <p className="text-gray-600 text-base">
+                            // width={150}
+                            // height={40}
+                            className="w-28 rounded-lg"
+                        /> */}
+                        <p className="text-gray-600 text-base ">
                             Making renting simple and accessible for everyone.
                         </p>
                         <div className="flex space-x-6">
@@ -102,7 +118,7 @@ export default function Footer() {
                 </div>
                 <div className="mt-12 border-t border-gray-200 pt-8">
                     <p className="text-base text-gray-400 xl:text-center">
-                        &copy; 2023 Rent Mate. All rights reserved.
+                        &copy; 2025 Rent Mate. All rights reserved.
                     </p>
                 </div>
             </div>
