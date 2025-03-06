@@ -25,6 +25,7 @@ export enum UserRoles {
 export interface UserState {
   users: User[];
   selectedUser: User | null;
+  selectedUserId: string | null;
   loading: boolean;
   error: string | null;
 }

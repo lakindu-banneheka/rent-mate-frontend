@@ -35,6 +35,16 @@ export const userService = {
         }
     },
 
+    // Fetch Single User by email
+    async fetchUserByEmail(email: string): Promise<User> {
+        try {
+            const response = await axiosInstance.get(`${BASE_PATH}/email/${email}`);
+            return response.data;
+        } catch (error) {
+            throw handleError(error);
+        }
+    },
+
     // Fetch Single User by SId
     async fetchUserBySId(sid: string): Promise<User> {
         try {
