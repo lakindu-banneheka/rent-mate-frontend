@@ -38,6 +38,10 @@ import { useToast } from "@/hooks/use-toast"
 import RentCard from "@/components/rental-history/rent-card"
 import { Rent, RentStatus } from "@/types/rentTypes"
 import { sampleRents } from "@/data/sample-data/rents"
+import { fetchRents } from "@/lib/features/rentSlice"
+import { fetchReviews } from "@/lib/features/reviewSlice"
+import { Review } from "@/types/reviewTypes"
+import ReviewCard from "@/components/product/review-card"
 
 export default function ItemDetails() {
   const { id } = useParams<{ id: string }>();
@@ -45,6 +49,9 @@ export default function ItemDetails() {
   const [isLoading, setIsLoading] = useState(false);
   const item = useSelector((state: RootState) => state.item.selectedItem);
   const categories = useSelector((state: RootState) => state.category.categories );
+  const rents = useSelector((state: RootState) => state.rent.rents );
+  const reviews = useSelector((state: RootState) => state.review.reviews );
+
   const router = useRouter();
   const toast = useToast();
 
@@ -55,6 +62,15 @@ export default function ItemDetails() {
   useEffect(() => {
       dispatch(fetchCategories());
   }, []);
+
+  useEffect(() => {
+    dispatch(fetchRents());
+  }, []);
+
+  useEffect(() => {
+    dispatch(fetchReviews());
+  }, []);
+
 
   const form = useForm<ItemFormData>({
     resolver: zodResolver(ItemSchema),
@@ -177,19 +193,38 @@ export default function ItemDetails() {
   }, [form.formState.isDirty]);
 
   const getCurrentRentals = (rentals: Rent[]): Rent[] => {
-    return rentals.filter((rent) => 
-      rent.rentStatus === RentStatus.OUT_FOR_DELIVERY || 
-      rent.rentStatus === RentStatus.PAID || 
-      rent.rentStatus === RentStatus.RESERVED || 
-      rent.rentStatus === RentStatus.WITH_CUSTOMER
-    );
+    if(item){
+      return rentals.filter((rent) => 
+        rent.itemId === item.id && 
+        (rent.rentStatus?.toLocaleLowerCase() === RentStatus.OUT_FOR_DELIVERY || 
+        rent.rentStatus?.toLocaleLowerCase() === RentStatus.PAID || 
+        rent.rentStatus?.toLocaleLowerCase() === RentStatus.RESERVED || 
+        rent.rentStatus?.toLocaleLowerCase() === RentStatus.WITH_CUSTOMER)
+      );
+    } else {
+      return []
+    }
   }
 
   const getRentalHistories = (rentals: Rent[]): Rent[] => {
-    return rentals.filter((rent) => 
-      rent.rentStatus === RentStatus.CANCELED || 
-      rent.rentStatus === RentStatus.RETURNED 
-    );
+    if(item){
+      return rentals.filter((rent) => 
+        rent.itemId === item.id && 
+        ( rent.rentStatus === RentStatus.CANCELED || 
+        rent.rentStatus === RentStatus.RETURNED )
+      );
+    } else {
+      return []
+    }
+  }
+
+  const getReviews = () => {
+    if(item){
+      // return reviews.filter((review) => review.itemId === item.id);
+      return reviews
+
+    }
+    return []
   }
 
   return (
@@ -412,24 +447,44 @@ export default function ItemDetails() {
               </TabsContent>
               <TabsContent value="orders" className="mt-6">
                 <div className="space-y-4">
-                  {getCurrentRentals(sampleRents).map((rental: Rent) => (
+                { getCurrentRentals(rents).length === 0 && 
+                     <Card>
+                        <CardContent className="p-6 text-center text-lg text-muted-foreground">
+                            No current rentals for this item
+                      </CardContent>
+                   </Card>
+                  }
+                  {getCurrentRentals(rents).map((rental: Rent) => (
                       <RentCard key={rental.id} rental={rental} />
                   ))}
                 </div>
               </TabsContent>
               <TabsContent value="history" className="mt-6">
                 <div className="space-y-4">
-                  {getRentalHistories(sampleRents).map((rental: Rent) => (
+                  { getRentalHistories(rents).length === 0 && 
+                     <Card>
+                        <CardContent className="p-6 text-center text-lg text-muted-foreground">
+                          No rental history for this item
+                      </CardContent>
+                   </Card>
+                  }
+                  {getRentalHistories(rents).map((rental: Rent) => (
                       <RentCard key={rental.id} rental={rental} />
                   ))}
                 </div>
               </TabsContent>
               <TabsContent value="reviews" className="mt-6">
-                <Card>
-                  <CardContent className="p-6">
-                    Reviews content coming soon...
-                  </CardContent>
-                </Card>
+                  { getReviews().length === 0 && 
+                    <Card>
+                        <CardContent className="p-6 text-center text-lg text-muted-foreground">
+                            No current reviews for this item
+                      </CardContent>
+                    </Card>
+                  }
+                  {getReviews().map((review: Review) => (
+                      // <RentCard key={rental.id} rental={rental} />
+                      <ReviewCard key={review.id} review={review} name={review.reviewerId} />
+                  ))}
               </TabsContent>
             </Tabs>
 
