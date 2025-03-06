@@ -74,7 +74,7 @@ export default function CreateItem() {
             categoryId: data.categoryId,
             description: data.description,
             totalQuantity: data.totalQuantity,
-            availableQuantity: 0,
+            availableQuantity: data.totalQuantity,
             reservedQuantity: 0,
             rentedQuantity: 0,
             pricing: data.pricing,
