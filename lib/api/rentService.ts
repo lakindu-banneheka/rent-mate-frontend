@@ -10,13 +10,26 @@ export const rentService = {
         try {
 
             const newRent: Omit<Rent, "id" | "createdAt" | "updatedAt"> = {
-                ...rent,
-                userId: localStorage.getItem('userId') || rent.userId
-            }
-            console.log(newRent, localStorage.getItem('userId'))
+                userId: localStorage.getItem('userId') || rent.userId,
+                lenderId: rent.lenderId,
+                itemId: rent.itemId,
+                startDate: rent.startDate,
+                endDate: rent.endDate,
+                deliveryOption: rent.deliveryOption || null,
+                itemCost: rent.itemCost || 0,
+                totalCost: rent.totalCost || 0,
+                paymentStatus: rent.paymentStatus || null,
+                rentStatus: rent.rentStatus || null,
+                itemReturnedDate: rent.itemReturnedDate || undefined, // optional property
+                overDueFee: rent.overDueFee || 0,             // optional property
+                quantity: rent.quantity || 0,
+                billingDetails: rent.billingDetails || null,
+            };
+            console.log(newRent, localStorage.getItem('userId'), 'test')
             const response = await axiosInstance.post(BASE_PATH, newRent);
             return response.data;
         } catch (error) {
+            console.log(error)
             throw handleError(error);
         }
     },
